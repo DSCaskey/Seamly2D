@@ -1,13 +1,10 @@
 # This is a basic workflow to help you get started with Actions
-
 name: Doxygen Action
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   workflow_dispatch:
-
-
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,6 +18,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
         
+    # Build the HTML documentation
     - name: Doxygen Action
       uses: mattnotmitt/doxygen-action@v1.1.0
       with:
@@ -29,8 +27,12 @@ jobs:
         # Working directory
         working-directory: "." # default is .
 
+    # Deploy the HTML documentation to GitHub Pages
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./html
+        allow_empty_commit: false
+        publish_branch: gh-pages
+        publish_dir: ./doc/html/
+        enable_jekyll: true

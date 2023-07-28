@@ -20,5 +20,5 @@ jobs:
           folder: docs/html
           config_file: Doxyfile
           # target_folder must match pages config in https://github.com/FashionFreedom/Seamly2D/settings/pages
-          target_folder: docs/
+          # target_folder: docs/
 

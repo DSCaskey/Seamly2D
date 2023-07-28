@@ -42,7 +42,7 @@ ___________________________________________________
 ## Seamly2D Developer Resources:
    * [Developer README](README-DEVELOPER.md) - _current_
    * [Developer Wiki](https://github.com/FashionFreedom/Seamly2D/wiki) - _needs updating_
-   * [Code Documentation](http://DSCaskey.github.io/Seamly2D)
+   * [Code Documentation](http://DSCaskey.github.io/Seamly2D/tree/gh-pages/html) 
 ___________________________________________________
 ## LICENSING
 

@@ -8,7 +8,7 @@
 * Check the sections below for your operating system to find additional installation requirements.
 
 ## Seamly API Documentaion
-   * [Code Documentation](http://DSCaskey.github.io/Seamly2D/tree/gh-pages/html)
+   * [Code Documentation](http://DSCaskey.github.io/Seamly2D/html)
 
 ## Development methods and styles:
    * [GitHub Flow workflow](https://githubflow.github.io)

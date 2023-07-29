@@ -42,7 +42,6 @@ ___________________________________________________
 ## Seamly2D Developer Resources:
    * [Developer README](README-DEVELOPER.md) - _current_
    * [Developer Wiki](https://github.com/FashionFreedom/Seamly2D/wiki) - _needs updating_
-   * [Code Documentation](http://DSCaskey.github.io/Seamly2D/tree/gh-pages/html) 
 ___________________________________________________
 ## LICENSING
 
@@ -56,7 +55,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
-![GPLv3](img/GPLv3_Logo-121x60px.png) 
+![GPLv3](img/GPLv3_Logo-121x60px.png)
 
 See our [LICENSE.md](..\LICENSE.md) file or go to [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html) for further information.
 

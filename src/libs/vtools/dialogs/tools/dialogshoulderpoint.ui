@@ -132,7 +132,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="comboBoxP1Line">
+         <widget class="QComboBox" name="point1_ComboBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -182,7 +182,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="comboBoxP2Line">
+         <widget class="QComboBox" name="point2_ComboBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -232,7 +232,7 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QComboBox" name="comboBoxP3">
+         <widget class="QComboBox" name="point3_ComboBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -728,9 +728,9 @@
  <tabstops>
   <tabstop>plainTextEditFormula</tabstop>
   <tabstop>lineEditNamePoint</tabstop>
-  <tabstop>comboBoxP1Line</tabstop>
-  <tabstop>comboBoxP2Line</tabstop>
-  <tabstop>comboBoxP3</tabstop>
+  <tabstop>point3_ComboBox</tabstop>
+  <tabstop>point1_ComboBox</tabstop>
+  <tabstop>point2_ComboBox</tabstop>
  </tabstops>
  <resources>
   <include location="../../../vmisc/share/resources/icon.qrc"/>

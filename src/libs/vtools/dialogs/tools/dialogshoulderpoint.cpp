@@ -1,53 +1,54 @@
-/***************************************************************************
- *                                                                         *
- *   Copyright (C) 2017  Seamly, LLC                                       *
- *                                                                         *
- *   https://github.com/fashionfreedom/seamly2d                             *
- *                                                                         *
- ***************************************************************************
- **
- **  Seamly2D is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Seamly2D is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
- **
- **************************************************************************
+//-----------------------------------------------------------------------------
+//  @file   dialogshoulderpoint.cpp
+//  @author Douglas S Caskey
+//  @date   17 Sep, 2023
+//
+//  @brief
+//  @copyright
+//  This source code is part of the Seamly2D project, a pattern making
+//  program, whose allow create and modeling patterns of clothing.
+//  Copyright (C) 2013-2022 Seamly2D project
+//  <https://github.com/fashionfreedom/seamly2d> All Rights Reserved.
+//
+//  Seamly2D is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Seamly2D is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
+//-----------------------------------------------------------------------------
 
- ************************************************************************
- **
- **  @file   dialogshoulderpoint.cpp
- **  @author Roman Telezhynskyi <dismine(at)gmail.com>
- **  @date   November 15, 2013
- **
- **  @brief
- **  @copyright
- **  This source code is part of the Valentine project, a pattern making
- **  program, whose allow create and modeling patterns of clothing.
- **  Copyright (C) 2013-2015 Seamly2D project
- **  <https://github.com/fashionfreedom/seamly2d> All Rights Reserved.
- **
- **  Seamly2D is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Seamly2D is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
- **
- *************************************************************************/
+//-----------------------------------------------------------------------------
+//  @file   dialogshoulderpoint.cpp
+//  @author Roman Telezhynskyi <dismine(at)gmail.com>
+//  @date   November 15, 2013
+//
+//  @brief
+//  @copyright
+//  This source code is part of the Valentina project, a pattern making
+//  program, whose allow create and modeling patterns of clothing.
+//  Copyright (C) 2013 Valentina project
+//  <https://bitbucket.org/dismine/valentina> All Rights Reserved.
+//
+//  Valentina is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Valentina is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
+//-----------------------------------------------------------------------------
 
 #include "dialogshoulderpoint.h"
 
@@ -71,6 +72,7 @@
 #include "../support/edit_formula_dialog.h"
 #include "../vmisc/vabstractapplication.h"
 #include "../vmisc/vcommonsettings.h"
+#include "../vwidgets/vabstractmainwindow.h"
 #include "ui_dialogshoulderpoint.h"
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -80,8 +82,10 @@
  * @param parent parent widget
  */
 DialogShoulderPoint::DialogShoulderPoint(const VContainer *data, const quint32 &toolId, QWidget *parent)
-    : DialogTool(data, toolId, parent), ui(new Ui::DialogShoulderPoint), formula(QString()),
-      formulaBaseHeight(0)
+    : DialogTool(data, toolId, parent)
+    , ui(new Ui::DialogShoulderPoint)
+    , formula(QString())
+    , formulaBaseHeight(0)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -99,9 +103,9 @@ DialogShoulderPoint::DialogShoulderPoint(const VContainer *data, const quint32 &
     flagFormula = false;
     DialogTool::CheckState();
 
-    FillComboBoxPoints(ui->comboBoxP1Line);
-    FillComboBoxPoints(ui->comboBoxP2Line);
-    FillComboBoxPoints(ui->comboBoxP3);
+    FillComboBoxPoints(ui->point1_ComboBox);
+    FillComboBoxPoints(ui->point2_ComboBox);
+    FillComboBoxPoints(ui->point3_ComboBox);
 
     int index = ui->lineColor_ComboBox->findData(qApp->getCurrentDocument()->getDefaultLineColor());
     if (index != -1)
@@ -123,11 +127,11 @@ DialogShoulderPoint::DialogShoulderPoint(const VContainer *data, const quint32 &
 
     connect(ui->toolButtonExprLength, &QPushButton::clicked,        this, &DialogShoulderPoint::FXLength);
     connect(ui->lineEditNamePoint,    &QLineEdit::textChanged,      this, &DialogShoulderPoint::NamePointChanged);
-    connect(ui->plainTextEditFormula, &QPlainTextEdit::textChanged, this, &DialogShoulderPoint::FormulaTextChanged);
+    connect(ui->plainTextEditFormula, &QPlainTextEdit::textChanged, this, &DialogShoulderPoint::formulaTextChanged);
     connect(ui->pushButtonGrowLength, &QPushButton::clicked,        this, &DialogShoulderPoint::DeployFormulaTextEdit);
-    connect(ui->comboBoxP1Line,       &QComboBox::currentTextChanged, this, &DialogShoulderPoint::PointNameChanged);
-    connect(ui->comboBoxP2Line,       &QComboBox::currentTextChanged, this, &DialogShoulderPoint::PointNameChanged);
-    connect(ui->comboBoxP3,           &QComboBox::currentTextChanged, this, &DialogShoulderPoint::PointNameChanged);
+    connect(ui->point1_ComboBox,      &QComboBox::currentTextChanged, this, &DialogShoulderPoint::PointNameChanged);
+    connect(ui->point2_ComboBox,      &QComboBox::currentTextChanged, this, &DialogShoulderPoint::PointNameChanged);
+    connect(ui->point3_ComboBox,      &QComboBox::currentTextChanged, this, &DialogShoulderPoint::PointNameChanged);
 
     vis = new VisToolShoulderPoint(data);
 
@@ -141,7 +145,7 @@ DialogShoulderPoint::DialogShoulderPoint(const VContainer *data, const quint32 &
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogShoulderPoint::FormulaTextChanged()
+void DialogShoulderPoint::formulaTextChanged()
 {
     this->FormulaChangedPlainText();
 }
@@ -150,9 +154,9 @@ void DialogShoulderPoint::FormulaTextChanged()
 void DialogShoulderPoint::PointNameChanged()
 {
     QSet<quint32> set;
-    set.insert(getCurrentObjectId(ui->comboBoxP1Line));
-    set.insert(getCurrentObjectId(ui->comboBoxP2Line));
-    set.insert(getCurrentObjectId(ui->comboBoxP3));
+    set.insert(getCurrentObjectId(ui->point1_ComboBox));
+    set.insert(getCurrentObjectId(ui->point2_ComboBox));
+    set.insert(getCurrentObjectId(ui->point3_ComboBox));
 
     QColor color = okColor;
     if (set.size() != 3)
@@ -176,11 +180,11 @@ void DialogShoulderPoint::FXLength()
 {
     EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, this);
     dialog->setWindowTitle(tr("Edit length"));
-    dialog->SetFormula(GetFormula());
+    dialog->SetFormula(getFormula());
     dialog->setPostfix(UnitsToStr(qApp->patternUnit(), true));
     if (dialog->exec() == QDialog::Accepted)
     {
-        SetFormula(dialog->GetFormula());
+        setFormula(dialog->GetFormula());
     }
     delete dialog;
 }
@@ -211,8 +215,10 @@ DialogShoulderPoint::~DialogShoulderPoint()
  */
 void DialogShoulderPoint::ChosenObject(quint32 id, const SceneObject &type)
 {
-    if (prepare == false)
+    if (prepare)
     {
+        return;
+    }
         if (type == SceneObject::Point)
         {
             VisToolShoulderPoint *line = qobject_cast<VisToolShoulderPoint *>(vis);
@@ -221,16 +227,16 @@ void DialogShoulderPoint::ChosenObject(quint32 id, const SceneObject &type)
             switch (number)
             {
                 case 0:
-                    if (SetObject(id, ui->comboBoxP3, tr("Select first point of line")))
+                    if (SetObject(id, ui->point1_ComboBox, tr("Select first point of line")))
                     {
                         number++;
                         line->VisualMode(id);
                     }
                     break;
                 case 1:
-                    if (getCurrentObjectId(ui->comboBoxP3) != id)
+                    if (getCurrentObjectId(ui->point1_ComboBox) != id)
                     {
-                        if (SetObject(id, ui->comboBoxP1Line, tr("Select second point of line")))
+                        if (SetObject(id, ui->point2_ComboBox, tr("Select second point of line")))
                         {
                             number++;
                             line->setLineP1Id(id);
@@ -241,17 +247,24 @@ void DialogShoulderPoint::ChosenObject(quint32 id, const SceneObject &type)
                 case 2:
                 {
                     QSet<quint32> set;
-                    set.insert(getCurrentObjectId(ui->comboBoxP3));
-                    set.insert(getCurrentObjectId(ui->comboBoxP1Line));
+                    set.insert(getCurrentObjectId(ui->point1_ComboBox));
+                    set.insert(getCurrentObjectId(ui->point2_ComboBox));
                     set.insert(id);
 
                     if (set.size() == 3)
                     {
-                        if (SetObject(id, ui->comboBoxP2Line, ""))
+                        if (SetObject(id, ui->point3_ComboBox, ""))
                         {
+                            VAbstractMainWindow *window = qobject_cast<VAbstractMainWindow *>(qApp->getMainWindow());
+                            SCASSERT(window != nullptr)
+                            connect(line, &Visualization::ToolTip, window, &VAbstractMainWindow::ShowToolTip);
+
                             line->setLineP2Id(id);
                             line->RefreshGeometry();
                             prepare = true;
+                            vis->SetMode(Mode::Show);
+                            vis->RefreshGeometry();
+                            emit ToolTip(QString());
                             this->setModal(true);
                             this->show();
                         }
@@ -262,7 +275,6 @@ void DialogShoulderPoint::ChosenObject(quint32 id, const SceneObject &type)
                     break;
             }
         }
-    }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -275,9 +287,9 @@ void DialogShoulderPoint::SaveData()
     VisToolShoulderPoint *line = qobject_cast<VisToolShoulderPoint *>(vis);
     SCASSERT(line != nullptr)
 
-    line->setObject1Id(GetP3());
-    line->setLineP1Id(GetP1Line());
-    line->setLineP2Id(GetP2Line());
+    line->setObject1Id(getFirstPoint());
+    line->setLineP1Id(getSecondPoint());
+    line->setLineP2Id(getThirdPoint());
     line->setLength(formula);
     line->setLineStyle(lineTypeToPenStyle(getLineType()));
     line->setLineWeight(getLineWeight());
@@ -293,12 +305,12 @@ void DialogShoulderPoint::closeEvent(QCloseEvent *event)
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief setPShoulder set id shoulder point
+ * @brief setFirstPoint set id shoulder point
  * @param value id
  */
-void DialogShoulderPoint::SetP3(const quint32 &value)
+void DialogShoulderPoint::setFirstPoint(const quint32 &value)
 {
-    setCurrentPointId(ui->comboBoxP3, value);
+    setCurrentPointId(ui->point1_ComboBox, value);
 
     VisToolShoulderPoint *line = qobject_cast<VisToolShoulderPoint *>(vis);
     SCASSERT(line != nullptr)
@@ -319,12 +331,12 @@ void DialogShoulderPoint::setLineColor(const QString &value)
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief SetP2Line set id second point of line
+ * @brief setThirdPoint( set id second point of line
  * @param value id
  */
-void DialogShoulderPoint::SetP2Line(const quint32 &value)
+void DialogShoulderPoint::setThirdPoint(const quint32 &value)
 {
-    setCurrentPointId(ui->comboBoxP2Line, value);
+    setCurrentPointId(ui->point3_ComboBox, value);
 
     VisToolShoulderPoint *line = qobject_cast<VisToolShoulderPoint *>(vis);
     SCASSERT(line != nullptr)
@@ -333,12 +345,12 @@ void DialogShoulderPoint::SetP2Line(const quint32 &value)
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief SetP1Line set id first point of line
+ * @brief setSecondPoint( set id first point of line
  * @param value id
  */
-void DialogShoulderPoint::SetP1Line(const quint32 &value)
+void DialogShoulderPoint::setSecondPoint(const quint32 &value)
 {
-    setCurrentPointId(ui->comboBoxP1Line, value);
+    setCurrentPointId(ui->point2_ComboBox, value);
 
     VisToolShoulderPoint *line = qobject_cast<VisToolShoulderPoint *>(vis);
     SCASSERT(line != nullptr)
@@ -347,10 +359,10 @@ void DialogShoulderPoint::SetP1Line(const quint32 &value)
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief SetFormula set string of formula
+ * @brief setFormula set string of formula
  * @param value formula
  */
-void DialogShoulderPoint::SetFormula(const QString &value)
+void DialogShoulderPoint::setFormula(const QString &value)
 {
     formula = qApp->translateVariables()->FormulaToUser(value, qApp->Settings()->getOsSeparator());
     // increase height if needed.
@@ -410,10 +422,10 @@ void DialogShoulderPoint::setLineWeight(const QString &value)
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief SetPointName set name of point
+ * @brief setPointName set name of point
  * @param value name
  */
-void DialogShoulderPoint::SetPointName(const QString &value)
+void DialogShoulderPoint::setPointName(const QString &value)
 {
     pointName = value;
     ui->lineEditNamePoint->setText(pointName);
@@ -421,40 +433,40 @@ void DialogShoulderPoint::SetPointName(const QString &value)
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief GetFormula return string of formula
+ * @brief getFormula return string of formula
  * @return formula
  */
-QString DialogShoulderPoint::GetFormula() const
+QString DialogShoulderPoint::getFormula() const
 {
     return qApp->translateVariables()->TryFormulaFromUser(formula, qApp->Settings()->getOsSeparator());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief GetP1Line return id first point of line
+ * @brief getSecondPoint return id first point of line
  * @return id
  */
-quint32 DialogShoulderPoint::GetP1Line() const
+quint32 DialogShoulderPoint::getSecondPoint() const
 {
-    return getCurrentObjectId(ui->comboBoxP1Line);
+    return getCurrentObjectId(ui->point2_ComboBox);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief GetP2Line return id second point of line
+ * @brief getThirdPoint return id second point of line
  * @return id
  */
-quint32 DialogShoulderPoint::GetP2Line() const
+quint32 DialogShoulderPoint::getThirdPoint() const
 {
-    return getCurrentObjectId(ui->comboBoxP2Line);
+    return getCurrentObjectId(ui->point3_ComboBox);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 /**
- * @brief getPShoulder return id shoulder point
+ * @brief getFirstPoint return id shoulder point
  * @return id
  */
-quint32 DialogShoulderPoint::GetP3() const
+quint32 DialogShoulderPoint::getFirstPoint() const
 {
-    return getCurrentObjectId(ui->comboBoxP3);
+    return getCurrentObjectId(ui->point1_ComboBox);
 }

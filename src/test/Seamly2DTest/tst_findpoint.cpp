@@ -326,7 +326,7 @@ void TST_FindPoint::TestShoulderPoint()
     QFETCH(qreal, length);
     QFETCH(QPointF, point);
 
-    QPointF resultPoint = VToolShoulderPoint::FindPoint(p1, p2, pShoulder, length);
+    QPointF resultPoint = VToolShoulderPoint::findPoint(p1, p2, pShoulder, length);
 
     QCOMPARE(point, resultPoint);
 }

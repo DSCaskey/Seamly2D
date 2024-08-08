@@ -750,7 +750,7 @@ void VToolOptionsPropertyBrowser::addPropertyLineColor(Tool *tool, const QString
 //
 // Adds a direction combobox property to the Property Editor form widget. Gets the combobox index to
 // the tool's direction. Throws a warning if the property is not found in the combobox item list.
-// If the index exists it sets the combobox index to the tool's direction. 
+// If the index exists it sets the combobox index to the tool's direction.
 //
 // @tparam tool Tool of the property.
 // @param propertyName Name of the property.
@@ -1909,14 +1909,14 @@ void VToolOptionsPropertyBrowser::changeDataToolShoulderPoint(VPE::VProperty *pr
         case 60: // AttrLineWeight
             tool->setLineWeight(value.toString());
             break;
-        case 6:  // AttrFirstPoint
-            tool->SetP2Line(value.toInt());
+        case 6: // AttrFirstPoint
+            tool->setFirstPoint(value.toInt());
             break;
-        case 2:  // AttrBasePoint
+        case 7:  // AttrSecondPoint
             tool->SetBasePointId(value.toInt());
             break;
-        case 12: // AttrThirdPoint
-            tool->setPShoulder(value.toInt());
+        case 12:  // AttrThirdPoint
+            tool->setThirdPoint(value.toInt());
             break;
         default:
             qWarning() << "Unknown property type. id = "<<id;
@@ -2786,9 +2786,9 @@ void VToolOptionsPropertyBrowser::showOptionsToolShoulderPoint(QGraphicsItem *it
 
     addPropertyLabel(tr("Selection"), AttrName);
     addPropertyObjectName(tool, tr("Name:"));
-    addObjectProperty(tool, tool->BasePointName(), tr("First point:"), AttrBasePoint, GOType::Point);
-    addObjectProperty(tool, tool->SecondPointName(), tr("Second point:"), AttrSecondPoint, GOType::Point);
-    addObjectProperty(tool, tool->ShoulderPointName(), tr("Third point:"), AttrThirdPoint, GOType::Point);
+    addObjectProperty(tool, tool->firstPointName(), tr("First point:"),  AttrFirstPoint,  GOType::Point);
+    addObjectProperty(tool, tool->BasePointName(),     tr("Second point:"), AttrSecondPoint, GOType::Point);
+    addObjectProperty(tool, tool->thirdPointName(),   tr("Third point:"),  AttrThirdPoint,  GOType::Point);
 
     addPropertyLabel(tr("Geometry"), AttrName);
     addPropertyFormula(tr("Length:"), tool->GetFormulaLength(), AttrLength);
@@ -3714,19 +3714,19 @@ void VToolOptionsPropertyBrowser::updateOptionsToolShoulderPoint()
 
     {
         const qint32 index = VPE::VObjectProperty::indexOfObject(getObjectList(tool, GOType::Point),
-                                                                               tool->BasePointName());
-        idToProperty[AttrBasePoint]->setValue(index);
+                                                                               tool->firstPointName());
+        idToProperty[AttrFirstPoint]->setValue(index);
     }
 
     {
         const qint32 index = VPE::VObjectProperty::indexOfObject(getObjectList(tool, GOType::Point),
-                                                                               tool->SecondPointName());
+                                                                               tool->BasePointName());
         idToProperty[AttrSecondPoint]->setValue(index);
     }
 
     {
         const qint32 index = VPE::VObjectProperty::indexOfObject(getObjectList(tool, GOType::Point),
-                                                                               tool->ShoulderPointName());
+                                                                               tool->thirdPointName());
         idToProperty[AttrThirdPoint]->setValue(index);
     }
 }

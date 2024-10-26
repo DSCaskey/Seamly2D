@@ -7,6 +7,7 @@ HEADERS += \
     $$PWD/line/intersect_circletangent_visual.h \
     $$PWD/line/operation/vistoolmirrorbyaxis.h \
     $$PWD/line/operation/vistoolmirrorbyline.h \
+    $$PWD/line/shoulder_length_visual.h \
     $$PWD/path/pattern_piece_visual.h \
     $$PWD/path/pieceanchorpoint_visual.h \
     $$PWD/line/point_intersectxy_visual.h \
@@ -16,7 +17,6 @@ HEADERS += \
     $$PWD/line/vistoolendline.h \
     $$PWD/line/vistoolalongline.h \
     $$PWD/line/vistoolbisector.h \
-    $$PWD/line/vistoolshoulderpoint.h \
     $$PWD/line/vistoolnormal.h \
     $$PWD/line/vistoolheight.h \
     $$PWD/line/vistooltriangle.h \
@@ -50,6 +50,7 @@ SOURCES += \
     $$PWD/line/intersect_circletangent_visual.cpp \
     $$PWD/line/operation/vistoolmirrorbyaxis.cpp \
     $$PWD/line/operation/vistoolmirrorbyline.cpp \
+    $$PWD/line/shoulder_length_visual.cpp \
     $$PWD/path/pattern_piece_visual.cpp \
     $$PWD/path/pieceanchorpoint_visual.cpp \
     $$PWD/line/point_intersectxy_visual.cpp \
@@ -59,7 +60,6 @@ SOURCES += \
     $$PWD/line/vistoolendline.cpp \
     $$PWD/line/vistoolalongline.cpp \
     $$PWD/line/vistoolbisector.cpp \
-    $$PWD/line/vistoolshoulderpoint.cpp \
     $$PWD/line/vistoolnormal.cpp \
     $$PWD/line/vistoolheight.cpp \
     $$PWD/line/vistooltriangle.cpp \

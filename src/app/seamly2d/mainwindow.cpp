@@ -523,7 +523,7 @@ void MainWindow::initializeScenes()
     pieceScene->setCurrentTransform(ui->view->transform());
 
     // Mouse release signal sent from view when tool is done drawing visual, so we call
-    // EndVisualization(ture) to show tool dialog.
+    // EndVisualization(true) to show tool dialog.
     connect(ui->view, &VMainGraphicsView::mouseRelease, this, [this](){EndVisualization(true);});
 
     // When view sends signal that the view has zoomed, we need to update the zoom spinbox in the zoom toolbar.
@@ -1057,14 +1057,14 @@ void MainWindow::handleBisectorTool(bool checked)
 void MainWindow::handleShoulderPointTool(bool checked)
 {
     ToolSelectPointByRelease();
-    SetToolButtonWithApply<DialogShoulderPoint>
+    SetToolButtonWithApply<ShoulderLengthDialog>
     (
         checked,
         Tool::ShoulderPoint,
         ":/cursor/shoulder_cursor.png",
         tr("<b>Tool::Point - Length to Line:</b> Select point"),
-        &MainWindow::ClosedDrawDialogWithApply<VToolShoulderPoint>,
-        &MainWindow::ApplyDrawDialog<VToolShoulderPoint>
+        &MainWindow::ClosedDrawDialogWithApply<ShoulderLengthTool>,
+        &MainWindow::ApplyDrawDialog<ShoulderLengthTool>
     );
 }
 

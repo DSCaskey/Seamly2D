@@ -1047,7 +1047,7 @@ void VPattern::ParsePointElement(VMainGraphicsScene *scene, QDomElement &domElem
     QStringList points = QStringList() << VToolBasePoint::ToolType                  /*0*/
                                        << VToolEndLine::ToolType                    /*1*/
                                        << VToolAlongLine::ToolType                  /*2*/
-                                       << VToolShoulderPoint::ToolType              /*3*/
+                                       << ShoulderLengthTool::ToolType              /*3*/
                                        << VToolNormal::ToolType                     /*4*/
                                        << VToolBisector::ToolType                   /*5*/
                                        << VToolLineIntersect::ToolType              /*6*/
@@ -1079,7 +1079,7 @@ void VPattern::ParsePointElement(VMainGraphicsScene *scene, QDomElement &domElem
         case 2: //VToolAlongLine::ToolType
             ParseToolAlongLine(scene, domElement, parse);
             break;
-        case 3: //VToolShoulderPoint::ToolType
+        case 3: //ShoulderLengthTool::ToolType
             ParseToolShoulderPoint(scene, domElement, parse);
             break;
         case 4: //VToolNormal::ToolType
@@ -1425,17 +1425,17 @@ void VPattern::ParseToolShoulderPoint(VMainGraphicsScene *scene, QDomElement &do
 
         PointsCommonAttributes(domElement, id, name, mx, my, showPointName, lineType, lineWeight, lineColor);
         const QString formula = GetParametrString(domElement, AttrLength, "100.0");
-        QString f = formula;//need for saving fixed formula;
-        const quint32 p1Line = GetParametrUInt(domElement, AttrP1Line, NULL_ID_STR);
-        const quint32 p2Line = GetParametrUInt(domElement, AttrP2Line, NULL_ID_STR);
-        const quint32 pShoulder = GetParametrUInt(domElement, AttrPShoulder, NULL_ID_STR);
+        QString fx = formula;//need for saving fixed formula;
+        const quint32 lineP1    = GetParametrUInt(domElement, AttrP1Line,    NULL_ID_STR);
+        const quint32 lineP2    = GetParametrUInt(domElement, AttrP2Line,    NULL_ID_STR);
+        const quint32 neckPoint = GetParametrUInt(domElement, AttrPShoulder, NULL_ID_STR);
 
-        VToolShoulderPoint::Create(id, f, p1Line, p2Line, pShoulder, lineType, lineWeight, lineColor, name, mx, my,
+        ShoulderLengthTool::Create(id, fx, neckPoint, lineP1, lineP2,  lineType, lineWeight, lineColor, name, mx, my,
                                    showPointName, scene, this, data, parse, Source::FromFile);
         //Rewrite attribute formula. Need for situation when we have wrong formula.
-        if (f != formula)
+        if (fx != formula)
         {
-            SetAttribute(domElement, AttrLength, f);
+            SetAttribute(domElement, AttrLength, fx);
             modified = true;
             haveLiteChange();
         }

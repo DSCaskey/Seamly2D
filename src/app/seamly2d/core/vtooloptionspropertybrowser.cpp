@@ -175,7 +175,7 @@ void VToolOptionsPropertyBrowser::showItemOptions(QGraphicsItem *item)
         case VToolPointOfIntersectionCurves::Type:
             showOptionsToolPointOfIntersectionCurves(item);
             break;
-        case VToolShoulderPoint::Type:
+        case ShoulderLengthTool::Type:
             showOptionsToolShoulderPoint(item);
             break;
         case VToolSpline::Type:
@@ -302,7 +302,7 @@ void VToolOptionsPropertyBrowser::updateOptions()
         case VToolPointOfIntersectionCurves::Type:
             updateOptionsToolPointOfIntersectionCurves();
             break;
-        case VToolShoulderPoint::Type:
+        case ShoulderLengthTool::Type:
             updateOptionsToolShoulderPoint();
             break;
         case VToolSpline::Type:
@@ -447,7 +447,7 @@ void VToolOptionsPropertyBrowser::userChangedData(VPE::VProperty *property)
         case VToolPointOfIntersectionCurves::Type:
             changeDataToolPointOfIntersectionCurves(prop);
             break;
-        case VToolShoulderPoint::Type:
+        case ShoulderLengthTool::Type:
             changeDataToolShoulderPoint(prop);
             break;
         case VToolSpline::Type:
@@ -1890,7 +1890,7 @@ void VToolOptionsPropertyBrowser::changeDataToolShoulderPoint(VPE::VProperty *pr
     QVariant value = property->data(VPE::VProperty::DPC_Data, Qt::DisplayRole);
     const QString id = propertyToId[property];
 
-    VToolShoulderPoint *tool = qgraphicsitem_cast<VToolShoulderPoint *>(currentItem);
+    ShoulderLengthTool *tool = qgraphicsitem_cast<ShoulderLengthTool *>(currentItem);
     SCASSERT(tool != nullptr)
     switch (propertiesList().indexOf(id))
     {
@@ -1898,7 +1898,7 @@ void VToolOptionsPropertyBrowser::changeDataToolShoulderPoint(VPE::VProperty *pr
             tool->SetFormulaLength(value.value<VFormula>());
             break;
         case 0: // AttrName
-            setPointName<VToolShoulderPoint>(value.toString());
+            setPointName<ShoulderLengthTool>(value.toString());
             break;
         case 3: // AttrLineType
             tool->setLineType(value.toString());
@@ -1910,13 +1910,13 @@ void VToolOptionsPropertyBrowser::changeDataToolShoulderPoint(VPE::VProperty *pr
             tool->setLineWeight(value.toString());
             break;
         case 6: // AttrFirstPoint
-            tool->setFirstPoint(value.toInt());
-            break;
-        case 7:  // AttrSecondPoint
             tool->SetBasePointId(value.toInt());
             break;
+        case 7:  // AttrSecondPoint
+            tool->setFirstLinePoint(value.toInt());
+            break;
         case 12:  // AttrThirdPoint
-            tool->setThirdPoint(value.toInt());
+            tool->setSecondLinePoint(value.toInt());
             break;
         default:
             qWarning() << "Unknown property type. id = "<<id;
@@ -2780,15 +2780,15 @@ void VToolOptionsPropertyBrowser::showOptionsToolPointFromArcAndTangent(QGraphic
 //---------------------------------------------------------------------------------------------------------------------
 void VToolOptionsPropertyBrowser::showOptionsToolShoulderPoint(QGraphicsItem *item)
 {
-    VToolShoulderPoint *tool = qgraphicsitem_cast<VToolShoulderPoint *>(item);
+    ShoulderLengthTool *tool = qgraphicsitem_cast<ShoulderLengthTool *>(item);
     tool->ShowVisualization(true);
     formView->setTitle(tr("Point - Length to Line"));
 
     addPropertyLabel(tr("Selection"), AttrName);
     addPropertyObjectName(tool, tr("Name:"));
-    addObjectProperty(tool, tool->firstPointName(), tr("First point:"),  AttrFirstPoint,  GOType::Point);
-    addObjectProperty(tool, tool->BasePointName(),     tr("Second point:"), AttrSecondPoint, GOType::Point);
-    addObjectProperty(tool, tool->thirdPointName(),   tr("Third point:"),  AttrThirdPoint,  GOType::Point);
+    addObjectProperty(tool, tool->BasePointName(),  tr("Neck point:"),   AttrFirstPoint,  GOType::Point);
+    addObjectProperty(tool, tool->linePoint1Name(), tr("Line point 1:"), AttrSecondPoint, GOType::Point);
+    addObjectProperty(tool, tool->linePoint2Name(), tr("Line point 2:"), AttrThirdPoint,  GOType::Point);
 
     addPropertyLabel(tr("Geometry"), AttrName);
     addPropertyFormula(tr("Length:"), tool->GetFormulaLength(), AttrLength);
@@ -3689,7 +3689,7 @@ void VToolOptionsPropertyBrowser::updateOptionsToolPointFromArcAndTangent()
 //---------------------------------------------------------------------------------------------------------------------
 void VToolOptionsPropertyBrowser::updateOptionsToolShoulderPoint()
 {
-    VToolShoulderPoint *tool = qgraphicsitem_cast<VToolShoulderPoint *>(currentItem);
+    ShoulderLengthTool *tool = qgraphicsitem_cast<ShoulderLengthTool *>(currentItem);
 
     QVariant valueFormula;
     valueFormula.setValue(tool->GetFormulaLength());
@@ -3714,19 +3714,19 @@ void VToolOptionsPropertyBrowser::updateOptionsToolShoulderPoint()
 
     {
         const qint32 index = VPE::VObjectProperty::indexOfObject(getObjectList(tool, GOType::Point),
-                                                                               tool->firstPointName());
+                                                                               tool->BasePointName());
         idToProperty[AttrFirstPoint]->setValue(index);
     }
 
     {
         const qint32 index = VPE::VObjectProperty::indexOfObject(getObjectList(tool, GOType::Point),
-                                                                               tool->BasePointName());
+                                                                               tool->linePoint1Name());
         idToProperty[AttrSecondPoint]->setValue(index);
     }
 
     {
         const qint32 index = VPE::VObjectProperty::indexOfObject(getObjectList(tool, GOType::Point),
-                                                                               tool->thirdPointName());
+                                                                               tool->linePoint2Name());
         idToProperty[AttrThirdPoint]->setValue(index);
     }
 }

@@ -9,6 +9,7 @@ HEADERS += \
     $$PWD/drawTools/toolpoint/toolsinglepoint/toollinepoint/doubleline_point_tool.h \
     $$PWD/drawTools/toolpoint/toolsinglepoint/intersect_circles_tool.h \
     $$PWD/drawTools/toolpoint/toolsinglepoint/intersect_circletangent_tool.h \
+    $$PWD/drawTools/toolpoint/toolsinglepoint/toollinepoint/shoulder_length_tool.h \
     $$PWD/nodeDetails/anchorpoint_tool.h \
     $$PWD/pattern_piece_tool.h \
     $$PWD/vdatatool.h \
@@ -18,7 +19,6 @@ HEADERS += \
     $$PWD/drawTools/toolcurve/vtoolsplinepath.h \
     $$PWD/drawTools/toolcurve/vtoolspline.h \
     $$PWD/drawTools/toolpoint/toolsinglepoint/vtoolbasepoint.h \
-    $$PWD/drawTools/toolpoint/toolsinglepoint/toollinepoint/vtoolshoulderpoint.h \
     $$PWD/drawTools/toolpoint/toolsinglepoint/vtoolpointofcontact.h \
     $$PWD/drawTools/toolpoint/toolsinglepoint/vtoolsinglepoint.h \
     $$PWD/drawTools/toolpoint/toolsinglepoint/toollinepoint/vtoolnormal.h \
@@ -71,6 +71,7 @@ SOURCES += \
     $$PWD/drawTools/toolpoint/toolsinglepoint/toollinepoint/doubleline_point_tool.cpp \
     $$PWD/drawTools/toolpoint/toolsinglepoint/intersect_circles_tool.cpp \
     $$PWD/drawTools/toolpoint/toolsinglepoint/intersect_circletangent_tool.cpp \
+    $$PWD/drawTools/toolpoint/toolsinglepoint/toollinepoint/shoulder_length_tool.cpp \
     $$PWD/nodeDetails/anchorpoint_tool.cpp \
     $$PWD/pattern_piece_tool.cpp \
     $$PWD/union_tool.cpp \
@@ -80,7 +81,6 @@ SOURCES += \
     $$PWD/drawTools/toolcurve/vtoolsplinepath.cpp \
     $$PWD/drawTools/toolcurve/vtoolspline.cpp \
     $$PWD/drawTools/toolpoint/toolsinglepoint/vtoolbasepoint.cpp \
-    $$PWD/drawTools/toolpoint/toolsinglepoint/toollinepoint/vtoolshoulderpoint.cpp \
     $$PWD/drawTools/toolpoint/toolsinglepoint/vtoolpointofcontact.cpp \
     $$PWD/drawTools/toolpoint/toolsinglepoint/vtoolsinglepoint.cpp \
     $$PWD/drawTools/toolpoint/toolsinglepoint/toollinepoint/vtoolnormal.cpp \

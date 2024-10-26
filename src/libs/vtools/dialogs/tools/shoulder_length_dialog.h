@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-//  @file   dialogshoulderpoint.h
+//  @file   shoulder_length_dialog.h
 //  @author Douglas S Caskey
 //  @date   17 Sep, 2023
 //
@@ -50,8 +50,8 @@
 //  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------
 
-#ifndef DIALOGSHOULDERPOINT_H
-#define DIALOGSHOULDERPOINT_H
+#ifndef SHOULDER_LENGTH_DIALOG_H
+#define SHOULDER_LENGTH_DIALOG_H
 
 #include <qcompilerdetection.h>
 #include <QMetaObject>
@@ -64,18 +64,18 @@
 
 namespace Ui
 {
-    class DialogShoulderPoint;
+    class ShoulderLengthDialog;
 }
 
-/**
- * @brief The DialogShoulderPoint class dialog for ToolShoulderPoint. Help create point and edit option.
- */
-class DialogShoulderPoint : public DialogTool
+
+/// @brief The ShoulderLengthDialog class dialog for ToolShoulderPoint. Help create point and edit option.
+
+class ShoulderLengthDialog : public DialogTool
 {
     Q_OBJECT
 public:
-                   DialogShoulderPoint(const VContainer *data, const quint32 &toolId, QWidget *parent = nullptr);
-    virtual       ~DialogShoulderPoint() Q_DECL_OVERRIDE;
+                   ShoulderLengthDialog(const VContainer *data, const quint32 &toolId, QWidget *parent = nullptr);
+    virtual       ~ShoulderLengthDialog() Q_DECL_OVERRIDE;
 
     void           setPointName(const QString &value);
 
@@ -92,47 +92,47 @@ public:
     void           setFormula(const QString &value);
 
 
-    quint32        getFirstPoint() const;
-    void           setFirstPoint(const quint32 &value);
+    quint32        getNeckPoint() const;
+    void           setNeckPoint(const quint32 &value);
 
-    quint32        getSecondPoint() const;
-    void           setSecondPoint(const quint32 &value);
+    quint32        getFirstLinePoint() const;
+    void           setFirstLinePoint(const quint32 &value);
 
-    quint32        getThirdPoint() const;
-    void           setThirdPoint(const quint32 &value);
+    quint32        getSecondLinePoint() const;
+    void           setSecondLinePoint(const quint32 &value);
+
+    void           ShowDialog(bool click) override;
 
 public slots:
     virtual void   ChosenObject(quint32 id, const SceneObject &type) Q_DECL_OVERRIDE;
-    /**
-     * @brief DeployFormulaTextEdit grow or shrink formula input
-     */
+
+    /// @brief DeployFormulaTextEdit grow or shrink formula input
     void           DeployFormulaTextEdit();
-    /**
-     * @brief formulaTextChanged when formula text changes for validation and calc
-     */
+
+    /// @brief formulaTextChanged when formula text changes for validation and calc
     void           formulaTextChanged();
     virtual void   PointNameChanged() Q_DECL_OVERRIDE;
     void           FXLength();
 
 protected:
     virtual void   ShowVisualization() Q_DECL_OVERRIDE;
-    /**
-     * @brief SaveData Put dialog data in local variables
-     */
     virtual void   SaveData() Q_DECL_OVERRIDE;
     virtual void   closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    Q_DISABLE_COPY(DialogShoulderPoint)
+    Q_DISABLE_COPY(ShoulderLengthDialog)
 
-    /** @brief ui keeps information about user interface */
-    Ui::DialogShoulderPoint *ui;
+    /// @brief ui keeps information about user interface */
+    Ui::ShoulderLengthDialog *ui;
 
-    /** @brief formula formula */
-    QString        formula;
+    /// @brief formula formula */
+    QString        m_formula;
 
-    /** @brief formulaBaseHeight base height defined by dialogui */
-    int             formulaBaseHeight;
+    /// @brief formulaBaseHeight base height defined by dialogui */
+    int            m_formulaBaseHeight;
+    bool           m_firstRelease;
+
+    void           FinishCreating();
 };
 
-#endif // DIALOGSHOULDERPOINT_H
+#endif // SHOULDER_LENGTH_DIALOG_H

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-//  @file   vtoolshoulderpoint.h
+//  @file   shoulder_length_tool.h
 //  @author Douglas S Caskey
 //  @date   17 Sep, 2023
 //
@@ -50,8 +50,8 @@
 //  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------
 
-#ifndef VTOOLSHOULDERPOINT_H
-#define VTOOLSHOULDERPOINT_H
+#ifndef SHOULDER_LENGTH_TOOL_H
+#define SHOULDER_LENGTH_TOOL_H
 
 #include <qcompilerdetection.h>
 #include <QDomElement>
@@ -68,23 +68,22 @@
 
 template <class T> class QSharedPointer;
 
-/**
- * @brief The VToolShoulderPoint class tool for creation of point  Length to Line. This tool for special situation, when you
- * want find point along line, but have only length from another point (shoulder).
- */
-class VToolShoulderPoint : public VToolLinePoint
+
+/// @brief The ShoulderLengthTool class tool for creation of point  Length to Line. This tool for special situation, when you
+/// want find point along line, but have only length from another point (shoulder).
+class ShoulderLengthTool : public VToolLinePoint
 {
     Q_OBJECT
 public:
     virtual void               setDialog() Q_DECL_OVERRIDE;
-    static QPointF             findPoint(const QPointF &lineP1, const QPointF &lineP2, const QPointF &pShoulder,
+    static QPointF             findPoint(const QPointF &lineP1, const QPointF &lineP2, const QPointF &neckPoint,
                                          const qreal &length);
 
-    static VToolShoulderPoint *Create(QSharedPointer<DialogTool> dialog, VMainGraphicsScene  *scene,
+    static ShoulderLengthTool *Create(QSharedPointer<DialogTool> dialog, VMainGraphicsScene  *scene,
                                       VAbstractPattern *doc, VContainer *data);
-    static VToolShoulderPoint *Create(const quint32 _id, QString &formula, quint32 lineP1, quint32 lineP2,
-                                      quint32 pShoulder, const QString &typeLine, const QString &lineWeight,
-                                      const QString &lineColor,
+    static ShoulderLengthTool *Create(const quint32 _id, QString &formula,
+                                      quint32 neckPoint, quint32 lineP1, quint32 lineP2,
+                                      const QString &typeLine, const QString &lineWeight, const QString &lineColor,
                                       const QString &pointName, qreal mx, qreal my, bool showPointName,
                                       VMainGraphicsScene *scene, VAbstractPattern *doc, VContainer *data,
                                       const Document &parse,
@@ -94,14 +93,14 @@ public:
     virtual int                type() const Q_DECL_OVERRIDE {return Type;}
     enum { Type = UserType + static_cast<int>(Tool::ShoulderPoint) };
 
-    QString                    firstPointName() const;
-    QString                    thirdPointName() const;
+    QString                    linePoint1Name() const;
+    QString                    linePoint2Name() const;
 
-    quint32                    getFirstPoint() const;
-    void                       setFirstPoint(const quint32 &value);
+    quint32                    getFirstLinePoint() const;
+    void                       setFirstLinePoint(const quint32 &value);
 
-    quint32                    getThirdPoint() const;
-    void                       setThirdPoint(const quint32 &value);
+    quint32                    getSecondLinePoint() const;
+    void                       setSecondLinePoint(const quint32 &value);
 
     virtual void               ShowVisualization(bool show) Q_DECL_OVERRIDE;
 
@@ -118,15 +117,16 @@ protected:
     virtual QString            makeToolTip() const Q_DECL_OVERRIDE;
 
 private:
-    Q_DISABLE_COPY(VToolShoulderPoint)
+    Q_DISABLE_COPY(ShoulderLengthTool)
 
-    quint32                    lineP2;        /** @brief lineP2 id second line point. */
-    quint32                    pShoulder;     /** @brief pShoulder id shoulder line point. */
+    quint32                    m_lineP1Id;     /** @brief lineP2 id first line point. */
+    quint32                    m_lineP2Id;     /** @brief lineP2 id second line point. */
 
-    VToolShoulderPoint(VAbstractPattern *doc, VContainer *data, const quint32 &id, const QString &typeLine,
-                       const QString &lineWeight,
-                       const QString &lineColor, const QString &formula, const quint32 &lineP1, const quint32 &lineP2,
-                       const quint32 &pShoulder, const Source &typeCreation, QGraphicsItem * parent = nullptr);
+    ShoulderLengthTool(VAbstractPattern *doc, VContainer *data, const quint32 &id,
+                       const QString &typeLine, const QString &lineWeight,
+                       const QString &lineColor, const QString &formula,
+                       const quint32 &neckPoint, const quint32 &lineP1, const quint32 &lineP2,
+                       const Source &typeCreation, QGraphicsItem * parent = nullptr);
 };
 
-#endif // VTOOLSHOULDERPOINT_H
+#endif // SHOULDER_LENGTH_TOOL_H

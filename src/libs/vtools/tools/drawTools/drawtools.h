@@ -56,7 +56,7 @@
 #include "toolpoint/toolsinglepoint/toollinepoint/vtoolbisector.h"
 #include "toolpoint/toolsinglepoint/toollinepoint/vtoolendline.h"
 #include "toolpoint/toolsinglepoint/toollinepoint/vtoolnormal.h"
-#include "toolpoint/toolsinglepoint/toollinepoint/vtoolshoulderpoint.h"
+#include "toolpoint/toolsinglepoint/toollinepoint/shoulder_length_tool.h"
 #include "toolpoint/toolsinglepoint/toollinepoint/vtoolheight.h"
 #include "toolpoint/toolsinglepoint/toollinepoint/vtoollineintersectaxis.h"
 #include "toolpoint/toolsinglepoint/toollinepoint/vtoolcurveintersectaxis.h"

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-//  @file   vistoolshoulderpoint.h
+//  @file   shoulder_length_visual.h
 //  @author Douglas S Caskey
 //  @date   9 Aug, 2024
 //
@@ -50,8 +50,8 @@
 //  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------
 
-#ifndef VISTOOLSHOULDERPOINT_H
-#define VISTOOLSHOULDERPOINT_H
+#ifndef SHOULDER_LENGTH_VISUAL_H
+#define SHOULDER_LENGTH_VISUAL_H
 
 #include <qcompilerdetection.h>
 #include <QGraphicsItem>
@@ -63,12 +63,12 @@
 #include "../vmisc/def.h"
 #include "visline.h"
 
-class VisToolShoulderPoint : public VisLine
+class ShoulderLengthVisual : public VisLine
 {
     Q_OBJECT
 public:
-    explicit        VisToolShoulderPoint(const VContainer *data, QGraphicsItem *parent = nullptr);
-    virtual        ~VisToolShoulderPoint() = default;
+    explicit        ShoulderLengthVisual(const VContainer *data, QGraphicsItem *parent = nullptr);
+    virtual        ~ShoulderLengthVisual() = default;
 
     virtual void    RefreshGeometry() Q_DECL_OVERRIDE;
     void            setLineP1Id(const quint32 &value);
@@ -78,21 +78,17 @@ public:
     enum            {Type = UserType + static_cast<int>(Vis::ToolShoulderPoint)};
 
 private:
-    Q_DISABLE_COPY(VisToolShoulderPoint)
-    VScaledEllipse *point;
-    quint32         lineP1Id;
-    quint32         lineP2Id;
-
-    VScaledLine    *line1;
-    VScaledEllipse *line1P1;
-    VScaledEllipse *line1P2;
-
-    VScaledLine    *line2;
-    VScaledEllipse *line2P2;
-
-    VScaledLine    *line3;
-
-    qreal           length;
+    Q_DISABLE_COPY(ShoulderLengthVisual)
+    quint32         m_lineP1Id;
+    quint32         m_lineP2Id;
+    VScaledEllipse *m_neckPoint;
+    VScaledEllipse *m_toolPoint;
+    VScaledEllipse *m_baselineP1;
+    VScaledEllipse *m_baselineP2;
+    VScaledLine    *m_line1;
+    VScaledLine    *m_line2;
+    VScaledLine    *m_line3;
+    qreal           m_length;
 };
 
-#endif // VISTOOLSHOULDERPOINT_H
+#endif // SHOULDER_LENGTH_VISUAL_H

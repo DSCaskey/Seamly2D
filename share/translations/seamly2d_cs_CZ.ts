@@ -2864,7 +2864,7 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>DialogShoulderPoint</name>
+    <name>ShoulderLengthDialog</name>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show full calculation in message box&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ukázat celý výpočet v okně se zprávami&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
@@ -13908,7 +13908,7 @@ load in SeamlyME as usual.
     </message>
 </context>
 <context>
-    <name>VToolShoulderPoint</name>
+    <name>ShoulderLengthTool</name>
     <message>
         <source>Length</source>
         <translation type="unfinished">Délka</translation>

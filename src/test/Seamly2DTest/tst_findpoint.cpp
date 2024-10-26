@@ -54,7 +54,7 @@
 #include "../vtools/tools/drawTools/toolpoint/tooldoublepoint/vtooltruedarts.h"
 #include "../vtools/tools/drawTools/toolpoint/toolsinglepoint/toollinepoint/vtoollineintersectaxis.h"
 #include "../vtools/tools/drawTools/toolpoint/toolsinglepoint/vtooltriangle.h"
-#include "../vtools/tools/drawTools/toolpoint/toolsinglepoint/toollinepoint/vtoolshoulderpoint.h"
+#include "../vtools/tools/drawTools/toolpoint/toolsinglepoint/toollinepoint/shoulder_length_tool.h"
 
 #include <QtTest>
 
@@ -326,7 +326,7 @@ void TST_FindPoint::TestShoulderPoint()
     QFETCH(qreal, length);
     QFETCH(QPointF, point);
 
-    QPointF resultPoint = VToolShoulderPoint::findPoint(p1, p2, pShoulder, length);
+    QPointF resultPoint = ShoulderLengthTool::findPoint(p1, p2, pShoulder, length);
 
     QCOMPARE(point, resultPoint);
 }

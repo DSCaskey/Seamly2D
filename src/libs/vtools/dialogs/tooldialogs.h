@@ -63,7 +63,7 @@
 #include "tools/dialoglineintersect.h"
 #include "tools/dialognormal.h"
 #include "tools/dialogpointofcontact.h"
-#include "tools/dialogshoulderpoint.h"
+#include "tools/shoulder_length_dialog.h"
 #include "tools/dialogsinglepoint.h"
 #include "tools/dialogspline.h"
 #include "tools/dialogcubicbezier.h"

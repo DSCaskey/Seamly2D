@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogShoulderPoint</class>
- <widget class="QDialog" name="DialogShoulderPoint">
+ <class>ShoulderLengthDialog</class>
+ <widget class="QDialog" name="ShoulderLengthDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Point - Length to Line</string>
+   <string>Point - Shoulder Length</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../../vmisc/share/resources/icon.qrc">
@@ -104,7 +104,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="labelFirstPoint">
+         <widget class="QLabel" name="neckPoint_Label">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -124,7 +124,7 @@
            </font>
           </property>
           <property name="text">
-           <string>First point:</string>
+           <string>Neck point:</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -132,7 +132,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="point1_ComboBox">
+         <widget class="QComboBox" name="neckPoint_ComboBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -154,7 +154,7 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="labelSecondPoint">
+         <widget class="QLabel" name="linePoint1_Label">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -174,7 +174,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Second point:</string>
+           <string>Line point 1:</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -182,7 +182,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="point2_ComboBox">
+         <widget class="QComboBox" name="linePoint1_ComboBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -204,7 +204,7 @@
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="labelThirdPoint">
+         <widget class="QLabel" name="linePoint2_Label">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -224,7 +224,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Third point:</string>
+           <string>Line point 2:</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -232,7 +232,7 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QComboBox" name="point3_ComboBox">
+         <widget class="QComboBox" name="linePoint2_ComboBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -728,9 +728,9 @@
  <tabstops>
   <tabstop>plainTextEditFormula</tabstop>
   <tabstop>lineEditNamePoint</tabstop>
-  <tabstop>point3_ComboBox</tabstop>
-  <tabstop>point1_ComboBox</tabstop>
-  <tabstop>point2_ComboBox</tabstop>
+  <tabstop>linePoint2_ComboBox</tabstop>
+  <tabstop>neckPoint_ComboBox</tabstop>
+  <tabstop>linePoint1_ComboBox</tabstop>
  </tabstops>
  <resources>
   <include location="../../../vmisc/share/resources/icon.qrc"/>
@@ -739,7 +739,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogShoulderPoint</receiver>
+   <receiver>ShoulderLengthDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -755,7 +755,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogShoulderPoint</receiver>
+   <receiver>ShoulderLengthDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

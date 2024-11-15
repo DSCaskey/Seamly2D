@@ -49,6 +49,7 @@
 
 #include "visualization.h"
 
+#include "global.h"
 #include "../ifc/ifcdef.h"
 #include "../qmuparser/qmuparsererror.h"
 #include "../tools/drawTools/vdrawtool.h"
@@ -217,7 +218,8 @@ qreal Visualization::FindVal(const QString &expression,
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Visualization::DrawPoint(QGraphicsEllipseItem *point, const QPointF &pos, const QColor &color, Qt::PenStyle style)
+void Visualization::DrawPoint(QGraphicsEllipseItem *point, const QPointF &pos, const QColor &color,
+                              const qreal &lineWeight, Qt::PenStyle style)
 {
     SCASSERT (point != nullptr)
 
@@ -226,6 +228,7 @@ void Visualization::DrawPoint(QGraphicsEllipseItem *point, const QPointF &pos, c
     QPen visPen = point->pen();
     visPen.setColor(color);
     visPen.setStyle(style);
+    visPen.setWidthF(scaleWidth(lineWeight, sceneScale(qApp->getCurrentScene())));
 
     point->setPen(visPen);
     point->setVisible(true);
@@ -240,7 +243,7 @@ void Visualization::DrawLine(VScaledLine *lineItem, const QLineF &line, const QC
     QPen visPen = lineItem->pen();
     visPen.setColor(color);
     visPen.setStyle(style);
-    visPen.setWidthF(lineWeight);
+    visPen.setWidthF(scaleWidth(lineWeight, sceneScale(qApp->getCurrentScene())));
 
     lineItem->setPen(visPen);
     lineItem->setLine(line);
@@ -264,7 +267,7 @@ void Visualization::DrawPath(VCurvePathItem *pathItem, const QPainterPath &path,
     QPen visPen = pathItem->pen();
     visPen.setColor(color);
     visPen.setStyle(style);
-    visPen.setWidthF(lineWeight);
+    visPen.setWidthF(scaleWidth(lineWeight, sceneScale(qApp->getCurrentScene())));
     visPen.setCapStyle(cap);
 
     pathItem->setPen(visPen);

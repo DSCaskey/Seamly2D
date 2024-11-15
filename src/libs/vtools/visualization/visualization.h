@@ -109,7 +109,7 @@ protected:
 
     VScaledEllipse        *InitPoint(const QColor &color, QGraphicsItem *parent, qreal z = 0) const;
     void                   DrawPoint(QGraphicsEllipseItem *point, const QPointF &pos, const QColor &color,
-                                     Qt::PenStyle style = Qt::SolidLine);
+                                     const qreal &lineWeight = 1.20, Qt::PenStyle style = Qt::SolidLine);
     virtual void           DrawLine(VScaledLine *lineItem, const QLineF &line, const QColor &color,
                                     const qreal &lineWeight, Qt::PenStyle style = Qt::SolidLine);
     void                   DrawPath(VCurvePathItem *pathItem, const QPainterPath &path, const QColor &color,

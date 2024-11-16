@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------------
-//  @file   dialogpointofcontact.cpp
+//---------------------------------------------------------------------------------------------------------------------
+//  @file   intersect_circle_line_dialog.cpp
 //  @author Douglas S Caskey
 //  @date   14 Aug, 2024
 //
@@ -20,9 +20,9 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with Seamly2D. If not, see <http://www.gnu.org/licenses/>.
-//-----------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------
 //  @file   dialogpointofcontact.cpp
 //  @author Roman Telezhynskyi <dismine(at)gmail.com>
 //  @date   15 Nov, 2013
@@ -45,9 +45,9 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
-//-----------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------
 
-#include "dialogpointofcontact.h"
+#include "intersect_circle_line_dialog.h"
 
 #include <QColor>
 #include <QComboBox>
@@ -62,29 +62,28 @@
 
 #include "../vpatterndb/vtranslatevars.h"
 #include "../../visualization/visualization.h"
-#include "../../visualization/line/vistoolpointofcontact.h"
+#include "../../visualization/line/intersect_circle_line_visual.h"
 #include "../ifc/xml/vabstractpattern.h"
 #include "../ifc/xml/vdomdocument.h"
 #include "../support/edit_formula_dialog.h"
 #include "../vmisc/vabstractapplication.h"
 #include "../vmisc/vcommonsettings.h"
-#include "ui_dialogpointofcontact.h"
+#include "ui_intersect_circle_line_dialog.h"
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief DialogPointOfContact create dialog
- * @param data container with data
- * @param parent parent widget
- */
-DialogPointOfContact::DialogPointOfContact(const VContainer *data, const quint32 &toolId, QWidget *parent)
+/// @brief IntersectCircleLineDialog create dialog
+/// @param data container with data
+/// @param parent parent widget
+//---------------------------------------------------------------------------------------------------------------------
+IntersectCircleLineDialog::IntersectCircleLineDialog(const VContainer *data, const quint32 &toolId, QWidget *parent)
     : DialogTool(data, toolId, parent)
-    , ui(new Ui::DialogPointOfContact)
+    , ui(new Ui::IntersectCircleLineDialog)
     , radius(QString())
     , formulaBaseHeight(0)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    setWindowIcon(QIcon(":/toolicon/32x32/point_intersect_arc_line.png"));
+    setWindowIcon(QIcon(":/toolicon/32x32/point_intersect_circle_line.png"));
 
     // Set the position that the dialog opens based on user preference.
     setDialogPosition();
@@ -105,31 +104,31 @@ DialogPointOfContact::DialogPointOfContact(const VContainer *data, const quint32
     fillComboBoxPoints(ui->comboBoxSecondPoint);
     fillComboBoxPoints(ui->comboBoxCenter);
 
-    connect(ui->toolButtonExprRadius, &QPushButton::clicked,        this, &DialogPointOfContact::FXRadius);
-    connect(ui->lineEditNamePoint,    &QLineEdit::textChanged,      this, &DialogPointOfContact::NamePointChanged);
-    connect(ui->plainTextEditFormula, &QPlainTextEdit::textChanged, this, &DialogPointOfContact::FormulaTextChanged);
-    connect(ui->pushButtonGrowLength, &QPushButton::clicked,        this, &DialogPointOfContact::DeployFormulaTextEdit);
-    connect(ui->comboBoxFirstPoint,   &QComboBox::currentTextChanged, this, &DialogPointOfContact::PointNameChanged);
-    connect(ui->comboBoxSecondPoint,  &QComboBox::currentTextChanged, this, &DialogPointOfContact::PointNameChanged);
-    connect(ui->comboBoxCenter,       &QComboBox::currentTextChanged, this, &DialogPointOfContact::PointNameChanged);
+    connect(ui->toolButtonExprRadius, &QPushButton::clicked,          this, &IntersectCircleLineDialog::editFXRadius);
+    connect(ui->lineEditNamePoint,    &QLineEdit::textChanged,        this, &IntersectCircleLineDialog::NamePointChanged);
+    connect(ui->plainTextEditFormula, &QPlainTextEdit::textChanged,   this, &IntersectCircleLineDialog::formulaTextChanged);
+    connect(ui->pushButtonGrowLength, &QPushButton::clicked,          this, &IntersectCircleLineDialog::deployFormulaTextEdit);
+    connect(ui->comboBoxFirstPoint,   &QComboBox::currentTextChanged, this, &IntersectCircleLineDialog::PointNameChanged);
+    connect(ui->comboBoxSecondPoint,  &QComboBox::currentTextChanged, this, &IntersectCircleLineDialog::PointNameChanged);
+    connect(ui->comboBoxCenter,       &QComboBox::currentTextChanged, this, &IntersectCircleLineDialog::PointNameChanged);
 
-    vis = new VisToolPointOfContact(data);
+    vis = new IntersectCircleLineVisual(data);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-DialogPointOfContact::~DialogPointOfContact()
+IntersectCircleLineDialog::~IntersectCircleLineDialog()
 {
     delete ui;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogPointOfContact::FormulaTextChanged()
+void IntersectCircleLineDialog::formulaTextChanged()
 {
     this->FormulaChangedPlainText();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogPointOfContact::PointNameChanged()
+void IntersectCircleLineDialog::PointNameChanged()
 {
     QSet<quint32> set;
     set.insert(getCurrentObjectId(ui->comboBoxFirstPoint));
@@ -154,7 +153,7 @@ void DialogPointOfContact::PointNameChanged()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogPointOfContact::FXRadius()
+void IntersectCircleLineDialog::editFXRadius()
 {
     EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit radius"));
@@ -168,30 +167,29 @@ void DialogPointOfContact::FXRadius()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogPointOfContact::ShowVisualization()
+void IntersectCircleLineDialog::ShowVisualization()
 {
-    AddVisualization<VisToolPointOfContact>();
+    AddVisualization<IntersectCircleLineVisual>();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogPointOfContact::DeployFormulaTextEdit()
+void IntersectCircleLineDialog::deployFormulaTextEdit()
 {
     DeployFormula(ui->plainTextEditFormula, ui->pushButtonGrowLength, formulaBaseHeight);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ChosenObject gets id and type of selected object. Save right data and ignore wrong.
- * @param id id of point or detail
- * @param type type of object
- */
-void DialogPointOfContact::ChosenObject(quint32 id, const SceneObject &type)
+/// @brief ChosenObject gets id and type of selected object. Save right data and ignore wrong.
+/// @param id id of point or detail
+/// @param type type of object
+//---------------------------------------------------------------------------------------------------------------------
+void IntersectCircleLineDialog::ChosenObject(quint32 id, const SceneObject &type)
 {
     if (prepare == false)// After first choose we ignore all objects
     {
         if (type == SceneObject::Point)
         {
-            VisToolPointOfContact *line = qobject_cast<VisToolPointOfContact *>(vis);
+            IntersectCircleLineVisual *line = qobject_cast<IntersectCircleLineVisual *>(vis);
             SCASSERT(line != nullptr)
 
             switch (number)
@@ -209,7 +207,7 @@ void DialogPointOfContact::ChosenObject(quint32 id, const SceneObject &type)
                         if (SetObject(id, ui->comboBoxSecondPoint, tr("Select point of center of arc")))
                         {
                             number++;
-                            line->setLineP2Id(id);
+                            line->setLinePt2Id(id);
                             line->RefreshGeometry();
                         }
                     }
@@ -242,140 +240,131 @@ void DialogPointOfContact::ChosenObject(quint32 id, const SceneObject &type)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogPointOfContact::SaveData()
+void IntersectCircleLineDialog::SaveData()
 {
     pointName = ui->lineEditNamePoint->text();
     radius = ui->plainTextEditFormula->toPlainText();
     radius.replace("\n", " ");
 
-    VisToolPointOfContact *line = qobject_cast<VisToolPointOfContact *>(vis);
-    SCASSERT(line != nullptr)
+    IntersectCircleLineVisual *visual = qobject_cast<IntersectCircleLineVisual *>(vis);
+    SCASSERT(visual != nullptr)
 
-    line->setObject1Id(GetFirstPoint());
-    line->setLineP2Id(GetSecondPoint());
-    line->setRadiusId(getCenter());
-    line->setRadius(radius);
-    line->RefreshGeometry();
+    visual->setObject1Id(getFirstPoint());
+    visual->setLinePt2Id(getSecondPoint());
+    visual->setRadiusId(getCenter());
+    visual->setRadius(radius);
+    visual->RefreshGeometry();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogPointOfContact::closeEvent(QCloseEvent *event)
+void IntersectCircleLineDialog::closeEvent(QCloseEvent *event)
 {
     ui->plainTextEditFormula->blockSignals(true);
     DialogTool::closeEvent(event);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief SetSecondPoint set id second point
- * @param value id
- */
-void DialogPointOfContact::SetSecondPoint(const quint32 &value)
+/// @brief setSecondPoint set id second point
+/// @param value id
+//---------------------------------------------------------------------------------------------------------------------
+void IntersectCircleLineDialog::setSecondPoint(const quint32 &value)
 {
     setCurrentPointId(ui->comboBoxSecondPoint, value);
 
-    VisToolPointOfContact *line = qobject_cast<VisToolPointOfContact *>(vis);
-    SCASSERT(line != nullptr)
-    line->setLineP2Id(value);
+    IntersectCircleLineVisual *visual = qobject_cast<IntersectCircleLineVisual *>(vis);
+    SCASSERT(visual != nullptr)
+    visual->setLinePt2Id(value);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief SetFirstPoint set id first point
- * @param value id
- */
-void DialogPointOfContact::SetFirstPoint(const quint32 &value)
+/// @brief setFirstPoint set id first point
+/// @param value id
+//---------------------------------------------------------------------------------------------------------------------
+void IntersectCircleLineDialog::setFirstPoint(const quint32 &value)
 {
     setCurrentPointId(ui->comboBoxFirstPoint, value);
 
-    VisToolPointOfContact *line = qobject_cast<VisToolPointOfContact *>(vis);
-    SCASSERT(line != nullptr)
-    line->setObject1Id(value);
+    IntersectCircleLineVisual *visual = qobject_cast<IntersectCircleLineVisual *>(vis);
+    SCASSERT(visual != nullptr)
+    visual->setObject1Id(value);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief SetCenter set id of center point
- * @param value id
- */
-void DialogPointOfContact::setCenter(const quint32 &value)
+/// @brief SetCenter set id of center point
+/// @param value id
+//---------------------------------------------------------------------------------------------------------------------
+void IntersectCircleLineDialog::setCenter(const quint32 &value)
 {
     setCurrentPointId(ui->comboBoxCenter, value);
 
-    VisToolPointOfContact *line = qobject_cast<VisToolPointOfContact *>(vis);
-    SCASSERT(line != nullptr)
-    line->setRadiusId(value);
+    IntersectCircleLineVisual *visual = qobject_cast<IntersectCircleLineVisual *>(vis);
+    SCASSERT(visual != nullptr)
+    visual->setRadiusId(value);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief setRadius set formula radius of arc
- * @param value formula
- */
-void DialogPointOfContact::setRadius(const QString &value)
+/// @brief setRadius set formula radius of arc
+/// @param value formula
+//---------------------------------------------------------------------------------------------------------------------
+void IntersectCircleLineDialog::setRadius(const QString &value)
 {
     radius = qApp->translateVariables()->FormulaToUser(value, qApp->Settings()->getOsSeparator());
     // increase height if needed.
     if (radius.length() > 80)
     {
-        this->DeployFormulaTextEdit();
+        this->deployFormulaTextEdit();
     }
     ui->plainTextEditFormula->setPlainText(radius);
 
-    VisToolPointOfContact *line = qobject_cast<VisToolPointOfContact *>(vis);
-    SCASSERT(line != nullptr)
-    line->setRadius(radius);
+    IntersectCircleLineVisual *visual = qobject_cast<IntersectCircleLineVisual *>(vis);
+    SCASSERT(visual != nullptr)
+    visual->setRadius(radius);
 
     MoveCursorToEnd(ui->plainTextEditFormula);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief SetPointName set name of point
- * @param value name
- */
-void DialogPointOfContact::SetPointName(const QString &value)
+/// @brief setPointName set name of point
+/// @param value name
+//---------------------------------------------------------------------------------------------------------------------
+void IntersectCircleLineDialog::setPointName(const QString &value)
 {
     pointName = value;
     ui->lineEditNamePoint->setText(pointName);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief getRadius return formula radius of arc
- * @return formula
- */
-QString DialogPointOfContact::getRadius() const
+/// @brief getRadius return formula radius of arc
+/// @return formula
+//---------------------------------------------------------------------------------------------------------------------
+QString IntersectCircleLineDialog::getRadius() const
 {
     return qApp->translateVariables()->TryFormulaFromUser(radius, qApp->Settings()->getOsSeparator());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief GetCenter return id of center point
- * @return id
- */
-quint32 DialogPointOfContact::getCenter() const
+/// @brief GetCenter return id of center point
+/// @return id
+//---------------------------------------------------------------------------------------------------------------------
+quint32 IntersectCircleLineDialog::getCenter() const
 {
     return getCurrentObjectId(ui->comboBoxCenter);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief GetFirstPoint return id first point
- * @return id
- */
-quint32 DialogPointOfContact::GetFirstPoint() const
+/// @brief getFirstPoint return id first point
+/// @return id
+//---------------------------------------------------------------------------------------------------------------------
+quint32 IntersectCircleLineDialog::getFirstPoint() const
 {
     return getCurrentObjectId(ui->comboBoxFirstPoint);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief GetSecondPoint return id second point
- * @return id
- */
-quint32 DialogPointOfContact::GetSecondPoint() const
+/// @brief getSecondPoint return id second point
+/// @return id
+//---------------------------------------------------------------------------------------------------------------------
+quint32 IntersectCircleLineDialog::getSecondPoint() const
 {
     return getCurrentObjectId(ui->comboBoxSecondPoint);
 }

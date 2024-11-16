@@ -1030,7 +1030,7 @@
                  </property>
                  <property name="icon">
                   <iconset resource="share/resources/toolicon.qrc">
-                   <normaloff>:/toolicon/32x32/point_intersect_arc_line.png</normaloff>:/toolicon/32x32/point_intersect_arc_line.png</iconset>
+                   <normaloff>:/toolicon/32x32/point_intersect_circle_line.png</normaloff>:/toolicon/32x32/point_intersect_circle_line.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -3146,7 +3146,7 @@
    </property>
    <property name="icon">
     <iconset resource="share/resources/toolicon.qrc">
-     <normaloff>:/toolicon/32x32/point_intersect_arc_line.png</normaloff>:/toolicon/32x32/point_intersect_arc_line.png</iconset>
+     <normaloff>:/toolicon/32x32/point_intersect_circle_line.png</normaloff>:/toolicon/32x32/point_intersect_circle_line.png</iconset>
    </property>
    <property name="text">
     <string>Intersect  Arc and Line</string>

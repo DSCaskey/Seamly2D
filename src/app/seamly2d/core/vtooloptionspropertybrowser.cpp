@@ -160,7 +160,7 @@ void VToolOptionsPropertyBrowser::showItemOptions(QGraphicsItem *item)
         case VToolNormal::Type:
             showOptionsToolNormal(item);
             break;
-        case VToolPointOfContact::Type:
+        case IntersectCircleLineTool::Type:
             showOptionsToolPointOfContact(item);
             break;
         case PointIntersectXYTool::Type:
@@ -287,7 +287,7 @@ void VToolOptionsPropertyBrowser::updateOptions()
         case VToolNormal::Type:
             updateOptionsToolNormal();
             break;
-        case VToolPointOfContact::Type:
+        case IntersectCircleLineTool::Type:
             updateOptionsToolPointOfContact();
             break;
         case PointIntersectXYTool::Type:
@@ -432,7 +432,7 @@ void VToolOptionsPropertyBrowser::userChangedData(VPE::VProperty *property)
         case VToolNormal::Type:
             changeDataToolNormal(prop);
             break;
-        case VToolPointOfContact::Type:
+        case IntersectCircleLineTool::Type:
             changeDataToolPointOfContact(prop);
             break;
         case PointIntersectXYTool::Type:
@@ -1641,7 +1641,7 @@ void VToolOptionsPropertyBrowser::changeDataToolPointOfContact(VPE::VProperty *p
     QVariant value = property->data(VPE::VProperty::DPC_Data, Qt::DisplayRole);
     const QString id = propertyToId[property];
 
-    VToolPointOfContact *tool = qgraphicsitem_cast<VToolPointOfContact *>(currentItem);
+    IntersectCircleLineTool *tool = qgraphicsitem_cast<IntersectCircleLineTool *>(currentItem);
     SCASSERT(tool != nullptr)
     switch (propertiesList().indexOf(id))
     {
@@ -1649,7 +1649,7 @@ void VToolOptionsPropertyBrowser::changeDataToolPointOfContact(VPE::VProperty *p
             tool->setArcRadius(value.value<VFormula>());
             break;
         case 0: // AttrName
-            setPointName<VToolPointOfContact>(value.toString());
+            setPointName<IntersectCircleLineTool>(value.toString());
             break;
         case 11: // AttrCenter
             tool->setCenter(value.toInt());
@@ -2664,7 +2664,7 @@ void VToolOptionsPropertyBrowser::showOptionsToolNormal(QGraphicsItem *item)
 //---------------------------------------------------------------------------------------------------------------------
 void VToolOptionsPropertyBrowser::showOptionsToolPointOfContact(QGraphicsItem *item)
 {
-    VToolPointOfContact *tool = qgraphicsitem_cast<VToolPointOfContact *>(item);
+    IntersectCircleLineTool *tool = qgraphicsitem_cast<IntersectCircleLineTool *>(item);
     tool->ShowVisualization(true);
     formView->setTitle(tr("Point - Intersect Arc and Line"));
 
@@ -3506,7 +3506,7 @@ void VToolOptionsPropertyBrowser::updateOptionsToolNormal()
 //---------------------------------------------------------------------------------------------------------------------
 void VToolOptionsPropertyBrowser::updateOptionsToolPointOfContact()
 {
-    VToolPointOfContact *tool = qgraphicsitem_cast<VToolPointOfContact *>(currentItem);
+    IntersectCircleLineTool *tool = qgraphicsitem_cast<IntersectCircleLineTool *>(currentItem);
 
     QVariant valueFormula;
     valueFormula.setValue(tool->getArcRadius());

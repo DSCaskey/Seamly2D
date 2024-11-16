@@ -99,7 +99,7 @@
         <file>toolicon/32x32/point_basepoint_icon.png</file>
         <file>toolicon/32x32/point_basepoint_icon@2x.png</file>
         <file>toolicon/32x32/image_menu_icon.png</file>
-        <file>toolicon/32x32/point_intersect_arc_line.png</file>
-        <file>toolicon/32x32/point_intersect_arc_line@2x.png</file>
+        <file>toolicon/32x32/point_intersect_circle_line.png</file>
+        <file>toolicon/32x32/point_intersect_circle_line@2x.png</file>
     </qresource>
 </RCC>

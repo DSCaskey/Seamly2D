@@ -86,8 +86,8 @@
         <file>cursor/insert_nodes_cursor@2x.png</file>
         <file>cursor/arrow_resize_cursor.png</file>
         <file>cursor/arrow_resize_cursor@2x.png</file>
-        <file>cursor/point_intersect_arc_line_cursor.png</file>
-        <file>cursor/point_intersect_arc_line_cursor@2x.png</file>
+        <file>cursor/point_intersect_circle_line_cursor.png</file>
+        <file>cursor/point_intersect_circle_line_cursor@2x.png</file>
         <file>cursor/image_origin_cursor.png</file>
     </qresource>
 </RCC>

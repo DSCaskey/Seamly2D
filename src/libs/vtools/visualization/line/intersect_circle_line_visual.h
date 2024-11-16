@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------
-//  @file   vistoolpointofcontact.h
+//  @file   intersect_circle_line_visual.h
 //  @author Douglas S Caskey
 //  @date   13 Nov, 2024
 //
@@ -49,8 +49,8 @@
 //---------------------------------------------------------------------------------------------------------------------
 
 
-#ifndef VISTOOLPOINTOFCONTACT_H
-#define VISTOOLPOINTOFCONTACT_H
+#ifndef INTERSECT_CIRCLE_LINE_VISUAL_H
+#define INTERSECT_CIRCLE_LINE_VISUAL_H
 
 #include <qcompilerdetection.h>
 #include <QColor>
@@ -63,22 +63,22 @@
 #include "../vmisc/def.h"
 #include "visline.h"
 
-class VisToolPointOfContact : public VisLine
+class IntersectCircleLineVisual : public VisLine
 {
     Q_OBJECT
 public:
-    explicit              VisToolPointOfContact(const VContainer *data, QGraphicsItem *parent = nullptr);
-    virtual              ~VisToolPointOfContact() = default;
+    explicit              IntersectCircleLineVisual(const VContainer *data, QGraphicsItem *parent = nullptr);
+    virtual              ~IntersectCircleLineVisual() = default;
 
     virtual void          RefreshGeometry() Q_DECL_OVERRIDE;
-    void                  setLineP2Id(const quint32 &value);
+    void                  setLinePt2Id(const quint32 &value);
     void                  setRadiusId(const quint32 &value);
     void                  setRadius(const QString &expression);
     virtual int           type() const Q_DECL_OVERRIDE {return Type;}
     enum                  {Type = UserType + static_cast<int>(Vis::ToolPointOfContact)};
 
 private:
-    Q_DISABLE_COPY(VisToolPointOfContact)
+    Q_DISABLE_COPY(IntersectCircleLineVisual)
     quint32               m_lineP2Id;
     quint32               m_centerId;
     VScaledEllipse       *m_point;
@@ -92,4 +92,4 @@ private:
     QColor                m_secondrySupportColor;
 };
 
-#endif // VISTOOLPOINTOFCONTACT_H
+#endif // INTERSECT_CIRCLE_LINE_VISUAL_H

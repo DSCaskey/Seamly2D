@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------------------------------------------------
-//  @file   vistoolpointofcontact.cpp
+//  @file   intersect_circle_line_visual.cpp
 //  @author Douglas S Caskey
 //  @date   13 Nov, 2024
 //
@@ -48,7 +48,7 @@
 //  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
 //---------------------------------------------------------------------------------------------------------------------
 
-#include "vistoolpointofcontact.h"
+#include "intersect_circle_line_visual.h"
 
 #include <QGraphicsEllipseItem>
 #include <QLineF>
@@ -57,7 +57,7 @@
 #include <Qt>
 #include <new>
 
-#include "../../tools/drawTools/toolpoint/toolsinglepoint/vtoolpointofcontact.h"
+#include "../../tools/drawTools/toolpoint/toolsinglepoint/intersect_circle_line_tool.h"
 #include "../ifc/ifcdef.h"
 #include "../vgeometry/vpointf.h"
 #include "../vpatterndb/vcontainer.h"
@@ -65,7 +65,7 @@
 #include "visline.h"
 
 //---------------------------------------------------------------------------------------------------------------------
-VisToolPointOfContact::VisToolPointOfContact(const VContainer *data, QGraphicsItem *parent)
+IntersectCircleLineVisual::IntersectCircleLineVisual(const VContainer *data, QGraphicsItem *parent)
     : VisLine(data, parent)
     , m_lineP2Id(NULL_ID)
     , m_centerId(NULL_ID)
@@ -90,7 +90,7 @@ VisToolPointOfContact::VisToolPointOfContact(const VContainer *data, QGraphicsIt
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void VisToolPointOfContact::RefreshGeometry()
+void IntersectCircleLineVisual::RefreshGeometry()
 {
     if (object1Id > NULL_ID)
     {
@@ -123,9 +123,9 @@ void VisToolPointOfContact::RefreshGeometry()
 
                 if (!qFuzzyIsNull(m_radius))
                 {
-                    QPointF toolPoint = VToolPointOfContact::FindPoint(m_radius, static_cast<QPointF>(*center),
-                                                                       static_cast<QPointF>(*first),
-                                                                       static_cast<QPointF>(*second));
+                    QPointF toolPoint = IntersectCircleLineTool::FindPoint(m_radius, static_cast<QPointF>(*center),
+                                                                           static_cast<QPointF>(*first),
+                                                                           static_cast<QPointF>(*second));
                     DrawPoint(m_point, toolPoint, mainColor);
 
                     m_circle->setRect(pointRect(m_radius));
@@ -142,19 +142,19 @@ void VisToolPointOfContact::RefreshGeometry()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void VisToolPointOfContact::setLineP2Id(const quint32 &value)
+void IntersectCircleLineVisual::setLinePt2Id(const quint32 &value)
 {
     m_lineP2Id = value;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void VisToolPointOfContact::setRadiusId(const quint32 &value)
+void IntersectCircleLineVisual::setRadiusId(const quint32 &value)
 {
     m_centerId = value;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void VisToolPointOfContact::setRadius(const QString &expression)
+void IntersectCircleLineVisual::setRadius(const QString &expression)
 {
     m_radius = FindLength(expression, Visualization::data->DataVariables());
 }

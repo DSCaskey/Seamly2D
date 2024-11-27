@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(schema);
     Q_INIT_RESOURCE(flags);
 
-    QT_REQUIRE_VERSION(argc, argv, "5.15.2");
+    QT_REQUIRE_VERSION(argc, argv, "6.2.4");
 
 #ifndef Q_OS_MAC // supports natively
     initHighDpiScaling(argc, argv);

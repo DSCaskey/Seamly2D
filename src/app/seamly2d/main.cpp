@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(toolicon);
     Q_INIT_RESOURCE(sounds);
 
-    // Check if the Qt version is at least 5.15.2
-    QT_REQUIRE_VERSION(argc, argv, "5.15.2");
+    // Check if the Qt version is at least 6.2.4
+    QT_REQUIRE_VERSION(argc, argv, "6.2.4");
 
     //------------------------------------------------------------------------
     // On macOS, correct WebView / QtQuick compositing and stacking requires running

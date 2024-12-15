@@ -5212,25 +5212,33 @@ void MainWindow::ReadSettings()
 {
     qCDebug(vMainWindow, "Reading settings.");
     const VSettings *settings = qApp->Seamly2DSettings();
-    restoreGeometry(settings->GetGeometry());
-    restoreState(settings->GetWindowState());
-    restoreState(settings->GetToolbarsState(), APP_VERSION);
 
-    // Scene antialiasing
-    const bool graphOutputValue = settings->GetGraphicalOutput();
-    ui->view->setRenderHint(QPainter::Antialiasing, graphOutputValue);
-    ui->view->setRenderHint(QPainter::SmoothPixmapTransform, graphOutputValue);
+    if (settings->status() == QSettings::NoError)
+    {
+        restoreGeometry(settings->GetGeometry());
+        //restoreState(settings->GetWindowState());
+        restoreState(settings->GetToolbarsState(), APP_VERSION);
 
-    // Stack limit
-    qApp->getUndoStack()->setUndoLimit(settings->GetUndoCount());
+        // Scene antialiasing
+        const bool graphOutputValue = settings->GetGraphicalOutput();
+        ui->view->setRenderHint(QPainter::Antialiasing, graphOutputValue);
+        ui->view->setRenderHint(QPainter::SmoothPixmapTransform, graphOutputValue);
 
-    // Text under tool button icon
-    ToolBarStyles();
+        // Stack limit
+        qApp->getUndoStack()->setUndoLimit(settings->GetUndoCount());
 
-    isToolOptionsDockVisible = ui->toolProperties_DockWidget->isVisible();
-    isGroupsDockVisible      = ui->groups_DockWidget->isVisible();
-    isLayoutsDockVisible     = ui->layoutPages_DockWidget->isVisible();
-    isToolboxDockVisible     = ui->toolbox_DockWidget->isVisible();
+        // Text under tool button icon
+        ToolBarStyles();
+
+        isToolOptionsDockVisible = ui->toolProperties_DockWidget->isVisible();
+        isGroupsDockVisible      = ui->groups_DockWidget->isVisible();
+        isLayoutsDockVisible     = ui->layoutPages_DockWidget->isVisible();
+        isToolboxDockVisible     = ui->toolbox_DockWidget->isVisible();
+    }
+    else
+    {
+        qWarning() << tr("Cannot read settings from .INI file.");
+    }
 }
 
 //---------------------------------------------------------------------------------------------------------------------

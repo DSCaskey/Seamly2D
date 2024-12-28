@@ -303,16 +303,16 @@ bool TMainWindow::LoadFile(const QString &path)
 			if (mType == MeasurementsType::Multisize)
 			{
 				MultiSizeConverter converter(filename);
-				m_curFileFormatVersion = converter.GetCurrentFormatVarsion();
-				m_curFileFormatVersionStr = converter.GetVersionStr();
+				m_curFileFormatVersion = converter.getCurrentFormatVersion();
+				m_curFileFormatVersionStr = converter.getVersionStr();
 				individualMeasurements->setXMLContent(converter.Convert());// Read again after conversion
                 filename.replace(QLatin1String(".vst"), QLatin1String(".smms"));
 			}
 			else
 			{
 				IndividualSizeConverter converter(filename);
-				m_curFileFormatVersion = converter.GetCurrentFormatVarsion();
-				m_curFileFormatVersionStr = converter.GetVersionStr();
+				m_curFileFormatVersion = converter.getCurrentFormatVersion();
+				m_curFileFormatVersionStr = converter.getVersionStr();
 				individualMeasurements->setXMLContent(converter.Convert());// Read again after conversion
                 filename.replace(QLatin1String(".vit"), QLatin1String(".smis"));
 			}
@@ -1507,7 +1507,7 @@ void TMainWindow::Fx()
 	try
 	{
 	   // Translate to internal look.
-	   meash = data->GetVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
+	   meash = data->getVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
 	}
 
 	catch(const VExceptionBadId &exception)
@@ -1518,7 +1518,7 @@ void TMainWindow::Fx()
 		return;
 	}
 
-	EditFormulaDialog *dialog = new EditFormulaDialog(meash->GetData(), NULL_ID, this);
+	EditFormulaDialog *dialog = new EditFormulaDialog(meash->GetData(), NULL_ID, MeasurementDialog, this);
 	dialog->setWindowTitle(tr("Edit measurement"));
 	dialog->SetFormula(qApp->translateVariables()->TryFormulaFromUser(ui->plainTextEditFormula->toPlainText().replace("\n", " "),
 														  true));
@@ -1746,7 +1746,7 @@ void TMainWindow::ShowNewMData(bool fresh)
 		try
 		{
 			// Translate to internal look.
-			meash = data->GetVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
+			meash = data->getVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
 		}
 
 		catch(const VExceptionBadId &exception)
@@ -1877,7 +1877,7 @@ void TMainWindow::SaveMName(const QString &text)
 	try
 	{
 		// Translate to internal look.
-		meash = data->GetVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
+		meash = data->getVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
 	}
 
 	catch(const VExceptionBadId &exception)
@@ -1957,7 +1957,7 @@ void TMainWindow::SaveMValue()
 	try
 	{
 		// Translate to internal look.
-		meash = data->GetVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
+		meash = data->getVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
 	}
 
 	catch(const VExceptionBadId &exception)
@@ -2117,7 +2117,7 @@ void TMainWindow::SaveMFullName()
 	try
 	{
 		// Translate to internal look.
-		meash = data->GetVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
+		meash = data->getVariable<MeasurementVariable>(nameField->data(Qt::UserRole).toString());
 	}
 
 	catch(const VExceptionBadId &exception)
@@ -2427,7 +2427,7 @@ void TMainWindow::InitWindow()
 		ShowInGraphicalShell(curFile);
 	});
 
-	InitUnits();
+	initUnits();
 
 	initializeTable();
 }
@@ -3138,8 +3138,8 @@ bool TMainWindow::LoadFromExistingFile(const QString &path)
 			else
 			{
 				IndividualSizeConverter converter(path);
-				m_curFileFormatVersion = converter.GetCurrentFormatVarsion();
-				m_curFileFormatVersionStr = converter.GetVersionStr();
+				m_curFileFormatVersion = converter.getCurrentFormatVersion();
+				m_curFileFormatVersionStr = converter.getVersionStr();
 				individualMeasurements->setXMLContent(converter.Convert());// Read again after conversion
 			}
 
@@ -3373,7 +3373,7 @@ void TMainWindow::SetDecimals()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void TMainWindow::InitUnits()
+void TMainWindow::initUnits()
 {
 	labelPatternUnit = new QLabel(tr("Pattern unit:"));
 	ui->toolBarGradation->addWidget(labelPatternUnit);

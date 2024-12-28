@@ -88,7 +88,7 @@ VToolEllipticalArc::VToolEllipticalArc(VAbstractPattern *doc, VContainer *data, 
                                        QGraphicsItem *parent)
     :VAbstractSpline(doc, data, id, parent)
 {
-    sceneType = SceneObject::ElArc;
+    m_sceneType = SceneObject::ElArc;
 
     this->setFlag(QGraphicsItem::ItemIsFocusable, true);// For keyboard input focus
 
@@ -209,7 +209,7 @@ VToolEllipticalArc* VToolEllipticalArc::Create(const quint32 _id, const quint32 
         VDrawTool::AddRecord(id, Tool::EllipticalArc, doc);
         VToolEllipticalArc *toolEllipticalArc = new VToolEllipticalArc(doc, data, id, typeCreation);
         scene->addItem(toolEllipticalArc);
-        InitElArcToolConnections(scene, toolEllipticalArc);
+        initElArcToolConnections(scene, toolEllipticalArc);
         VAbstractPattern::AddTool(id, toolEllipticalArc);
         doc->IncrementReferens(c.getIdTool());
         return toolEllipticalArc;
@@ -491,7 +491,7 @@ QString VToolEllipticalArc::makeToolTip() const
 {
     const QSharedPointer<VEllipticalArc> elArc = VAbstractTool::data.GeometricObject<VEllipticalArc>(m_id);
 
-    const QString toolTip = QString("<table>"
+    const QString toolTip = QString("<table style=font-size:11pt; font-weight:600>"
                                     "<tr> <td><b>%12:</b> %13</td> </tr>"
                                     "<tr> <td><b>%1:</b> %2 %3</td> </tr>"
                                     "<tr> <td><b>%4:</b> %5 %3</td> </tr>"

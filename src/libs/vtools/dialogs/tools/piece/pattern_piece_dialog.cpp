@@ -1,26 +1,26 @@
-/***************************************************************************
- **  @file   pattern_piece_dialog.cpp
- **  @author Douglas S Caskey
- **  @date   17 Sep, 2023
- **
- **  @copyright
- **  Copyright (C) 2017 - 2022 Seamly, LLC
- **  https://github.com/fashionfreedom/seamly2d
- **
- **  @brief
- **  Seamly2D is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Seamly2D is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D. if not, see <http://www.gnu.org/licenses/>.
- **************************************************************************/
+//  @file   pattern_piece_dialog.cpp
+//  @author Douglas S Caskey
+//  @date   17 Sep, 2023
+//
+//  @brief
+//  @copyright
+//  This source code is part of the Seamly2D project, a pattern making
+//  program to create and model patterns of clothing.
+//  Copyright (C) 2017-2024 Seamly2D project
+//  <https://github.com/fashionfreedom/seamly2d> All Rights Reserved.
+//
+//  Seamly2D is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Seamly2D is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
 
 /************************************************************************
  **
@@ -146,6 +146,9 @@ PatternPieceDialog::PatternPieceDialog(const VContainer *data, const quint32 &to
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowIcon(QIcon(":/toolicon/32x32/new_piece.png"));
+
+    // Set the position that the dialog opens based on user preference. 
+    setDialogPosition();
 
     //Limit dialog height to 80% of screen size
     setMaximumHeight(qRound(QGuiApplication::primaryScreen()->availableGeometry().height() * .8));
@@ -313,7 +316,7 @@ void PatternPieceDialog::SetPiece(const VPiece &piece)
     ui->fold_CheckBox->setChecked(m_oldData.IsOnFold());
     m_pieceLabelLines = m_oldData.GetLabelTemplate();
 
-    ui->arrow_ComboBox->setCurrentIndex(int(piece.GetGrainlineGeometry().GetArrowType()));
+    ui->arrow_ComboBox->setCurrentIndex(int(piece.GetGrainlineGeometry().getArrowType()));
 
     ui->pieceLabel_GroupBox->setChecked(m_oldData.IsVisible());
     ChangeCurrentData(ui->pieceLabelCenterAnchor_ComboBox, m_oldData.centerAnchorPoint());
@@ -337,8 +340,8 @@ void PatternPieceDialog::SetPiece(const VPiece &piece)
     ChangeCurrentData(ui->grainlineCenterAnchor_ComboBox, m_oldGrainline.centerAnchorPoint());
     ChangeCurrentData(ui->grainlineTopAnchor_ComboBox, m_oldGrainline.topAnchorPoint());
     ChangeCurrentData(ui->grainlineBottomAnchor_ComboBox, m_oldGrainline.bottomAnchorPoint());
-    setGrainlineAngle(m_oldGrainline.GetRotation());
-    setGrainlineLength(m_oldGrainline.GetLength());
+    setGrainlineAngle(m_oldGrainline.getRotation());
+    setGrainlineLength(m_oldGrainline.getLength());
 
     validateObjects(isMainPathValid());
     enabledGrainline();
@@ -1981,7 +1984,7 @@ void PatternPieceDialog::editGrainlineFormula()
         return;
     }
 
-    EditFormulaDialog dialog(data, NULL_ID, this);
+    EditFormulaDialog dialog(data, NULL_ID, ToolDialog, this);
     dialog.setWindowTitle(title);
     dialog.SetFormula(qApp->translateVariables()->TryFormulaFromUser(labelFormula->toPlainText(), qApp->Settings()->getOsSeparator()));
     dialog.setCheckZero(checkForZero);
@@ -2038,7 +2041,7 @@ void PatternPieceDialog::editPieceLabelFormula()
         return;
     }
 
-    EditFormulaDialog dialog(data, NULL_ID, this);
+    EditFormulaDialog dialog(data, NULL_ID, ToolDialog, this);
     dialog.setWindowTitle(title);
     dialog.SetFormula(qApp->translateVariables()->TryFormulaFromUser(labelFormula->toPlainText(), qApp->Settings()->getOsSeparator()));
     dialog.setCheckZero(checkForZero);
@@ -2098,7 +2101,7 @@ void PatternPieceDialog::editPatternLabelFormula()
         return;
     }
 
-    EditFormulaDialog dialog(data, NULL_ID, this);
+    EditFormulaDialog dialog(data, NULL_ID, ToolDialog, this);
     dialog.setWindowTitle(title);
     dialog.SetFormula(qApp->translateVariables()->TryFormulaFromUser(labelFormula->toPlainText(), qApp->Settings()->getOsSeparator()));
     dialog.setCheckZero(checkForZero);
@@ -2164,7 +2167,7 @@ void PatternPieceDialog::evaluateDefaultWidth()
     if (m_saWidth >= 0)
     {
         VContainer *locData = const_cast<VContainer *> (data);
-        locData->AddVariable(currentSeamAllowance, new VIncrement(locData, currentSeamAllowance, 0, m_saWidth,
+        locData->AddVariable(currentSeamAllowance, new CustomVariable(locData, currentSeamAllowance, 0, m_saWidth,
                                                                   QString().setNum(m_saWidth), true,
                                                                   tr("Current seam allowance")));
 
@@ -2208,7 +2211,7 @@ void PatternPieceDialog::evaluateAfterWidth()
 //---------------------------------------------------------------------------------------------------------------------
 void PatternPieceDialog::editDefaultSeamAllowanceWidth()
 {
-    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, this);
+    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width"));
     dialog->SetFormula(getSeamAllowanceWidthFormula());
     dialog->setCheckLessThanZero(true);
@@ -2223,7 +2226,7 @@ void PatternPieceDialog::editDefaultSeamAllowanceWidth()
 //---------------------------------------------------------------------------------------------------------------------
 void PatternPieceDialog::editBeforeSeamAllowanceWidth()
 {
-    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, this);
+    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width before"));
     dialog->SetFormula(getFormulaFromUser(ui->beforeWidthFormula_PlainTextEdit));
     dialog->setCheckLessThanZero(true);
@@ -2238,7 +2241,7 @@ void PatternPieceDialog::editBeforeSeamAllowanceWidth()
 //---------------------------------------------------------------------------------------------------------------------
 void PatternPieceDialog::editAfterSeamAllowanceWidth()
 {
-    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, this);
+    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width after"));
     dialog->SetFormula(getFormulaFromUser(ui->afterWidthFormula_PlainTextEdit));
     dialog->setCheckLessThanZero(true);
@@ -2454,9 +2457,9 @@ VPiece PatternPieceDialog::CreatePiece() const
 
     piece.GetGrainlineGeometry() = m_oldGrainline;
     piece.GetGrainlineGeometry().SetVisible(ui->grainline_GroupBox->isChecked());
-    piece.GetGrainlineGeometry().SetRotation(getFormulaFromUser(ui->rotationFormula_LineEdit));
-    piece.GetGrainlineGeometry().SetLength(getFormulaFromUser(ui->lengthFormula_LineEdit));
-    piece.GetGrainlineGeometry().SetArrowType(static_cast<ArrowType>(ui->arrow_ComboBox->currentIndex()));
+    piece.GetGrainlineGeometry().setRotation(getFormulaFromUser(ui->rotationFormula_LineEdit));
+    piece.GetGrainlineGeometry().setLength(getFormulaFromUser(ui->lengthFormula_LineEdit));
+    piece.GetGrainlineGeometry().setArrowType(static_cast<ArrowType>(ui->arrow_ComboBox->currentIndex()));
     piece.GetGrainlineGeometry().setCenterAnchorPoint(getCurrentObjectId(ui->grainlineCenterAnchor_ComboBox));
     piece.GetGrainlineGeometry().setTopAnchorPoint(getCurrentObjectId(ui->grainlineTopAnchor_ComboBox));
     piece.GetGrainlineGeometry().setBottomAnchorPoint(getCurrentObjectId(ui->grainlineBottomAnchor_ComboBox));
@@ -2910,7 +2913,7 @@ void PatternPieceDialog::initializeSeamAllowanceTab()
 
     // Initialize the default seam allowance, convert the value if app unit is different than pattern unit
     m_saWidth = UnitConvertor(qApp->Settings()->GetDefaultSeamAllowance(),
-                              StrToUnits(qApp->Settings()->GetUnit()), qApp->patternUnit());
+                              StrToUnits(qApp->Settings()->getUnit()), qApp->patternUnit());
 
     ui->widthFormula_PlainTextEdit->setPlainText(qApp->LocaleToString(m_saWidth));
 
@@ -3071,7 +3074,7 @@ void PatternPieceDialog::initializeLabelsTab()
     if (m_pieceLabelLines.isEmpty())
     {
         VLabelTemplate labelTemplate;
-        QString filename = qApp->Settings()->getDefaultPatternTemplate();
+        QString filename = qApp->Settings()->getDefaultPieceTemplate();
         if (QFileInfo(filename).exists())
         {
             labelTemplate.setXMLContent(VLabelTemplateConverter(filename).Convert());
@@ -3179,8 +3182,36 @@ void PatternPieceDialog::initializeNotchesTab()
 {
     initializeNotchesList();
 
-    ui->notchLength_DoubleSpinBox->setValue(qApp->Settings()->getDefaultNotchLength());
-    ui->notchWidth_DoubleSpinBox->setValue(qApp->Settings()->getDefaultNotchWidth());
+    switch (qApp->patternUnit())
+    {
+        case Unit::Cm:
+            {
+                ui->notchLength_DoubleSpinBox->setMaximum(4);
+                ui->notchWidth_DoubleSpinBox->setMaximum(1.25);
+                break;
+            }
+        case Unit::Mm:
+            {
+                ui->notchLength_DoubleSpinBox->setMaximum(40);
+                ui->notchWidth_DoubleSpinBox->setMaximum(12.50);
+                break;
+            }
+        case Unit::Inch:
+        default:
+            {
+                ui->notchLength_DoubleSpinBox->setMaximum(1.50);
+                ui->notchWidth_DoubleSpinBox->setMaximum(.50);
+                break;
+            }
+    }
+    QString unitStr = QString(" " + UnitsToStr(qApp->patternUnit(), true)).left(3);
+    ui->notchLength_DoubleSpinBox->setValue(UnitConvertor(qApp->Settings()->getDefaultNotchLength(),
+                              StrToUnits(qApp->Settings()->getUnit()), qApp->patternUnit()));
+
+    ui->notchLength_DoubleSpinBox->setSuffix(unitStr);
+    ui->notchWidth_DoubleSpinBox->setValue(UnitConvertor(qApp->Settings()->getDefaultNotchWidth(),
+                              StrToUnits(qApp->Settings()->getUnit()), qApp->patternUnit()));
+    ui->notchWidth_DoubleSpinBox->setSuffix(unitStr);
     ui->showNotch_CheckBox->setChecked(qApp->Settings()->showSeamAllowanceNotch());
     ui->showSeamlineNotch_CheckBox->setChecked(qApp->Settings()->showSeamlineNotch());
 

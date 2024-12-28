@@ -62,20 +62,23 @@
 
 //---------------------------------------------------------------------------------------------------------------------
 DialogInternalPath::DialogInternalPath(const VContainer *data, quint32 toolId, QWidget *parent)
-    : DialogTool(data, toolId, parent),
-      ui(new Ui::DialogInternalPath),
-      m_showMode(false),
-      m_saWidth(0),
-      m_timerWidth(nullptr),
-      m_timerWidthBefore(nullptr),
-      m_timerWidthAfter(nullptr),
-      m_widthFormula(0),
-      m_beforeWidthFormula(0),
-      m_afterWidthFormula(0)
+    : DialogTool(data, toolId, parent)
+    , ui(new Ui::DialogInternalPath)
+    , m_showMode(false)
+    , m_saWidth(0)
+    , m_timerWidth(nullptr)
+    , m_timerWidthBefore(nullptr)
+    , m_timerWidthAfter(nullptr)
+    , m_widthFormula(0)
+    , m_beforeWidthFormula(0)
+    , m_afterWidthFormula(0)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setWindowIcon(QIcon(":/toolicon/32x32/path.png"));
+
+    // Set the position that the dialog opens based on user preference.
+    setDialogPosition();
 
     initializeOkCancel(ui);
 
@@ -617,7 +620,7 @@ void DialogInternalPath::evaluateDefaultWidth()
     if (m_saWidth >= 0)
     {
         VContainer *locData = const_cast<VContainer *> (data);
-        locData->AddVariable(currentSeamAllowance, new VIncrement(locData, currentSeamAllowance, 0, m_saWidth,
+        locData->AddVariable(currentSeamAllowance, new CustomVariable(locData, currentSeamAllowance, 0, m_saWidth,
                                                                   QString().setNum(m_saWidth), true,
                                                                   tr("Current seam allowance")));
 
@@ -665,7 +668,7 @@ void DialogInternalPath::evaluateAfterWidth()
 //---------------------------------------------------------------------------------------------------------------------
 void DialogInternalPath::editDefaultSeamAllowanceWidth()
 {
-    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, this);
+    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width"));
     dialog->SetFormula(getSeamAllowanceWidthFormula());
     dialog->setCheckLessThanZero(true);
@@ -680,7 +683,7 @@ void DialogInternalPath::editDefaultSeamAllowanceWidth()
 //---------------------------------------------------------------------------------------------------------------------
 void DialogInternalPath::editBeforeSeamAllowanceWidth()
 {
-    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, this);
+    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width before"));
     dialog->SetFormula(getSeamAllowanceWidthFormulaBefore());
     dialog->setCheckLessThanZero(true);
@@ -695,7 +698,7 @@ void DialogInternalPath::editBeforeSeamAllowanceWidth()
 //---------------------------------------------------------------------------------------------------------------------
 void DialogInternalPath::editAfterSeamAllowanceWidth()
 {
-    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, this);
+    EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width after"));
     dialog->SetFormula(getSeamAllowanceWidthFormulaAfter());
     dialog->setCheckLessThanZero(true);

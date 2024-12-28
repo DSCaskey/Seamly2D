@@ -1,29 +1,26 @@
-/******************************************************************************
- *   @file   vcommonsettings.cpp
- **  @author Douglas S Caskey
- **  @date   14 Jul, 2023
- **
- **  @brief
- **  @copyright
- **  This source code is part of the Seamly2D project, a pattern making
- **  program to create and model patterns of clothing.
- **  Copyright (C) 2017-2023 Seamly2D project
- **  <https://github.com/fashionfreedom/seamly2d> All Rights Reserved.
- **
- **  Seamly2D is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Seamly2D is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
- **
- *************************************************************************/
+//  @file   vcommonsettings.h
+//  @author Douglas S Caskey
+//  @date   17 Sep, 2023
+//
+//  @brief
+//  @copyright
+//  This source code is part of the Seamly2D project, a pattern making
+//  program to create and model patterns of clothing.
+//  Copyright (C) 2017-2024 Seamly2D project
+//  <https://github.com/fashionfreedom/seamly2d> All Rights Reserved.
+//
+//  Seamly2D is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Seamly2D is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
 
 /************************************************************************
  **
@@ -101,6 +98,14 @@ public:
     QString              getLabelTemplatePath() const;
     void                 SetPathLabelTemplate(const QString &value);
 
+    static QString       getDefaultImageFilePath();
+    QString              getImageFilePath() const;
+    void                 setImageFilePath(const QString &value);
+
+    static QString       getDefaultBackupFilePath();
+    QString              getBackupFilePath() const;
+    void                 setBackupFilePath(const QString &value);
+
     QString              getDefaultPatternTemplate() const;
     void                 setDefaultPatternTemplate(const QString &text);
 
@@ -112,6 +117,9 @@ public:
 
     bool                 getOsSeparator() const;
     void                 setOsSeparator(const bool &value);
+
+    bool                 getConvertBackupEnabled() const;
+    void                 setConvertBackupEnabled(const bool &value);
 
     bool                 GetAutosaveState() const;
     void                 setAutosaveState(const bool &value);
@@ -137,7 +145,7 @@ public:
     QString              GetPMSystemCode() const;
     void                 SetPMSystemCode(const QString &value);
 
-    QString              GetUnit() const;
+    QString              getUnit() const;
     void                 SetUnit(const QString &value);
 
     bool                 getConfirmItemDelete() const;
@@ -188,6 +196,18 @@ public:
     bool                 getShowLayoutToolBar() const;
     void                 setShowLayoutToolBar(const bool &value);
 
+    bool                 useSecondMonitor() const;
+    void                 setUseSecondMonitor(const bool &value);
+
+    int                  getDialogPosition() const;
+    void                 setDialogPosition(const int &value);
+
+    int                  getXOffset() const;
+    void                 setXOffset(const int &value);
+
+    int                  getYOffset() const;
+    void                 setYOffset(const int &value);
+
     bool                 getShowScrollBars() const;
     void                 setShowScrollBars(const bool &value);
 
@@ -211,6 +231,9 @@ public:
 
     bool                 isPanActiveSpaceKey() const;
     void                 setPanActiveSpaceKey(const bool &value);
+
+    bool                 useCurrentPen() const;
+    void                 setUseCurrentPen(const bool &value);
 
     int                  getZoomSpeedFactor() const;
     void                 setZoomSpeedFactor(const int &factor);
@@ -321,8 +344,8 @@ public:
     QSize                GetFormulaWizardDialogSize() const;
     void                 SetFormulaWizardDialogSize(const QSize& sz);
 
-    QSize                GetIncrementsDialogSize() const;
-    void                 SetIncrementsDialogSize(const QSize& sz);
+    QSize                getVariablesDialogSize() const;
+    void                 setVariablesDialogSize(const QSize& sz);
 
     int                  GetLatestSkippedVersion() const;
     void                 SetLatestSkippedVersion(int value);
@@ -425,6 +448,9 @@ public:
 
     qreal                getDefaultGrainlineLineweight() const;
     void                 setDefaultGrainlineLineweight(const qreal &value);
+
+    qreal                getDefaultArrowLength() const;
+    void                 setDefaultArrowLength(const qreal &value);
 
     bool                 showLabels() const;
     void                 setShowLabels(const bool &value);

@@ -1,13 +1,12 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d4/d3d/classVInternalVariable.html" title=" " alt="" coords="5,169,140,196"/>
-<area shape="rect" id="node2" href="$d3/d5a/classVCurveVariable.html" title=" " alt="" coords="188,93,311,120"/>
-<area shape="rect" id="node7" href="$d6/d57/classVLengthLine.html" title=" " alt="" coords="198,144,301,171"/>
-<area shape="rect" id="node8" href="$d1/d88/classVLineAngle.html" title=" " alt="" coords="202,195,297,221"/>
-<area shape="rect" id="node9" href="$da/d49/classVVariable.html" title=" " alt="" coords="207,245,291,272"/>
-<area shape="rect" id="node3" href="$d1/dd4/classVArcRadius.html" title=" " alt="" coords="394,5,489,32"/>
-<area shape="rect" id="node4" href="$d1/ddd/classVCurveAngle.html" title=" " alt="" coords="388,56,495,83"/>
-<area shape="rect" id="node5" href="$de/d77/classVCurveCLength.html" title=" " alt="" coords="380,107,503,133"/>
-<area shape="rect" id="node6" href="$d8/d38/classVCurveLength.html" title=" " alt="" coords="385,157,498,184"/>
-<area shape="rect" id="node10" href="$d5/d38/classMeasurementVariable.html" title="The MeasurementVariable class keep data row of multisize table." alt="" coords="359,220,524,247"/>
-<area shape="rect" id="node11" href="$dd/d0c/classVIncrement.html" title="The VIncrement class keep data row of increment table." alt="" coords="393,271,490,297"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,183,101,209"/>
+<area shape="rect" id="node2" href="$de/d09/classVException.html" title="The VException class parent for all exception. Could be use for abstract exception." alt="" coords="183,157,277,184"/>
+<area shape="rect" id="node10" href="$df/ddc/classqmu_1_1QmuParserError.html" title="Error class of the parser." alt="" coords="149,208,311,235"/>
+<area shape="rect" id="node3" href="$de/da9/classVExceptionBadId.html" title="The VExceptionBadId class for exception bad id." alt="" coords="395,5,527,32"/>
+<area shape="rect" id="node4" href="$d1/d99/classVExceptionConversionError.html" title="The VExceptionConversionError class for exception of conversion error." alt="" coords="361,56,560,83"/>
+<area shape="rect" id="node5" href="$d9/d43/classVExceptionEmptyParameter.html" title="The VExceptionEmptyParameter class for exception empty parameter." alt="" coords="359,107,563,133"/>
+<area shape="rect" id="node6" href="$d7/d41/classVExceptionObjectError.html" title="The VExceptionObjectError class for exception object error." alt="" coords="377,157,545,184"/>
+<area shape="rect" id="node7" href="$d3/d58/classVExceptionToolWasDeleted.html" title=" " alt="" coords="361,208,560,235"/>
+<area shape="rect" id="node8" href="$dc/d27/classVExceptionUndo.html" title=" " alt="" coords="396,259,525,285"/>
+<area shape="rect" id="node9" href="$d9/dcf/classVExceptionWrongId.html" title="The VExceptionWrongId class for exception wrong id." alt="" coords="386,309,535,336"/>
 </map>

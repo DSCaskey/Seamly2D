@@ -5792,6 +5792,7 @@ void MainWindow::createActions()
     {
         qApp->Seamly2DSettings()->setWireframe(checked);
         emit ui->view->itemClicked(nullptr);  // Clear Property Editor with non valid tool selection
+        emit doc->FullUpdateFromFile();
         upDateScenes();
     });
 

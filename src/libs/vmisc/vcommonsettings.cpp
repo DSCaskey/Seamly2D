@@ -143,6 +143,7 @@ const QString settingGraphicsViewZoomDoubleClick         = QStringLiteral("graph
 const QString settingGraphicsViewPanActiveSpaceKey       = QStringLiteral("graphicsview/panActiveSpaceKey");
 const QString settingGraphicsViewUseDefaultPen           = QStringLiteral("graphicsview/useCurrentPen");
 const QString settingGraphicsViewShowIsoOnly             = QStringLiteral("graphicsview/showOnlyIso");
+const QString settingGraphicsViewCurvePrecision          = QStringLiteral("graphicsview/curvePrecision");
 const QString settingGraphicsViewZoomSpeedFactor         = QStringLiteral("graphicsview/zoomSpeedFactor");
 const QString settingGraphicsViewExportQuality           = QStringLiteral("graphicsview/exportQuality");
 const QString settingGraphicsViewZoomRBPositiveColor     = QStringLiteral("graphicsview/zoomRBPositiveColor");
@@ -1092,6 +1093,18 @@ bool VCommonSettings::showOnlyIso() const
 void VCommonSettings::setShowIsoOnly(const bool &value)
 {
     setValue(settingGraphicsViewShowIsoOnly, value);
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+qreal VCommonSettings::getCurvePrecision() const
+{
+    return value(settingGraphicsViewCurvePrecision, 1.00).toReal();
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void VCommonSettings::setCurvePrecision(const qreal &value)
+{
+    setValue(settingGraphicsViewCurvePrecision, value);
 }
 
 //---------------------------------------------------------------------------------------------------------------------

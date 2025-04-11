@@ -201,9 +201,6 @@ PreferencesGraphicsViewPage::PreferencesGraphicsViewPage (QWidget *parent)
     // Zoom Speed
     ui->zoomSpeedFactor_Slider->setValue(qApp->Seamly2DSettings()->getZoomSpeedFactor());
 
-    // Export Quality
-    ui->quality_Slider->setValue(qApp->Seamly2DSettings()->getExportQuality());
-
     // Behavior preferences
     // Constrain Angle Value & Modifier Key
     ui->constrainValue_DoubleSpinBox->setValue(qApp->Seamly2DSettings()->getConstrainValue());
@@ -215,9 +212,15 @@ PreferencesGraphicsViewPage::PreferencesGraphicsViewPage (QWidget *parent)
     // Pan Zoom while Space Key pressed
     ui->panActiveSpacePressed_CheckBox->setChecked(qApp->Seamly2DSettings()->isPanActiveSpaceKey());
 
+    // Export Quality
+    ui->quality_Slider->setValue(qApp->Seamly2DSettings()->getExportQuality());
+
     // Always use current pen
     ui->useCurrentPen_checkBox->setChecked(qApp->Seamly2DSettings()->useCurrentPen());
     ui->showOnlyIso_CheckBox->setChecked(qApp->Seamly2DSettings()->showOnlyIso());
+
+    // Curve Precision
+    ui->curvePrecision_DoubleSpinBox->setValue(qApp->Seamly2DSettings()->getCurvePrecision());
 
     // Font preferences
     // Pattern piece labels font
@@ -409,6 +412,9 @@ void PreferencesGraphicsViewPage::Apply()
     // Pen
     settings->setUseCurrentPen(ui->useCurrentPen_checkBox->isChecked());
     settings->setShowIsoOnly(ui->showOnlyIso_CheckBox->isChecked());
+
+    // Curve Precision
+    settings->setCurvePrecision(ui->curvePrecision_DoubleSpinBox->value());
 
     //Fonts
     settings->setLabelFont(ui->labelFont_ComboBox->currentFont());

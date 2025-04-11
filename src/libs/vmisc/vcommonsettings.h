@@ -238,6 +238,9 @@ public:
     bool                 showOnlyIso() const;
     void                 setShowIsoOnly(const bool &value);
 
+    qreal                getCurvePrecision() const;
+    void                 setCurvePrecision(const qreal &value);
+
     int                  getZoomSpeedFactor() const;
     void                 setZoomSpeedFactor(const int &factor);
 

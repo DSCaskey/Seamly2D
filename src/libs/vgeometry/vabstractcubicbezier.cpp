@@ -57,6 +57,8 @@
 #include <QtDebug>
 
 #include "../vmisc/def.h"
+#include "../vmisc/vabstractapplication.h"
+#include "../vmisc/vcommonsettings.h"
 #include "../vmisc/vmath.h"
 #include "../vgeometry/vpointf.h"
 
@@ -249,13 +251,21 @@ void VAbstractCubicBezier::PointBezier_r(qreal x1, qreal y1, qreal x2, qreal y2,
         }
     }
 
-    const double curve_collinearity_epsilon                 = 1e-30;
-    const double curve_angle_tolerance_epsilon              = 0.01;
+    const double curve_collinearity_epsilon = 1e-30;
+    const double curve_angle_tolerance_epsilon = 0.01;
     const double m_angle_tolerance = 0.0;
     enum curve_recursion_limit_e { curve_recursion_limit = 32 };
     const double m_cusp_limit = 0.0;
-    double m_approximation_scale = 1.0;
+    double m_approximation_scale;
     double m_distance_tolerance_square;
+    if (qApp->Settings()->isWireframe())
+    {
+       m_approximation_scale = qApp->Settings()->getCurvePrecision();
+    }
+    else
+    {
+       m_approximation_scale = 1.0;
+    }
 
     m_distance_tolerance_square = 0.5 / m_approximation_scale;
     m_distance_tolerance_square *= m_distance_tolerance_square;

@@ -25,6 +25,9 @@ INCLUDEPATH += $${PWD}/vgeometry
 #IFC static library
 INCLUDEPATH += $${PWD}/ifc
 
+#Marker static library
+INCLUDEPATH += $${PWD}/marker
+
 #VLayout static library
 INCLUDEPATH += $${PWD}/vlayout
 

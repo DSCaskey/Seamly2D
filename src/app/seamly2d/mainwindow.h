@@ -90,6 +90,7 @@ class QDoubleSpinBox;
 class QFontComboBox;
 class MouseCoordinates;
 class PenToolBar;
+class MarkerDialog;
 
 /**
  * @brief The MainWindow class main windows.
@@ -231,6 +232,8 @@ private slots:
     void handleAnchorPointTool(bool checked);
     void handleInsertNodesTool(bool checked);
 
+    void handleMarker(bool checked, Marker mode);
+
     void handleImageTool();
 
     void setStatusMessage(QString message);
@@ -245,6 +248,7 @@ private slots:
     void showDraftMode(bool checked);
     void showPieceMode(bool checked);
     void showLayoutMode(bool checked);
+    void showMarkerMode(bool checked);
 
     void New();
     bool SaveAs();
@@ -279,40 +283,21 @@ private slots:
 
 private:
     Q_DISABLE_COPY(MainWindow)
-    /** @brief ui keeps information about user interface */
-    Ui::MainWindow                   *ui;
 
+    Ui::MainWindow                   *ui;               /// @brief ui keeps information about user interface
     QFileSystemWatcher               *watcher;
-
-    /** @brief tool current tool */
-    Tool                              currentTool;
-
-    /** @brief tool last used tool */
-    Tool                              lastUsedTool;
-
-    /** @brief draftScene draft block scene. */
-    VMainGraphicsScene               *draftScene;
-
-    /** @brief pieceScene pattern piece scene. */
-    VMainGraphicsScene               *pieceScene;
-
-    /** @brief mouseCoordinates pointer to label who show mouse coordinate. */
-    QPointer<MouseCoordinates>        mouseCoordinates;
-
+    Tool                              currentTool;      /// @brief tool current tool
+    Tool                              lastUsedTool;     /// @brief tool last used tool
+    VMainGraphicsScene               *draftScene;       /// @brief draftScene draft block scene.
+    VMainGraphicsScene               *pieceScene;       /// @brief pieceScene pattern piece scene.
+    VMainGraphicsScene               *markerScene;      /// @brief draftScene draft block scene.
+    QPointer<MouseCoordinates>        mouseCoordinates; /// @brief pointer to label to show mouse coordinate.
     QPointer<QToolButton>             infoToolButton;
-
-    /** @brief helpLabel help show tooltip. */
-    QLabel                           *helpLabel;
-
-    /** @brief isInitialized true after first show window. */
-    bool                              isInitialized;
-
-    /** @brief mChanges true if measurement file was changed. */
-    bool                              mChanges;
+    QLabel                           *helpLabel;        /// @brief helpLabel help show tooltip.
+    bool                              isInitialized;    /// @brief isInitialized true after first show window.
+    bool                              mChanges;         /// @brief mChanges true if measurement file was changed.
     bool                              mChangesAsked;
-
     bool                              patternReadOnly;
-
     QPointer<DialogVariables>         dialogTable;
     QSharedPointer<DialogTool>        dialogTool;
     QPointer<HistoryDialog>           historyDialog;
@@ -320,22 +305,20 @@ private:
     QFontComboBox                    *fontComboBox;
     QComboBox                        *fontSizeComboBox;
     QComboBox                        *basePointComboBox;
-    QComboBox                        *draftBlockComboBox;  /** @brief draftBlockComboBox stores names of draft blocks.*/
+    QComboBox                        *draftBlockComboBox;  /// @brief draftBlockComboBox stores names of draft blocks.*/
     QLabel                           *draftBlockLabel;
-    qint32                            currentBlockIndex;   /** @brief currentBlockIndex  current selected draft block.*/
-    qint32                            currentToolBoxIndex; /** @brief currentToolBoxIndex  current set of tools. */
+    qint32                            currentBlockIndex;   /// @brief currentBlockIndex  current selected draft block.*/
+    qint32                            currentToolBoxIndex; /// @brief currentToolBoxIndex  current set of tools. */
     bool                              isToolOptionsDockVisible;
     bool                              isGroupsDockVisible;
     bool                              isLayoutsDockVisible;
     bool                              isToolboxDockVisible;
-    bool                              drawMode;            /** @brief drawMode true if draft scene active. */
+    bool                              drawMode;            /// @brief drawMode true if draft scene active. */
 
     enum { MaxRecentFiles = 5 };
     QAction                          *recentFileActs[MaxRecentFiles];
     QAction                          *separatorAct;
 
-    QLabel                           *leftGoToStage;
-    QLabel                           *rightGoToStage;
     QTimer                           *autoSaveTimer;
     bool                              guiEnabled;
     QPointer<QComboBox>               gradationHeights;
@@ -357,7 +340,6 @@ private:
     void                              SetDefaultSize();
 
     void                              initializeStatusToolBar();
-    void                              initializeModesToolBar();
     void                              initializeDraftToolBar();
     void                              initializePointNameToolBar();
     void                              initializeToolsToolBar();
@@ -384,13 +366,13 @@ private:
 
     void                              CancelTool();
 
-    void               setWidgetsEnabled(bool enable);
-    void               setToolsEnabled(bool enable);
-    void               SetLayoutModeActions();
+    void                              setWidgetsEnabled(bool enable);
+    void                              setToolsEnabled(bool enable);
+    void                              SetLayoutModeActions();
 
-    void               SaveCurrentScene();
-    void               RestoreCurrentScene();
-    void               MinimumScrollBar();
+    void                              SaveCurrentScene();
+    void                              RestoreCurrentScene();
+    void                              MinimumScrollBar();
 
     template <typename Dialog, typename Func>
     void               SetToolButton(bool checked, Tool t, const QString &cursor, const QString &toolTip,
@@ -433,9 +415,6 @@ private:
     QString            createDraftBlockName(const QString &text);
     QString            checkPathToMeasurements(const QString &patternPath, const QString &path);
     void               changeDraftBlock(int index, bool zoomBestFit = true);
-    /**
-     * @brief EndVisualization try show dialog after and working with tool visualization.
-     */
     void               EndVisualization(bool click = false);
     void               zoomFirstShow();
     void               UpdateHeightsList(const QStringList &list);
@@ -477,18 +456,18 @@ private:
 
     bool               IgnoreLocking(int error, const QString &path);
 
-    void ToolSelectPoint() const;
-    void ToolSelectPointByPress() const;
-    void ToolSelectPointByRelease() const;
-    void ToolSelectSpline() const;
-    void ToolSelectSplinePath() const;
-    void ToolSelectArc() const;
-    void ToolSelectPointArc() const;
-    void ToolSelectCurve() const;
-    void selectAllDraftObjectsTool() const;
-    void ToolSelectOperationObjects() const;
-    void ToolSelectGroupObjects() const;
-    void selectPieceTool() const;
+    void               ToolSelectPoint() const;
+    void               ToolSelectPointByPress() const;
+    void               ToolSelectPointByRelease() const;
+    void               ToolSelectSpline() const;
+    void               ToolSelectSplinePath() const;
+    void               ToolSelectArc() const;
+    void               ToolSelectPointArc() const;
+    void               ToolSelectCurve() const;
+    void               selectAllDraftObjectsTool() const;
+    void               ToolSelectOperationObjects() const;
+    void               ToolSelectGroupObjects() const;
+    void               selectPieceTool() const;
 };
 
 #endif // MAINWINDOW_H

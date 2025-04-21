@@ -6,6 +6,7 @@ SUBDIRS = \
     ifc \
     vobj \
     vdxf \
+    marker \
     vlayout \
     vgeometry \
     vpatterndb \

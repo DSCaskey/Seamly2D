@@ -15,6 +15,7 @@ HEADERS += \
     $$PWD/export_layout_dialog.h \
     $$PWD/groups_widget.h \
     $$PWD/history_dialog.h \
+    $$PWD/marker_dialog.h \
     $$PWD/pieces_widget.h \
     $$PWD/shortcuts_dialog.h \
     $$PWD/show_info_dialog.h \
@@ -39,6 +40,7 @@ SOURCES += \
     $$PWD/export_layout_dialog.cpp \
     $$PWD/groups_widget.cpp \
     $$PWD/history_dialog.cpp \
+    $$PWD/marker_dialog.cpp \
     $$PWD/pieces_widget.cpp \
     $$PWD/shortcuts_dialog.cpp \
     $$PWD/show_info_dialog.cpp \
@@ -62,6 +64,8 @@ FORMS += \
     $$PWD/groups_widget.ui \
     $$PWD/history_dialog.ui \
     $$PWD/layoutsettings_dialog.ui \
+    $$PWD/marker_Widget.ui \
+    $$PWD/marker_dialog.ui \
     $$PWD/pieces_widget.ui \
     $$PWD/shortcuts_dialog.ui \
     $$PWD/show_info_dialog.ui \

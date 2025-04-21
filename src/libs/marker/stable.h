@@ -23,15 +23,15 @@
 
  ************************************************************************
  **
- **  @file   vgeometrydef.h
+ **  @file   stable.h
  **  @author Roman Telezhynskyi <dismine(at)gmail.com>
- **  @date   7 5, 2015
+ **  @date   2 1, 2015
  **
  **  @brief
  **  @copyright
  **  This source code is part of the Valentine project, a pattern making
  **  program, whose allow create and modeling patterns of clothing.
- **  Copyright (C) 2015 Seamly2D project
+ **  Copyright (C) 2013-2015 Seamly2D project
  **  <https://github.com/fashionfreedom/seamly2d> All Rights Reserved.
  **
  **  Seamly2D is free software: you can redistribute it and/or modify
@@ -49,12 +49,18 @@
  **
  *************************************************************************/
 
-#ifndef VGEOMETRYDEF_H
-#define VGEOMETRYDEF_H
+#ifndef STABLE_H
+#define STABLE_H
 
-enum class Draw : char {Calculation, Modeling, Layout, Marker};
-enum class GOType : char {Point, Arc, EllipticalArc, Spline, SplinePath, CubicBezier, CubicBezierPath, Unknown,
-                          Curve, Path, AllCurves};
-enum class SplinePointPosition : char {FirstPoint, LastPoint};
+/* Add C includes here */
 
-#endif // VGEOMETRYDEF_H
+#if defined __cplusplus
+/* Add C++ includes here */
+
+#ifdef QT_CORE_LIB
+#include <QtCore>
+#endif
+
+#endif/*__cplusplus*/
+
+#endif // STABLE_H

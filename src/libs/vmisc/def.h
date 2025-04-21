@@ -72,6 +72,21 @@ enum DialogSource : quint16
     MeasurementDialog = 257  // 0000 0001 0000 0001
 };
 
+enum class Marker : unsigned char
+{
+    Fabric = 0,
+    Paper
+};
+
+enum class SpreadType : char
+{
+    Flat = 0,
+    FaceToFace,
+    FoldedOnTop,
+    FoldedOnBottom,
+    Tubular
+};
+
 enum class Position : char
 {
     TopLeft = 0,

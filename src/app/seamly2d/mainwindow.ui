@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1100</width>
-    <height>809</height>
+    <height>846</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -156,9 +156,10 @@
      <addaction name="decreaseSize_Action"/>
      <addaction name="useToolColor_Action"/>
     </widget>
-    <addaction name="showDraftMode"/>
+    <addaction name="draftMode_Action"/>
     <addaction name="pieceMode_Action"/>
     <addaction name="layoutMode_Action"/>
+    <addaction name="markerMode_Action"/>
     <addaction name="separator"/>
     <addaction name="zoomIn_Action"/>
     <addaction name="zoomOut_Action"/>
@@ -321,6 +322,18 @@
      </property>
      <addaction name="importImage_Action"/>
     </widget>
+    <widget class="QMenu" name="menuMarker">
+     <property name="title">
+      <string>Marker</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
+       <normaloff>:/icon/32x32/layout.png</normaloff>:/icon/32x32/layout.png</iconset>
+     </property>
+     <addaction name="fabricMarker_Action"/>
+     <addaction name="paperMarker_Action"/>
+     <addaction name="editMarker_Action"/>
+    </widget>
     <addaction name="newDraft_Action"/>
     <addaction name="renameDraft_Action"/>
     <addaction name="separator"/>
@@ -332,6 +345,7 @@
     <addaction name="piece_Menu"/>
     <addaction name="images_Menu"/>
     <addaction name="details_Menu"/>
+    <addaction name="menuMarker"/>
     <addaction name="layouts_Menu"/>
     <addaction name="separator"/>
     <addaction name="lastTool_Action"/>
@@ -396,9 +410,10 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="showDraftMode"/>
+   <addaction name="draftMode_Action"/>
    <addaction name="pieceMode_Action"/>
    <addaction name="layoutMode_Action"/>
+   <addaction name="markerMode_Action"/>
   </widget>
   <widget class="QToolBar" name="draft_ToolBar">
    <property name="enabled">
@@ -868,7 +883,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="draftMode_Page">
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -914,7 +929,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>128</width>
+                <width>118</width>
                 <height>288</height>
                </rect>
               </property>
@@ -2410,7 +2425,7 @@
               <string>Unite 2 Pieces (U)</string>
              </property>
              <property name="text">
-              <string notr="true">...</string>
+              <string notr="true"/>
              </property>
              <property name="icon">
               <iconset resource="share/resources/toolicon.qrc">
@@ -2442,7 +2457,7 @@
               <string>Export Pieces (E, P)</string>
              </property>
              <property name="text">
-              <string notr="true">...</string>
+              <string notr="true"/>
              </property>
              <property name="icon">
               <iconset resource="share/resources/toolicon.qrc">
@@ -2600,6 +2615,148 @@
            </widget>
           </widget>
          </widget>
+         <widget class="QWidget" name="markerMode_Page">
+          <widget class="QToolBox" name="marker_ToolBox">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>120</width>
+             <height>131</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <property name="tabSpacing">
+            <number>4</number>
+           </property>
+           <widget class="QWidget" name="marker_Page">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>120</width>
+              <height>102</height>
+             </rect>
+            </property>
+            <attribute name="icon">
+             <iconset resource="share/resources/toolicon.qrc">
+              <normaloff>:/toolicon/32x32/layout_toolbox.png</normaloff>:/toolicon/32x32/layout_toolbox.png</iconset>
+            </attribute>
+            <attribute name="label">
+             <string>Marker</string>
+            </attribute>
+            <widget class="QToolButton" name="createFabricMarker_ToolButton">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>1</y>
+               <width>41</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="toolTip">
+              <string>Create fabric marker</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
+               <normaloff>:/icon/svg/fabric.svg</normaloff>:/icon/svg/fabric.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+            <widget class="QToolButton" name="createPaperMarker_ToolButton">
+             <property name="geometry">
+              <rect>
+               <x>60</x>
+               <y>1</y>
+               <width>41</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="toolTip">
+              <string>Cretae paper marker</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
+               <normaloff>:/icon/svg/layout.svg</normaloff>:/icon/svg/layout.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+            <widget class="QToolButton" name="editMarker_ToolButton">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>51</y>
+               <width>41</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="toolTip">
+              <string>Edit matker</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
+               <normaloff>:/icon/32x32/edit.png</normaloff>:/icon/32x32/edit.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+           </widget>
+          </widget>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -2626,6 +2783,55 @@
    <addaction name="toggleSeamAllowances_Action"/>
    <addaction name="toggleGrainLines_Action"/>
    <addaction name="toggleLabels_Action"/>
+  </widget>
+  <widget class="QDockWidget" name="marker_DockWidget">
+   <property name="minimumSize">
+    <size>
+     <width>91</width>
+     <height>115</height>
+    </size>
+   </property>
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string notr="true"/>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QListWidget" name="marker_ListWidget">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>80</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -2714,7 +2920,7 @@
     <enum>QAction::NoRole</enum>
    </property>
   </action>
-  <action name="showDraftMode">
+  <action name="draftMode_Action">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -2885,7 +3091,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
-     <normaloff>:/icon/32x32/layout.png</normaloff>:/icon/32x32/layout.png</iconset>
+     <normaloff>:/icon/svg/layout.svg</normaloff>:/icon/svg/layout.svg</iconset>
    </property>
    <property name="text">
     <string>Layout</string>
@@ -4780,6 +4986,48 @@
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+PgDown</string>
+   </property>
+  </action>
+  <action name="markerMode_Action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
+     <normaloff>:/icon/32x32/layout.png</normaloff>:/icon/32x32/layout.png</iconset>
+   </property>
+   <property name="text">
+    <string>Marker</string>
+   </property>
+  </action>
+  <action name="fabricMarker_Action">
+   <property name="icon">
+    <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
+     <normaloff>:/icon/svg/fabric.svg</normaloff>:/icon/svg/fabric.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Fabric</string>
+   </property>
+  </action>
+  <action name="paperMarker_Action">
+   <property name="icon">
+    <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
+     <normaloff>:/icon/svg/layout.svg</normaloff>:/icon/svg/layout.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Paper</string>
+   </property>
+  </action>
+  <action name="editMarker_Action">
+   <property name="icon">
+    <iconset resource="../../libs/vmisc/share/resources/icon.qrc">
+     <normaloff>:/icon/32x32/edit.png</normaloff>:/icon/32x32/edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit Marker</string>
    </property>
   </action>
  </widget>

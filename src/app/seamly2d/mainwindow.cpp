@@ -155,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
     , lastUsedTool(Tool::Arrow)
     , draftScene(nullptr)
     , pieceScene(nullptr)
+    , markerScene(nullptr)
     , mouseCoordinates(nullptr)
     , infoToolButton(nullptr)
     , helpLabel(nullptr)
@@ -178,8 +179,6 @@ MainWindow::MainWindow(QWidget *parent)
     , drawMode(true)
     , recentFileActs()
     , separatorAct(nullptr)
-    , leftGoToStage(nullptr)
-    , rightGoToStage(nullptr)
     , autoSaveTimer(nullptr)
     , guiEnabled(true)
     , gradationHeights(nullptr)
@@ -224,7 +223,7 @@ MainWindow::MainWindow(QWidget *parent)
         // AND the View->Draft menu item is checked.
         connect(doc, &VPattern::patternParsed, this, [this]()
         {
-            if ((pattern->DataPieces()->count() == 0) && (!ui->showDraftMode->isChecked()))
+            if ((pattern->DataPieces()->count() == 0) && (!ui->draftMode_Action->isChecked()))
             {
                 showDraftMode(true);
             }
@@ -249,7 +248,6 @@ MainWindow::MainWindow(QWidget *parent)
         // Initialize toolbars for draft, point name, and modes.
         initializeDraftToolBar();
         initializePointNameToolBar();
-        initializeModesToolBar();
 
         // Initialize tool buttons and show the main window maximized.
         initializeToolButtons();
@@ -1785,6 +1783,36 @@ void MainWindow::handleUnionTool(bool checked)
     );
 }
 
+/// ---------------------------------------------------------------------------
+/// @brief handleMarker : handler for Fabric Marker tool.
+/// @param checked true : button checked.
+/// @param mode : Marker mode.
+/// ---------------------------------------------------------------------------
+void MainWindow::handleMarker(bool checked, Marker mode)
+{
+    showMarkerMode(checked);
+
+    MarkerDialog *dialog = new MarkerDialog(pattern, mode, this);
+
+    if (dialog->exec() == QDialog::Rejected)
+    {
+        ui->createFabricMarker_ToolButton->setChecked(false);
+        ui->createPaperMarker_ToolButton->setChecked(false);
+        return;
+    }
+    /*
+    SetToolButton<MarkerDialog>
+    (
+        checked,
+        Tool::Marker,
+        ":/cursor/union_cursor.png",
+        tr("<b>Tool::Marker - Fabric"),
+        &MainWindow::ClosedPiecesDialogWithApply<MarkerTool>,
+        &MainWindow::applyPiecesDialog<MarkerTool>
+    );
+    */
+}
+
 //---------------------------------------------------------------------------------------------------------------------
 /**
  * @brief closeUnionDialog actions after closing Union tool dialog.
@@ -2385,19 +2413,6 @@ QComboBox *MainWindow::SetGradationList(QLabel *label, const QStringList &list)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void MainWindow::initializeModesToolBar()
-{
-    leftGoToStage = new QLabel(this);
-    leftGoToStage->setPixmap(QPixmap("://icon/24x24/fast_forward_left_to_right_arrow.png"));
-    ui->mode_ToolBar->insertWidget(ui->pieceMode_Action, leftGoToStage);
-
-    rightGoToStage = new QLabel(this);
-    rightGoToStage->setPixmap(QPixmap("://icon/24x24/left_to_right_arrow.png"));
-    ui->mode_ToolBar->insertWidget(ui->layoutMode_Action, rightGoToStage);
-}
-
-
-//---------------------------------------------------------------------------------------------------------------------
 /**
  * @brief initializePointNameToolBar enable Point Name toolbar.
  */
@@ -2935,6 +2950,20 @@ void MainWindow::initializeToolButtons()
     connect(ui->midpoint_ToolButton,       &QToolButton::clicked, this, &MainWindow::handleMidpointTool);
     connect(ui->exportLayout_ToolButton,   &QToolButton::clicked, this, &MainWindow::exportLayoutAs);
     connect(ui->exportPiecesAs_ToolButton, &QToolButton::clicked, this, &MainWindow::exportPiecesAs);
+
+    connect(ui->createFabricMarker_ToolButton, &QToolButton::clicked, this, [this](bool checked)
+    {
+        ui->createFabricMarker_ToolButton->setChecked(true);
+        handleMarker(checked, Marker::Fabric);
+    });
+
+    connect(ui->createPaperMarker_ToolButton , &QToolButton::clicked, this, [this](bool checked)
+    {
+        ui->createPaperMarker_ToolButton->setChecked(true);
+        handleMarker(checked, Marker::Paper);
+    });
+
+
     connect(ui->ellipticalArc_ToolButton,  &QToolButton::clicked, this, &MainWindow::handleEllipticalArcTool);
     connect(ui->anchorPoint_ToolButton,    &QToolButton::clicked, this, &MainWindow::handleAnchorPointTool);
     connect(ui->importImage_ToolButton,    &QToolButton::clicked, this, &MainWindow::handleImageTool);
@@ -3805,12 +3834,11 @@ void MainWindow::showDraftMode(bool checked)
         qCDebug(vMainWindow, "Show draft scene");
         handleArrowTool(true);
 
-        leftGoToStage->setPixmap(QPixmap("://icon/24x24/fast_forward_left_to_right_arrow.png"));
-        rightGoToStage->setPixmap(QPixmap("://icon/24x24/left_to_right_arrow.png"));
-
-        ui->showDraftMode->setChecked(true);
+        ui->draftMode_Action->setChecked(true);
         ui->pieceMode_Action->setChecked(false);
         ui->layoutMode_Action->setChecked(false);
+        ui->markerMode_Action->setChecked(false);
+        ui->marker_DockWidget->setVisible(false);
 
         SaveCurrentScene();
 
@@ -3849,7 +3877,7 @@ void MainWindow::showDraftMode(bool checked)
     }
     else
     {
-        ui->showDraftMode->setChecked(true);
+        ui->draftMode_Action->setChecked(true);
     }
 }
 
@@ -3872,12 +3900,11 @@ void MainWindow::showPieceMode(bool checked)
         }
         draftBlockComboBox->setCurrentIndex(draftBlockComboBox->count()-1); // Need to get data about all blocks.
 
-        leftGoToStage->setPixmap(QPixmap("://icon/24x24/right_to_left_arrow.png"));
-        rightGoToStage->setPixmap(QPixmap("://icon/24x24/left_to_right_arrow.png"));
-
-        ui->showDraftMode->setChecked(false);
+        ui->draftMode_Action->setChecked(false);
         ui->pieceMode_Action->setChecked(true);
         ui->layoutMode_Action->setChecked(false);
+        ui->markerMode_Action->setChecked(false);
+        ui->marker_DockWidget->setVisible(false);
 
         if(!qApp->getOpeningPattern())
         {
@@ -3952,12 +3979,11 @@ void MainWindow::showLayoutMode(bool checked)
         }
         draftBlockComboBox->setCurrentIndex(draftBlockComboBox->count()-1);// Need to get data about all draft blocks
 
-        leftGoToStage->setPixmap(QPixmap("://icon/24x24/right_to_left_arrow.png"));
-        rightGoToStage->setPixmap(QPixmap("://icon/24x24/fast_forward_right_to_left_arrow.png"));
-
-        ui->showDraftMode->setChecked(false);
+        ui->draftMode_Action->setChecked(false);
         ui->pieceMode_Action->setChecked(false);
         ui->layoutMode_Action->setChecked(true);
+        ui->markerMode_Action->setChecked(false);
+        ui->marker_DockWidget->setVisible(false);
 
         QHash<quint32, VPiece> pieces;
         if(!qApp->getOpeningPattern())
@@ -4053,6 +4079,49 @@ void MainWindow::showLayoutMode(bool checked)
     }
 }
 
+void MainWindow::showMarkerMode(bool checked)
+{
+    if (checked)
+    {
+        ui->toolbox_StackedWidget->setCurrentIndex(3);
+        handleArrowTool(true);
+
+        if(drawMode)
+        {
+            currentBlockIndex = draftBlockComboBox->currentIndex();         // Save current draftf block.
+            drawMode = false;
+        }
+        draftBlockComboBox->setCurrentIndex(draftBlockComboBox->count()-1); // Need to get data about all blocks.
+
+        ui->draftMode_Action->setChecked(false);
+        ui->pieceMode_Action->setChecked(false);
+        ui->layoutMode_Action->setChecked(false);
+        ui->markerMode_Action->setChecked(true);
+        ui->marker_DockWidget->setVisible(true);
+    }
+    else
+    {
+        ui->markerMode_Action->setChecked(true);
+        ui->marker_DockWidget->setVisible(true);
+    }
+
+    SaveCurrentScene();
+
+    currentScene = markerScene;
+    emit ui->view->itemClicked(nullptr);  // Clear Property Editor with non valid tool selection
+    ui->view->setScene(currentScene);
+
+    if (doc->getDraftStage() == Draw::Calculation)
+    {
+        currentToolBoxIndex = ui->marker_ToolBox->currentIndex();
+    }
+    doc->setDraftStage(Draw::Marker);
+    setToolsEnabled(true);
+    setWidgetsEnabled(true);
+    ui->marker_ToolBox->setCurrentIndex(ui->marker_ToolBox->indexOf(ui->marker_Page));
+
+    helpLabel->setText("");
+}
 //---------------------------------------------------------------------------------------------------------------------
 /**
  * @brief SaveAs save as pattern file.
@@ -4325,9 +4394,10 @@ void MainWindow::Clear()
     pieceScene->clear();
     handleArrowTool(true);
     draftBlockComboBox->clear();
-    ui->showDraftMode->setEnabled(false);
+    ui->draftMode_Action->setEnabled(false);
     ui->pieceMode_Action->setEnabled(false);
     ui->layoutMode_Action->setEnabled(false);
+    ui->markerMode_Action->setEnabled(false);
     ui->newDraft_Action->setEnabled(false);
     ui->renameDraft_Action->setEnabled(false);
     ui->save_Action->setEnabled(false);
@@ -4624,6 +4694,7 @@ void MainWindow::setWidgetsEnabled(bool enable)
     const bool pieceStage = (doc->getDraftStage() == Draw::Modeling);
     const bool designStage = (draftStage || pieceStage);
     const bool layoutStage = (doc->getDraftStage() == Draw::Layout);
+    const bool markerStage = (doc->getDraftStage() == Draw::Marker);
 
     draftBlockComboBox->setEnabled(enable && draftStage);
     ui->arrow_Action->setEnabled(enable && designStage);
@@ -4640,9 +4711,10 @@ void MainWindow::setWidgetsEnabled(bool enable)
     ui->nextDraftBlock_Action->setEnabled(enable && draftStage);
 
     // enable view menu actions
-    ui->showDraftMode->setEnabled(enable);
+    ui->draftMode_Action->setEnabled(enable);
     ui->pieceMode_Action->setEnabled(enable);
     ui->layoutMode_Action->setEnabled(enable);
+    ui->markerMode_Action->setEnabled(enable);
     zoomScaleSpinBox->setEnabled(enable);
     ui->zoomIn_Action->setEnabled(enable);
     ui->zoomOut_Action->setEnabled(enable);
@@ -4925,6 +4997,7 @@ void MainWindow::setToolsEnabled(bool enable)
     bool draftTools = false;
     bool pieceTools = false;
     bool layoutTools = false;
+    bool markerTools = false;
 
     switch (doc->getDraftStage())
     {
@@ -4936,6 +5009,9 @@ void MainWindow::setToolsEnabled(bool enable)
             break;
         case Draw::Layout:
             layoutTools = enable;
+            break;
+        case Draw::Marker:
+            markerTools = enable;
             break;
         default:
             break;
@@ -5004,6 +5080,10 @@ void MainWindow::setToolsEnabled(bool enable)
     //Details
     ui->unitePieces_ToolButton->setEnabled(pieceTools);
     ui->exportPiecesAs_ToolButton->setEnabled(pieceTools);
+
+    //Marker
+    ui->createFabricMarker_ToolButton->setEnabled(markerTools);
+    ui->createPaperMarker_ToolButton->setEnabled(markerTools);
 
     //Layout
     ui->layoutSettings_ToolButton->setEnabled(layoutTools);
@@ -5082,6 +5162,10 @@ void MainWindow::setToolsEnabled(bool enable)
     //Details
     ui->union_Action->setEnabled(pieceTools);
     ui->exportPieces_Action->setEnabled(pieceTools);
+
+    //Marker
+    ui->fabricMarker_Action->setEnabled(pieceTools);
+    ui->paperMarker_Action->setEnabled(pieceTools);
 
     //Layout
     ui->newPrintLayout_Action->setEnabled(layoutTools);
@@ -5668,6 +5752,14 @@ void MainWindow::AddDocks()
 //---------------------------------------------------------------------------------------------------------------------
 void MainWindow::initializeDocksContain()
 {
+    ui->marker_DockWidget->setTitleBarWidget(nullptr);
+    ui->marker_DockWidget->setVisible(false);
+
+    //ui->marker_DockWidget->setWindowFlags(Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+
+    //ui->marker_DockWidget->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint |
+    //    Qt::X11BypassWindowManagerHint | Qt::FramelessWindowHint);
+
     setTabPosition(Qt::RightDockWidgetArea, QTabWidget::West);
     setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::East);
 
@@ -5784,9 +5876,10 @@ void MainWindow::createActions()
     });
 
     //View menu
-    connect(ui->showDraftMode, &QAction::triggered, this, &MainWindow::showDraftMode);
+    connect(ui->draftMode_Action, &QAction::triggered, this, &MainWindow::showDraftMode);
     connect(ui->pieceMode_Action, &QAction::triggered, this, &MainWindow::showPieceMode);
     connect(ui->layoutMode_Action, &QAction::triggered, this, &MainWindow::showLayoutMode);
+    connect(ui->markerMode_Action, &QAction::triggered, this, &MainWindow::showMarkerMode);
 
     connect(ui->toggleWireframe_Action, &QAction::triggered, this, [this](bool checked)
     {
@@ -6133,6 +6226,22 @@ void MainWindow::createActions()
     {
         ui->piece_ToolBox->setCurrentWidget(ui->details_Page);
         exportPiecesAs();
+    });
+
+
+    //Tools->Marker submenu actions
+    connect(ui->fabricMarker_Action, &QAction::triggered, this, [this]
+    {
+        ui->piece_ToolBox->setCurrentWidget(ui->marker_Page);
+        ui->createFabricMarker_ToolButton->setChecked(true);
+        handleMarker(true, Marker::Fabric);
+    });
+
+    connect(ui->paperMarker_Action, &QAction::triggered, this, [this]
+    {
+        ui->piece_ToolBox->setCurrentWidget(ui->marker_Page);
+        ui->createPaperMarker_ToolButton->setChecked(true);
+        handleMarker(true, Marker::Paper);
     });
 
     //Tools->Piece submenu actions
@@ -7230,7 +7339,9 @@ void MainWindow::changeDraftBlock(int index, bool zoomBestFit)
     }
 }
 
-//---------------------------------------------------------------------------------------------------------------------
+///----------------------------------------------------------------------------
+/// @brief EndVisualization  show dialog after and working with tool visualization.
+///----------------------------------------------------------------------------
 void MainWindow::EndVisualization(bool click)
 {
     if (!dialogTool.isNull())
@@ -7253,7 +7364,7 @@ void MainWindow::zoomFirstShow()
         showPieceMode(true);
         ui->view->zoomToFit();
     }
-    if (!ui->showDraftMode->isChecked())
+    if (!ui->draftMode_Action->isChecked())
     {
         showDraftMode(true);
     }
@@ -7268,7 +7379,7 @@ void MainWindow::zoomFirstShow()
         ui->view->zoomToFit();
     }
 
-    if (!ui->showDraftMode->isChecked())
+    if (!ui->draftMode_Action->isChecked())
     {
         showDraftMode(true);
     }

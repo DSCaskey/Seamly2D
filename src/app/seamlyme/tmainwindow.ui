@@ -1205,6 +1205,8 @@
     <addaction name="actionCreateFromExisting"/>
     <addaction name="separator"/>
     <addaction name="import_Menu"/>
+    <addaction name="actionImportFromPattern"/>
+    <addaction name="importCSV_Action"/>
     <addaction name="separator"/>
     <addaction name="print_Action"/>
     <addaction name="actionSave"/>
@@ -1238,7 +1240,6 @@
     <addaction name="actionAddKnown"/>
     <addaction name="actionAddCustom"/>
     <addaction name="actionDatabase"/>
-    <addaction name="actionImportFromPattern"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="measurements_Menu"/>
@@ -1617,6 +1618,11 @@
   <action name="bodyScanner2_Action">
    <property name="text">
     <string>3D Look</string>
+   </property>
+  </action>
+  <action name="importCSV_Action">
+   <property name="text">
+    <string>Import CSV</string>
    </property>
   </action>
  </widget>

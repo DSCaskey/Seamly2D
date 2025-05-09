@@ -147,6 +147,7 @@ private slots:
     void                AddCustom();
     void                AddKnown();
     void                ImportFromPattern();
+    void                importCSV();
 
     void                ChangedSize(int index);
     void                ChangedHeight(int index);

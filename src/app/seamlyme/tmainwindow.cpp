@@ -81,6 +81,7 @@
 #include <QClipboard>
 #include <QComboBox>
 #include <QDesktopServices>
+#include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QLabel>
@@ -89,7 +90,9 @@
 #include <QPrinter>
 #include <QPrintPreviewDialog>
 #include <QProcess>
+#include <QStringList>
 #include <QTextCodec>
+#include <QTextStream>
 #include <QtNumeric>
 
 #if defined(Q_OS_MAC)
@@ -1707,6 +1710,55 @@ void TMainWindow::ImportFromPattern()
 	MeasurementsWasSaved(false);
 }
 
+void TMainWindow::importCSV()
+{
+    FileNew();
+
+    const QString filter = tr("Individual measurements") + QLatin1String(" (*.csv") + QLatin1String(");;") +
+                           tr("All files") + QLatin1String(" (*.*)");
+	//Use standard path to template files
+    QString dir = qApp->seamlyMeSettings()->getTemplatePath();
+    dir = VCommonSettings::PrepareStandardTemplates(dir);
+
+    const QString filename = fileDialog(this, tr("Import CSV"), dir, filter, nullptr,
+                                        QFileDialog::DontUseNativeDialog, QFileDialog::ExistingFile,
+                                        QFileDialog::AcceptOpen);
+
+
+    if (filename.isEmpty())
+    {
+        return;
+    }
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+
+    QTextStream csv(&file);
+    // Skip header row
+    QString line = csv.readLine();
+
+    int row = 0;
+    while (!csv.atEnd())
+    {
+        line = csv.readLine();
+        QStringList fields = line.split(',');
+
+        // Process the fields
+        int column = 0;
+        for (const QString& field : fields)
+        {
+            QTableWidgetItem *item = new QTableWidgetItem(field);
+            ui->tableWidget->setItem(row, column, item);
+            column++;
+        }
+        row++;
+    }
+
+    file.close();
+    RefreshTable();
+    return;
+}
+
 //---------------------------------------------------------------------------------------------------------------------
 void TMainWindow::ChangedSize(int index)
 {
@@ -2166,6 +2218,7 @@ void TMainWindow::SetupMenu()
 
     //connect(ui->bodyScanner1_Action, &QAction::triggered, this, &TMainWindow::handleBodyScanner1);
 	connect(ui->bodyScanner2_Action, &QAction::triggered, this, &TMainWindow::handleBodyScanner2);
+	connect(ui->importCSV_Action, &QAction::triggered, this, &TMainWindow::importCSV);
 
 	connect(ui->print_Action, &QAction::triggered, this, &TMainWindow::print);
     connect(ui->actionSave, &QAction::triggered, this, &TMainWindow::FileSave);

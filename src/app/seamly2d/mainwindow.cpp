@@ -87,7 +87,7 @@
 #include "../vtools/tools/union_tool.h"
 #include "../vtools/tools/drawTools/drawtools.h"
 #include "../vtools/tools/nodeDetails/anchorpoint_tool.h"
-#include "../vtools/tools/nodeDetails/vtoolinternalpath.h"
+#include "../vtools/tools/nodeDetails/internal_path_tool.h"
 #include "../vtools/undocommands/addgroup.h"
 #include "../vtools/undocommands/rename_draftblock.h"
 #include "../vtools/undocommands/label/showpointname.h"
@@ -141,11 +141,11 @@ const QString strQShortcut = QStringLiteral("QShortcut");
 const QString strCtrl      = QStringLiteral("Ctrl");
 
 
-//  @brief Seamly2D MainWindow constructor.
-//
-//  This is the constructor for the Mainwindow class.
-//
-//  @param parent parent widget.
+/// @brief Seamly2D MainWindow constructor.
+///
+/// This is the constructor for the Mainwindow class.
+///
+/// @param parent parent widget.
 
 MainWindow::MainWindow(QWidget *parent)
     : MainWindowsNoGUI(parent)
@@ -169,7 +169,6 @@ MainWindow::MainWindow(QWidget *parent)
     , fontSizeComboBox(nullptr)
     , draftBlockComboBox(nullptr)
     , draftBlockLabel(nullptr)
-    , mode(Draw::Calculation)
     , currentBlockIndex(0)
     , currentToolBoxIndex(0)
     , isToolOptionsDockVisible(true)
@@ -210,10 +209,9 @@ MainWindow::MainWindow(QWidget *parent)
         // Create instance of VPattern (a dom document) that represents the XML documnet.
         // Arguments:
         //  - pattern - is the data VContainer that is initialized in MainWindowsNoGUI.
-        //  - mode - initial mode is Draw::Calculation.
         //  - draftScene - draft mode scene.
         //  - pieceScene - piece mode scene.
-        doc = new VPattern(pattern, &mode, draftScene, pieceScene);
+        doc = new VPattern(pattern, draftScene, pieceScene);
 
         // Connect signals to slots for handling application events in the doc VPattern object.
         connect(doc, &VPattern::ClearMainWindow, this, &MainWindow::Clear);
@@ -276,7 +274,7 @@ MainWindow::MainWindow(QWidget *parent)
         initializeToolBarVisibility();
 
         setCurrentFile(""); // Set a new unsaved pattern filename to an empty string.
-        WindowsLocale();    // Set the mainwindow locale based on the OS seperator set in the prefs.
+        setWindowsLocale(); // Set the mainwindow locale based on the OS seperator set in the prefs.
 
         // Show the layout page that is selected in the Layout Pages dock.
         connect(ui->listWidget, &QListWidget::currentRowChanged, this, &MainWindow::showLayoutPages);
@@ -345,11 +343,11 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
 
-//  @brief addDraftBlock Create a new draft block.
-//
-//  This method adds a draft block the the draft scene and the dradft block combobox
-//
-//  @param blockName blockname string.
+/// @brief addDraftBlock Create a new draft block.
+///
+/// This method adds a draft block the the draft scene and the dradft block combobox
+///
+/// @param blockName blockname string.
 
 void MainWindow::addDraftBlock(const QString &blockName)
 {
@@ -414,20 +412,20 @@ void MainWindow::addDraftBlock(const QString &blockName)
 }
 
 
-//  @brief draftBlockStartPosition Set start position for draft block.
+/// @brief draftBlockStartPosition Set start position for draft block.
+///
+/// This method determines where to place the next draft block.
+///
+/// @return QPointF position of base point of next draft block
 //
-//  This method determines where to place the next draft block.
-//
-//  @return QPointF position of base point of next draft block
-//
-//  @details
-//   - Declare and initialize the x & y start positions, and offset between draft blocks.
-//   - Check if there is more than one draft block.
-//   - If there is more than one get the bounding rect of all the visible items in the draftscene.
-//     to determine the placement of the next draft block.
-//   - If the rect width is less than or equal to the height, position the new block to the right of
-//     the existing blocks else position the new block below the existing blocks.
-//   - If this is the first draft block use the default positions.
+/// @details
+///  - Declare and initialize the x & y start positions, and offset between draft blocks.
+///  - Check if there is more than one draft block.
+///  - If there is more than one get the bounding rect of all the visible items in the draftscene.
+///    to determine the placement of the next draft block.
+///  - If the rect width is less than or equal to the height, position the new block to the right of
+///    the existing blocks else position the new block below the existing blocks.
+///  - If this is the first draft block use the default positions.
 
 QPointF MainWindow::draftBlockStartPosition() const
 {
@@ -452,22 +450,22 @@ QPointF MainWindow::draftBlockStartPosition() const
 }
 
 
-//  @brief initializeScenes Initialize scenes.
-//
-//  This method initializes the draft and piece mode graphics scenes.
-//
-//  @details
-//  - Create the draft mode scene and set it as the current scene.
-//  - Connects move, selection, and hover signals from MainWindow to slots in
-//    draftScene to toggle whether item is movable, selectable, or accepts hover events.
-//  - Connect mouse move events in the draft scene and display coordinates & units in status bar.
-//  - Create the piece mode scene.
-//  - Connects move, selection, and hover signals from MainWindow to slots in the
-//    piece scene to toggle whether item is movable, selectable, or accepts hover events.
-//  - Connect mouse move events in the piece scene and display coordinates & units in status bar.
-//  - Set the current scene for the view to the current scene.
-//  - Set the transforms of the draft and piece scenes to match the current view's transform.
-//  - Set the scene view in the application to the current view.
+/// @brief initializeScenes Initialize scenes.
+///
+/// This method initializes the draft and piece mode graphics scenes.
+///
+/// @details
+/// - Create the draft mode scene and set it as the current scene.
+/// - Connects move, selection, and hover signals from MainWindow to slots in
+///   draftScene to toggle whether item is movable, selectable, or accepts hover events.
+/// - Connect mouse move events in the draft scene and display coordinates & units in status bar.
+/// - Create the piece mode scene.
+/// - Connects move, selection, and hover signals from MainWindow to slots in the
+///   piece scene to toggle whether item is movable, selectable, or accepts hover events.
+/// - Connect mouse move events in the piece scene and display coordinates & units in status bar.
+/// - Set the current scene for the view to the current scene.
+/// - Set the transforms of the draft and piece scenes to match the current view's transform.
+/// - Set the scene view in the application to the current view.
 
 void MainWindow::initializeScenes()
 {
@@ -531,6 +529,8 @@ void MainWindow::initializeScenes()
     connect(ui->view, &VMainGraphicsView::signalZoomScaleChanged, this, &MainWindow::zoomScaleChanged);
 
     qApp->setSceneView(ui->view);
+
+    setSceneBackgroundColor();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -653,7 +653,7 @@ bool MainWindow::loadMeasurements(const QString &fileName)
                                             *measurements->GetData()->GetPatternUnit()));
 
         doc->SetPatternWasChanged(true);
-        emit doc->UpdatePatternLabel();
+        emit doc->updatePatternLabel();
     }
     else if (measurements->Type() == MeasurementsType::Individual)
     {
@@ -710,7 +710,7 @@ bool MainWindow::updateMeasurements(const QString &fileName, int size, int heigh
         VContainer::setHeight(height);
 
         doc->SetPatternWasChanged(true);
-        emit doc->UpdatePatternLabel();
+        emit doc->updatePatternLabel();
     }
     else if (measurements->Type() == MeasurementsType::Individual)
     {
@@ -742,12 +742,12 @@ void MainWindow::checkRequiredMeasurements(const MeasurementDoc *measurements)
 }
 
 
-//  @brief SetToolButton set tool and show dialog.
-//  @param checked true if tool button checked.
-//  @param t tool type.
-//  @param cursor path tool cursor icon.
-//  @param toolTip first tooltipe.
-//  @param closeDialogSlot method to handle close of dialog.
+/// @brief SetToolButton set tool and show dialog.
+/// @param checked true if tool button checked.
+/// @param t tool type.
+/// @param cursor path tool cursor icon.
+/// @param toolTip first tooltipe.
+/// @param closeDialogSlot method to handle close of dialog.
 
 template <typename Dialog, typename Func>
 void MainWindow::SetToolButton(bool checked, Tool t, const QString &cursor, const QString &toolTip,
@@ -811,13 +811,13 @@ void MainWindow::SetToolButton(bool checked, Tool t, const QString &cursor, cons
 }
 
 
-//  @brief SetToolButtonWithApply set tool and show dialog.
-//  @param checked true if tool button checked.
-//  @param t tool type.
-//  @param cursor path tool cursor icon.
-//  @param toolTip first tooltipe.
-//  @param closeDialogSlot method to handle close of dialog.
-//  @param applyDialogSlot method to handle apply in dialog.
+/// @brief SetToolButtonWithApply set tool and show dialog.
+/// @param checked true if tool button checked.
+/// @param t tool type.
+/// @param cursor path tool cursor icon.
+/// @param toolTip first tooltipe.
+/// @param closeDialogSlot method to handle close of dialog.
+/// @param applyDialogSlot method to handle apply in dialog.
 
 template <typename Dialog, typename Func, typename Func2>
 void MainWindow::SetToolButtonWithApply(bool checked, Tool t, const QString &cursor, const QString &toolTip,
@@ -1670,23 +1670,23 @@ void MainWindow::ClosedDialogAnchorPoint(int result)
 void MainWindow::handleInternalPathTool(bool checked)
 {
     selectAllDraftObjectsTool();
-    SetToolButton<DialogInternalPath>
+    SetToolButton<InternalPathDialog>
     (
         checked,
         Tool::InternalPath,
         ":/cursor/path_cursor.png",
         tr("<b>Tool::Piece - Internal Path:</b> Select path objects, use <b>SHIFT</b> to reverse curve direction"),
-        &MainWindow::ClosedDialogInternalPath
+        &MainWindow::ClosedInternalPathDialog
     );
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void MainWindow::ClosedDialogInternalPath(int result)
+void MainWindow::ClosedInternalPathDialog(int result)
 {
     SCASSERT(dialogTool != nullptr);
     if (result == QDialog::Accepted)
     {
-        VToolInternalPath::Create(dialogTool, pieceScene, doc, pattern);
+        InternalPathTool::Create(dialogTool, pieceScene, doc, pattern);
     }
     handleArrowTool(true);
     doc->LiteParseTree(Document::LiteParse);
@@ -1903,7 +1903,7 @@ void MainWindow::changeEvent(QEvent *event)
         helpLabel->setText(QObject::tr("Changes applied."));
         draftBlockLabel->setText(tr("Draft Block:"));
 
-        if (mode == Draw::Calculation)
+        if (doc->getDraftStage() == Draw::Calculation)
         {
             ui->groups_DockWidget->setWindowTitle(tr("Group Manager"));
         }
@@ -2180,7 +2180,7 @@ void MainWindow::UnloadMeasurements()
         }
         qApp->setPatternType(MeasurementsType::Unknown);
         doc->SetMPath(QString());
-        emit doc->UpdatePatternLabel();
+        emit doc->updatePatternLabel();
         patternChangesWereSaved(false);
         ui->editCurrent_Action->setEnabled(false);
         ui->unloadMeasurements_Action->setDisabled(true);
@@ -2406,6 +2406,7 @@ void MainWindow::initializeModesToolBar()
 void MainWindow::initializePointNameToolBar()
 {
     fontComboBox = new QFontComboBox ;
+    fontComboBox->setFontFilters(QFontComboBox::ScalableFonts);
     fontComboBox->setCurrentFont(qApp->Seamly2DSettings()->getPointNameFont());
     ui->pointName_ToolBar->insertWidget(ui->showPointNames_Action,fontComboBox);
     fontComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
@@ -2504,7 +2505,7 @@ void MainWindow::initializeDraftToolBar()
     draftBlockComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     draftBlockComboBox->setEnabled(false);
 
-    connect(draftBlockComboBox,  static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+    connect(draftBlockComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, [this](int index){changeDraftBlock(index);});
 
     connect(ui->renameDraft_Action, &QAction::triggered, this, [this]()
@@ -3401,15 +3402,15 @@ void MainWindow::handleImagesMenu()
 }
 
 
-// @brief mouseMove Handle mouse novement.
-//
-// This method takes the mouse postion in the scene and displays the coordinates & units in the status bar.
-//
-// @param scenePos position mouse.
-//
-// @details
-//  - If the MouseCoordinates class exists calls the updateCoordinates() method which formats and displays
-//    the mouse coordinates and units in framed labels in the status bar.
+/// @brief mouseMove Handle mouse novement.
+///
+/// This method takes the mouse postion in the scene and displays the coordinates & units in the status bar.
+///
+/// @param scenePos position mouse.
+///
+/// @details
+///  - If the MouseCoordinates class exists calls the updateCoordinates() method which formats and displays
+///    the mouse coordinates and units in framed labels in the status bar.
 void MainWindow::MouseMove(const QPointF &scenePos)
 {
     if (mouseCoordinates)
@@ -3709,13 +3710,27 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     QMainWindow::keyReleaseEvent(event);
 }
 
+//-----------------------------------------------------------------------------
+/// @brief setSceneBackgroundColor Sets the scene background color.
+///
+/// This method Sets the background color of the draft and piece scenes.
+///
+/// @details Uses the background color preference saved in the settigs.
+//-----------------------------------------------------------------------------
+void MainWindow::setSceneBackgroundColor()
+{
+    QColor color = QColor(qApp->Seamly2DSettings()->getBackgroundColor());
+    draftScene->setBackgroundBrush(color);
+    pieceScene->setBackgroundBrush(color);
+}
+
 //---------------------------------------------------------------------------------------------------------------------
 /**
  * @brief SaveCurrentScene save scene options before set another.
  */
 void MainWindow::SaveCurrentScene()
 {
-    if (mode == Draw::Calculation || mode == Draw::Modeling)
+    if (doc->getDraftStage() == Draw::Calculation || doc->getDraftStage() == Draw::Modeling)
     {
         VMainGraphicsScene *scene = qobject_cast<VMainGraphicsScene *>(currentScene);
         SCASSERT(scene != nullptr)
@@ -3749,6 +3764,51 @@ void MainWindow::RestoreCurrentScene()
     verScrollBar->setValue(scene->getVerScrollBar());
 }
 
+//-----------------------------------------------------------------------------
+/// @brief incrementDraftBlock Change draft block incrementally.
+///
+/// This method changes the current draft block by selecting the previous or next combobox box item.
+///
+/// @param selection determines whether to select previous or next draft block.
+///
+/// @details
+///  - an selection value of Selection::Prev selects the previous block;
+///  - an selection value of Selection::Next selects the next block.
+///  - selection wraps at the first or last item.
+//-----------------------------------------------------------------------------
+void MainWindow::changeDraftBlock(Selection selection)
+{
+    int index = draftBlockComboBox->currentIndex();
+    const int count = draftBlockComboBox->count();
+
+    if (index == -1 || count <= 1)
+    {
+        return;
+    }
+
+    if ((index == 0) && (selection == Selection::Prev))
+    {
+        index = count - 1;
+    }
+    else if ((index == count - 1) && (selection == Selection::Next))
+    {
+        index = 0;
+    }
+    else
+    {
+        if (selection == Selection::Prev)
+        {
+            --index;
+        }
+        else if (selection == Selection::Next)
+        {
+            ++index;
+        }
+    }
+
+    draftBlockComboBox->setCurrentIndex(index);
+}
+
 //---------------------------------------------------------------------------------------------------------------------
 /**
  * @brief showDraftMode show draw scene.
@@ -3775,7 +3835,7 @@ void MainWindow::showDraftMode(bool checked)
         ui->view->setScene(currentScene);
         RestoreCurrentScene();
 
-        mode = Draw::Calculation;
+        doc->setDraftStage(Draw::Calculation);
         draftBlockComboBox->setCurrentIndex(currentBlockIndex); //restore current draft block
         drawMode = true;
 
@@ -3858,11 +3918,11 @@ void MainWindow::showPieceMode(bool checked)
         ui->view->setScene(currentScene);
         RestoreCurrentScene();
 
-        if (mode == Draw::Calculation)
+        if (doc->getDraftStage() == Draw::Calculation)
         {
             currentToolBoxIndex = ui->piece_ToolBox->currentIndex();
         }
-        mode = Draw::Modeling;
+        doc->setDraftStage(Draw::Modeling);
         setToolsEnabled(true);
         setWidgetsEnabled(true);
 
@@ -3945,7 +4005,7 @@ void MainWindow::showLayoutMode(bool checked)
                     QMessageBox::information(this, tr("Layout mode"),  tr("You can't use Layout mode yet. Please, "
                                                                           "include at least one pattern piece in layout."),
                                              QMessageBox::Ok, QMessageBox::Ok);
-                    mode == Draw::Calculation ? showDraftMode(true) : showPieceMode(true);
+                    doc->getDraftStage() == Draw::Calculation ? showDraftMode(true) : showPieceMode(true);
                     return;
                 }
             }
@@ -3968,7 +4028,7 @@ void MainWindow::showLayoutMode(bool checked)
             QMessageBox::warning(this, tr("Layout mode"),
                                  tr("You can't use Layout mode yet.") + QLatin1String(" \n") + exception.ErrorMessage(),
                                  QMessageBox::Ok, QMessageBox::Ok);
-            mode == Draw::Calculation ? showDraftMode(true) : showPieceMode(true);
+            doc->getDraftStage() == Draw::Calculation ? showDraftMode(true) : showPieceMode(true);
             return;
         }
 
@@ -3976,11 +4036,11 @@ void MainWindow::showLayoutMode(bool checked)
         emit ui->view->itemClicked(nullptr);  // Clear Property Editor with non valid tool selection
         ui->view->setScene(currentScene);
 
-        if (mode == Draw::Calculation)
+        if (doc->getDraftStage() == Draw::Calculation)
         {
             currentToolBoxIndex = ui->layout_ToolBox->currentIndex();
         }
-        mode = Draw::Layout;
+        doc->setDraftStage(Draw::Layout);
         setToolsEnabled(true);
         setWidgetsEnabled(true);
         ui->layout_ToolBox->setCurrentIndex(ui->layout_ToolBox->indexOf(ui->layout_Page));
@@ -4290,6 +4350,8 @@ void MainWindow::Clear()
     ui->save_Action->setEnabled(false);
     ui->saveAs_Action->setEnabled(false);
     ui->patternPreferences_Action->setEnabled(false);
+    ui->previousDraftBlock_Action->setEnabled(false);
+    ui->nextDraftBlock_Action->setEnabled(false);
 
     // disable zoom actions until a pattern is loaded
     zoomScaleSpinBox->setEnabled(false);
@@ -4465,15 +4527,15 @@ void MainWindow::fullParseFile()
     }
 
     QString draftBlock;
-    if (draftBlockComboBox->currentIndex() != -1)
+    qint32 index = draftBlockComboBox->currentIndex();
+    if (index != -1)
     {
-        draftBlock = draftBlockComboBox->itemText(draftBlockComboBox->currentIndex());
+        draftBlock = draftBlockComboBox->itemText(index);
     }
     draftBlockComboBox->blockSignals(true);
     draftBlockComboBox->clear();
 
     QStringList draftBlockNames = doc->getPatternPieces();
-    draftBlockNames.sort();
     draftBlockComboBox->addItems(draftBlockNames);
 
     if (!drawMode)
@@ -4482,7 +4544,7 @@ void MainWindow::fullParseFile()
     }
     else
     {
-        const qint32 index = draftBlockComboBox->findText(draftBlock);
+        index = draftBlockComboBox->findText(draftBlock);
         if (index != -1)
         {
             draftBlockComboBox->setCurrentIndex(index);
@@ -4575,10 +4637,10 @@ void MainWindow::setGuiEnabled(bool enabled)
  */
 void MainWindow::setWidgetsEnabled(bool enable)
 {
-    const bool draftStage = (mode == Draw::Calculation);
-    const bool pieceStage = (mode == Draw::Modeling);
+    const bool draftStage = (doc->getDraftStage() == Draw::Calculation);
+    const bool pieceStage = (doc->getDraftStage() == Draw::Modeling);
     const bool designStage = (draftStage || pieceStage);
-    const bool layoutStage = (mode == Draw::Layout);
+    const bool layoutStage = (doc->getDraftStage() == Draw::Layout);
 
     draftBlockComboBox->setEnabled(enable && draftStage);
     ui->arrow_Action->setEnabled(enable && designStage);
@@ -4591,6 +4653,8 @@ void MainWindow::setWidgetsEnabled(bool enable)
    // enable edit  menu actions
     undoAction->setEnabled(enable && designStage && qApp->getUndoStack()->canUndo());
     redoAction->setEnabled(enable && designStage && qApp->getUndoStack()->canRedo());
+    ui->previousDraftBlock_Action->setEnabled(enable && draftStage);
+    ui->nextDraftBlock_Action->setEnabled(enable && draftStage);
 
     // enable view menu actions
     ui->showDraftMode->setEnabled(enable);
@@ -4631,7 +4695,7 @@ void MainWindow::setWidgetsEnabled(bool enable)
     ui->loadIndividual_Action->setEnabled(enable && designStage);
     ui->loadMultisize_Action->setEnabled(enable && designStage);
     ui->unloadMeasurements_Action->setEnabled(enable && designStage);
-    ui->table_Action->setEnabled(enable && draftStage);
+    ui->table_Action->setEnabled(enable && designStage);
 
     //enable history menu actions
     ui->history_Action->setEnabled(enable && draftStage);
@@ -4879,7 +4943,7 @@ void MainWindow::setToolsEnabled(bool enable)
     bool pieceTools = false;
     bool layoutTools = false;
 
-    switch (mode)
+    switch (doc->getDraftStage())
     {
         case Draw::Calculation:
             draftTools = enable;
@@ -5102,7 +5166,7 @@ bool MainWindow::SavePattern(const QString &fileName, QString &error)
     else
     {
         doc->SetMPath(filename);
-        emit doc->UpdatePatternLabel();
+        emit doc->updatePatternLabel();
         qCWarning(vMainWindow, "Could not save file %s. %s.", qUtf8Printable(fileName), qUtf8Printable(error));
     }
     return result;
@@ -5139,7 +5203,7 @@ void MainWindow::setCurrentFile(const QString &fileName)
     qCDebug(vMainWindow, "Set current name to \"%s\"", qUtf8Printable(fileName));
     qApp->setFilePath(fileName);
     doc->SetPatternWasChanged(true);
-    emit doc->UpdatePatternLabel();
+    emit doc->updatePatternLabel();
     qApp->getUndoStack()->setClean();
 
     if (!qApp->getFilePath().isEmpty() && Application2D::isGUIMode())
@@ -5188,7 +5252,7 @@ void MainWindow::ReadSettings()
     qApp->getUndoStack()->setUndoLimit(settings->GetUndoCount());
 
     // Text under tool button icon
-    ToolBarStyles();
+    initToolBarStyles();
 
     isToolOptionsDockVisible = ui->toolProperties_DockWidget->isVisible();
     isGroupsDockVisible      = ui->groups_DockWidget->isVisible();
@@ -5306,8 +5370,8 @@ void MainWindow::createMenus()
     undoAction->setShortcuts(undoShortcuts);
     undoAction->setIcon(QIcon::fromTheme("edit-undo"));
     connect(undoAction, &QAction::triggered, toolProperties, &VToolOptionsPropertyBrowser::refreshOptions);
-    ui->edit_Menu->addAction(undoAction);
-    ui->edit_Toolbar->addAction(undoAction);
+    ui->edit_Menu->insertAction(ui->previousDraftBlock_Action, undoAction);
+    ui->edit_Toolbar->insertAction(ui->previousDraftBlock_Action, undoAction);
 
     QList<QKeySequence> redoShortcuts;
     redoShortcuts.append(QKeySequence(Qt::ControlModifier + Qt::Key_Y));
@@ -5318,12 +5382,12 @@ void MainWindow::createMenus()
     redoAction->setShortcuts(redoShortcuts);
     redoAction->setIcon(QIcon::fromTheme("edit-redo"));
     connect(redoAction, &QAction::triggered, toolProperties, &VToolOptionsPropertyBrowser::refreshOptions);
-    ui->edit_Menu->addAction(redoAction);
-    ui->edit_Toolbar->addAction(redoAction);
+    ui->edit_Menu->insertAction(ui->previousDraftBlock_Action, redoAction);
+    ui->edit_Toolbar->insertAction(ui->previousDraftBlock_Action, redoAction);
 
     separatorAct = new QAction(this);
     separatorAct->setSeparator(true);
-    ui->edit_Menu->addAction(separatorAct);
+    ui->edit_Menu->insertAction(ui->previousDraftBlock_Action, separatorAct);
 
     AddDocks();
 
@@ -5720,6 +5784,16 @@ void MainWindow::createActions()
     connect(ui->exit_Action, &QAction::triggered, this, &MainWindow::close);
 
     //Edit Menu
+    connect(ui->previousDraftBlock_Action, &QAction::triggered, this, [this]()
+    {
+        changeDraftBlock(Selection::Prev);
+    });
+
+    connect(ui->nextDraftBlock_Action, &QAction::triggered, this, [this]()
+    {
+        changeDraftBlock(Selection::Next);
+    });
+
     connect(ui->labelTemplateEditor_Action, &QAction::triggered, this, [this]()
     {
         EditLabelTemplateDialog editor(doc);
@@ -6564,13 +6638,13 @@ QStringList MainWindow::GetUnlokedRestoreFileList() const
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void MainWindow::ToolBarStyles()
+void MainWindow::initToolBarStyles()
 {
-    ToolBarStyle(ui->draft_ToolBar);
-    ToolBarStyle(ui->mode_ToolBar);
-    ToolBarStyle(ui->edit_Toolbar);
-    ToolBarStyle(ui->zoom_ToolBar);
-    ToolBarStyle(ui->file_ToolBar);
+    initToolBarStyle(ui->draft_ToolBar);
+    initToolBarStyle(ui->mode_ToolBar);
+    initToolBarStyle(ui->edit_Toolbar);
+    initToolBarStyle(ui->zoom_ToolBar);
+    initToolBarStyle(ui->file_ToolBar);
 
     fontComboBox->setCurrentFont(qApp->Seamly2DSettings()->getPointNameFont());
     int index = fontSizeComboBox->findData(qApp->Seamly2DSettings()->getPointNameSize());
@@ -6612,19 +6686,8 @@ void MainWindow::Preferences()
         // QScopedPointer needs to be sure any exception will never block guard
         QScopedPointer<DialogPreferences> dialog(preferences);
         guard = preferences;
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::WindowsLocale); // Must be first
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::ToolBarStyles);
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::updateToolBarVisibility);
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::refreshLabels);
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::resetOrigins);
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::upDateScenes);
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::updateViewToolbar);
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::resetPanShortcuts);
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, [this](){emit doc->FullUpdateFromFile();});
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::initPropertyEditor);
-        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::initBasePointComboBox);
-        connect(dialog.data(), &DialogPreferences::updateProperties, ui->view, &VMainGraphicsView::resetScrollBars);
-        connect(dialog.data(), &DialogPreferences::updateProperties, ui->view, &VMainGraphicsView::resetScrollAnimations);
+
+        connect(dialog.data(), &DialogPreferences::updateProperties, this, &MainWindow::updatePreferences);
 
         QGuiApplication::restoreOverrideCursor();
 
@@ -6633,6 +6696,30 @@ void MainWindow::Preferences()
             initializeAutoSave();
         }
     }
+}
+
+//-----------------------------------------------------------------------------
+/// @brief updatePreferences updates the Preferences
+///
+/// This method updates the gui whenever changes are made to the Preferences.
+//-----------------------------------------------------------------------------
+void MainWindow::updatePreferences()
+{
+    setWindowsLocale(); // Must be first
+    initToolBarStyles();
+    updateToolBarVisibility();
+    refreshLabels();
+    resetOrigins();
+    upDateScenes();
+    setSceneBackgroundColor();
+    updateViewToolbar();
+    resetPanShortcuts();
+    initPropertyEditor();
+    initBasePointComboBox();
+    initPenToolBar();
+    ui->view->resetScrollBars();
+    ui->view->resetScrollAnimations();
+    emit doc->FullUpdateFromFile();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -7144,7 +7231,8 @@ void MainWindow::changeDraftBlock(int index, bool zoomBestFit)
 {
     if (index != -1)
     {
-        doc->changeActiveDraftBlock(draftBlockComboBox->itemText(index));
+        QString name = draftBlockComboBox->itemText(index);
+        doc->changeActiveDraftBlock(name);
         doc->setCurrentData();
         emit RefreshHistory();
         if (drawMode)

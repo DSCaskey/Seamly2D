@@ -172,10 +172,11 @@ private slots:
     void fullParseFile();
     void setGuiEnabled(bool enabled);
     void changeDraftBlockGlobally(const QString &patternPiece);
-    void ToolBarStyles();
+    void initToolBarStyles();
     void resetOrigins();
     void showLayoutPages(int index);
     void Preferences();
+    void updatePreferences();
 #if defined(Q_OS_MAC)
     void CreateMeasurements();
 #endif
@@ -239,6 +240,8 @@ private slots:
 
     void handleNewLayout(bool checked);
 
+    void changeDraftBlock(Selection selection);
+
     void showDraftMode(bool checked);
     void showPieceMode(bool checked);
     void showLayoutMode(bool checked);
@@ -250,7 +253,7 @@ private slots:
 
     void closeUnionDialog(int result);
     void ClosedEditGroupDialog(int result);
-    void ClosedDialogInternalPath(int result);
+    void ClosedInternalPathDialog(int result);
     void ClosedDialogAnchorPoint(int result);
     void ClosedInsertNodesDialog(int result);
 
@@ -319,7 +322,6 @@ private:
     QComboBox                        *basePointComboBox;
     QComboBox                        *draftBlockComboBox;  /** @brief draftBlockComboBox stores names of draft blocks.*/
     QLabel                           *draftBlockLabel;
-    Draw                              mode;                /** @brief mode stores current draw mode. */
     qint32                            currentBlockIndex;   /** @brief currentBlockIndex  current selected draft block.*/
     qint32                            currentToolBoxIndex; /** @brief currentToolBoxIndex  current set of tools. */
     bool                              isToolOptionsDockVisible;
@@ -386,8 +388,10 @@ private:
     void               setToolsEnabled(bool enable);
     void               SetLayoutModeActions();
 
+    void               setSceneBackgroundColor();
     void               SaveCurrentScene();
     void               RestoreCurrentScene();
+
     void               MinimumScrollBar();
 
     template <typename Dialog, typename Func>

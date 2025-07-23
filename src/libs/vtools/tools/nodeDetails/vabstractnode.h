@@ -1,53 +1,51 @@
-/***************************************************************************
- *                                                                         *
- *   Copyright (C) 2017  Seamly, LLC                                       *
- *                                                                         *
- *   https://github.com/fashionfreedom/seamly2d                             *
- *                                                                         *
- ***************************************************************************
- **
- **  Seamly2D is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Seamly2D is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
- **
- **************************************************************************
-
- ************************************************************************
- **
- **  @file   vabstractnode.h
- **  @author Roman Telezhynskyi <dismine(at)gmail.com>
- **  @date   November 15, 2013
- **
- **  @brief
- **  @copyright
- **  This source code is part of the Valentine project, a pattern making
- **  program, whose allow create and modeling patterns of clothing.
- **  Copyright (C) 2013-2015 Seamly2D project
- **  <https://github.com/fashionfreedom/seamly2d> All Rights Reserved.
- **
- **  Seamly2D is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Seamly2D is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
- **
- *************************************************************************/
+//---------------------------------------------------------------------------------------------------------------------
+//  @file   vabstractnode.h
+//  @author Douglas S Caskey
+//  @date   2 Apr, 2025
+//
+//  @copyright
+//  Copyright (C) 2017 - 2025 Seamly, LLC
+//  https://github.com/fashionfreedom/seamly2d
+//
+//  @brief
+//  Seamly2D is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Seamly2D is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Seamly2D. if not, see <http://www.gnu.org/licenses/>.
+//---------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------//
+//  @file   vabstractnode.h
+//  @author Roman Telezhynskyi <dismine(at)gmail.com>
+//  @date   15 11, 2013
+//
+//  @brief
+//  @copyright
+//  This source code is part of the Valentina project, a pattern making
+//  program, whose allow create and modeling patterns of clothing.
+//  Copyright (C) 2017 Valentina project
+//  <https://bitbucket.org/dismine/valentina> All Rights Reserved.
+//
+//  Valentina is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Valentina is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
+//---------------------------------------------------------------------------------------------------------------------
 
 #ifndef VABSTRACTNODE_H
 #define VABSTRACTNODE_H
@@ -75,37 +73,32 @@ public:
                   const QString &blockName = QString(), const quint32 &idTool = 0, QObject *parent = nullptr);
     virtual      ~VAbstractNode() Q_DECL_EQ_DEFAULT;
     static const QString AttrIdTool;
-    virtual void ShowVisualization(bool show) Q_DECL_OVERRIDE;
-    virtual void incrementReferens() Q_DECL_OVERRIDE;
-    virtual void decrementReferens() Q_DECL_OVERRIDE;
+    virtual void ShowVisualization(bool show) override;
+    virtual void incrementReferens() override;
+    virtual void decrementReferens() override;
 
-    ParentType GetParentType() const;
-    void       SetParentType(const ParentType &value);
+    ParentType   GetParentType() const;
+    void         SetParentType(const ParentType &value);
 
-    virtual void GroupVisibility(quint32 object, bool visible) Q_DECL_OVERRIDE;
+    virtual void GroupVisibility(quint32 object, bool visible) override;
 
-    bool IsExluded() const;
-    void SetExluded(bool exluded);
+    bool         IsExluded() const;
+    void         SetExluded(bool exluded);
 
 protected:
-    ParentType parentType;
-
-    /** @brief idNodenode id. */
-    quint32       idNode;
-
-    /** @brief idTool id tool. */
-    quint32       idTool;
-
-    QString       m_blockName;
-
-    bool          m_exluded;
+    ParentType   parentType;
+    quint32      idNode; /// @brief idNodenode id.
+    quint32      idTool; /// @brief idTool id tool.
+    QString      m_blockName;
+    bool         m_exluded;
 
     void         AddToModeling(const QDomElement &domElement);
-    virtual void ToolCreation(const Source &typeCreation) Q_DECL_OVERRIDE;
-    virtual void SetVisualization() Q_DECL_OVERRIDE {}
+    virtual void ToolCreation(const Source &typeCreation) override;
+    virtual void SetVisualization() override {}
 
     virtual void ShowNode()=0;
     virtual void HideNode()=0;
+
 private:
     Q_DISABLE_COPY(VAbstractNode)
 };

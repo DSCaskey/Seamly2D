@@ -1,3 +1,4 @@
+//-----------------------------------------------------------------------------
 //  @file   vcommonsettings.cpp
 //  @author Douglas S Caskey
 //  @date   17 Sep, 2023
@@ -6,7 +7,7 @@
 //  @copyright
 //  This source code is part of the Seamly2D project, a pattern making
 //  program to create and model patterns of clothing.
-//  Copyright (C) 2017-2024 Seamly2D project
+//  Copyright (C) 2017-2025 Seamly2D project
 //  <https://github.com/fashionfreedom/seamly2d> All Rights Reserved.
 //
 //  Seamly2D is free software: you can redistribute it and/or modify
@@ -21,34 +22,33 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
+//-----------------------------------------------------------------------------
 
-/************************************************************************
- **
- **  @file   vcommonsettings.cpp
- **  @author Roman Telezhynskyi <dismine(at)gmail.com>
- **  @date   15 7, 2015
- **
- **  @brief
- **  @copyright
- **  This source code is part of the Valentina project, a pattern making
- **  program, whose allow create and modeling patterns of clothing.
- **  Copyright (C) 2015 Valentina project
- **  <https://bitbucket.org/dismine/valentina> All Rights Reserved.
- **
- **  Valentina is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Valentina is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
- **
- *************************************************************************/
+//-----------------------------------------------------------------------------
+//  @file   vcommonsettings.cpp
+//  @author Roman Telezhynskyi <dismine(at)gmail.com>
+//  @date   15 7, 2015
+//
+//  @brief
+//  @copyright
+//  This source code is part of the Valentina project, a pattern making
+//  program, whose allow create and modeling patterns of clothing.
+//  Copyright (C) 2015 Valentina project
+//  <https://bitbucket.org/dismine/valentina> All Rights Reserved.
+//
+//  Valentina is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Valentina is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
+//-----------------------------------------------------------------------------
 
 #include "vcommonsettings.h"
 
@@ -141,9 +141,11 @@ const QString settingGraphicsViewAngleDelta              = QStringLiteral("graph
 const QString settingGraphicsViewZoomModKey              = QStringLiteral("graphicsview/zoomModKey");
 const QString settingGraphicsViewZoomDoubleClick         = QStringLiteral("graphicsview/zoomDoubleClick");
 const QString settingGraphicsViewPanActiveSpaceKey       = QStringLiteral("graphicsview/panActiveSpaceKey");
-const QString settingGraphicsViewUseDefaultPen       = QStringLiteral("graphicsview/useCurrentPen");
+const QString settingGraphicsViewUseDefaultPen           = QStringLiteral("graphicsview/useCurrentPen");
+const QString settingGraphicsViewShowIsoOnly             = QStringLiteral("graphicsview/showOnlyIso");
 const QString settingGraphicsViewZoomSpeedFactor         = QStringLiteral("graphicsview/zoomSpeedFactor");
 const QString settingGraphicsViewExportQuality           = QStringLiteral("graphicsview/exportQuality");
+const QString settingGraphicsViewBackgroundColor         = QStringLiteral("graphicsview/backgroundColor");
 const QString settingGraphicsViewZoomRBPositiveColor     = QStringLiteral("graphicsview/zoomRBPositiveColor");
 const QString settingGraphicsViewZoomRBNegativeColor     = QStringLiteral("graphicsview/zoomRBNegativeColor");
 const QString settingGraphicsViewPointNameColor          = QStringLiteral("graphicsview/pointNameColor");
@@ -1082,6 +1084,18 @@ void VCommonSettings::setUseCurrentPen(const bool &value)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
+bool VCommonSettings::showOnlyIso() const
+{
+    return value(settingGraphicsViewShowIsoOnly, false).toBool();
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void VCommonSettings::setShowIsoOnly(const bool &value)
+{
+    setValue(settingGraphicsViewShowIsoOnly, value);
+}
+
+//---------------------------------------------------------------------------------------------------------------------
 int  VCommonSettings::getZoomSpeedFactor() const
 {
     return value(settingGraphicsViewZoomSpeedFactor, 16).toInt();
@@ -1103,6 +1117,30 @@ int  VCommonSettings::getExportQuality() const
 void VCommonSettings::setExportQuality(const int  &value)
 {
     setValue(settingGraphicsViewExportQuality, value);
+}
+
+//-----------------------------------------------------------------------------
+/// @brief getBackgroundColor Gets the background color.
+///
+/// This method gets the name of the background color from the settings.
+///
+/// @return String name of the background color.
+//-----------------------------------------------------------------------------
+QString VCommonSettings::getBackgroundColor() const
+{
+    return value(settingGraphicsViewBackgroundColor, "White").toString();
+}
+
+//-----------------------------------------------------------------------------
+/// @brief setBackgroundColor Sets the background color.
+///
+/// This method saves the background color name to the settings.
+///
+/// @param color String name of background color to save.
+//-----------------------------------------------------------------------------
+void VCommonSettings::setBackgroundColor(const QString &color)
+{
+    setValue(settingGraphicsViewBackgroundColor, color);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -1180,7 +1218,7 @@ void VCommonSettings::setDefaultLineColor(const QString &value)
 //---------------------------------------------------------------------------------------------------------------------
 qreal VCommonSettings::getDefaultLineWeight() const
 {
-    return value(settingGraphicsViewDefaultLineWeight, 1.20).toReal();
+    return value(settingGraphicsViewDefaultLineWeight, 1.00).toReal();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -1853,7 +1891,7 @@ void VCommonSettings::setDefaultSeamLinetype(const QString &value)
 //---------------------------------------------------------------------------------------------------------------------
 qreal VCommonSettings::getDefaultSeamLineweight() const
 {
-   return value(settingDefaultSeamLineweight, 1.20).toReal();
+   return value(settingDefaultSeamLineweight, 1.00).toReal();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -1889,7 +1927,7 @@ void VCommonSettings::setDefaultCutLinetype(const QString &value)
 //---------------------------------------------------------------------------------------------------------------------
 qreal VCommonSettings::getDefaultCutLineweight() const
 {
-   return value(settingDefaultCutLineweight, 1.20).toReal();
+   return value(settingDefaultCutLineweight, 1.00).toReal();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -1925,7 +1963,7 @@ void VCommonSettings::setDefaultInternalLinetype(const QString &value)
 //---------------------------------------------------------------------------------------------------------------------
 qreal VCommonSettings::getDefaultInternalLineweight() const
 {
-   return value(settingDefaultInternalLineweight, 1.20).toReal();
+   return value(settingDefaultInternalLineweight, 1.00).toReal();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -1961,7 +1999,7 @@ void VCommonSettings::setDefaultCutoutLinetype(const QString &value)
 //---------------------------------------------------------------------------------------------------------------------
 qreal VCommonSettings::getDefaultCutoutLineweight() const
 {
-   return value(settingDefaultCutoutLineweight, 1.20).toReal();
+   return value(settingDefaultCutoutLineweight, 1.00).toReal();
 }
 
 //---------------------------------------------------------------------------------------------------------------------

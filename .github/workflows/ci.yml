@@ -39,7 +39,7 @@ jobs:
 
   linux:
     name: 'Linux: Build AppImage'
-    runs-on: ubuntu-20.04  # build on the oldest supported LTS so that resulting binaries are compatible with older and newer Linux releases
+    runs-on: ubuntu-22.04  # build on the oldest supported LTS so that resulting binaries are compatible with older and newer Linux releases
     needs: version
     env:
       VERSION_NUMBER: ${{ needs.version.outputs.version_number }}
@@ -87,7 +87,7 @@ jobs:
   linux-test:
     if: github.event_name == 'pull_request'
     name: 'Linux: Run unit tests'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
@@ -185,7 +185,7 @@ jobs:
     env:
       VERSION_NUMBER: ${{ needs.version.outputs.version_number }}
 
-    steps:
+    steps:     
       - uses: actions/checkout@v4
 
       - uses: ilammy/msvc-dev-cmd@v1
@@ -216,23 +216,49 @@ jobs:
           cd ..\windows-build\
           & 'C:\Program Files (x86)\NSIS\makensis.exe' seamly2d-installer.nsi
 
-      - name: setup signing
-        id: setup_signing
-        uses: timheuer/base64-to-file@v1.2
+      - name: Authenticate to Google Cloud (for signing)
+        uses: google-github-actions/auth@v2
         env:
-          PFX_BASE64: ${{ secrets.pfx_base64 }}
-        if: ${{ env.PFX_BASE64 }}
+          SEAMLY_SIGNING_PROJECT_ID: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
+        # run signing part if secrets are available (main builds), otherwise (3rd party PRs etc) skip
+        if: ${{ env.SEAMLY_SIGNING_PROJECT_ID }}
         with:
-          encodedString: ${{ secrets.pfx_base64 }}
-          fileName: seamly2d.pfx
+          credentials_json: ${{ secrets.SEAMLY_SIGNING_SA_KEY }}
+          project_id: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
 
-      - name: sign installer
+      - name: Setup Google Cloud CLI (for signing)
+        uses: google-github-actions/setup-gcloud@v2
         env:
-          PFX_BASE64: ${{ secrets.pfx_base64 }}
-        if: false # temporarily disable signing until #1104 is solved, then revert to ${{ env.PFX_BASE64 }}
+          SEAMLY_SIGNING_PROJECT_ID: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
+        # run signing part if secrets are available (main builds), otherwise (3rd party PRs etc) skip
+        if: ${{ env.SEAMLY_SIGNING_PROJECT_ID }}
+
+      - name: Set up Java (for signing)
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Sign executables
+        env:
+          SEAMLY_SIGNING_PROJECT_ID: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
+        # run signing part if secrets are available (main builds), otherwise (3rd party PRs etc) skip
+        if: ${{ env.SEAMLY_SIGNING_PROJECT_ID }}
+        shell: bash
+        run: |
+          java -jar .github/workflows/signing/jsign.jar \
+          --storetype GOOGLECLOUD \
+          --storepass "$(gcloud auth print-access-token)" \
+          --keystore "projects/${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}/locations/${{ secrets.SEAMLY_SIGNING_LOCATION }}/keyRings/${{ secrets.SEAMLY_SIGNING_KEYRING_NAME }}" \
+          --alias "${{ secrets.SEAMLY_SIGNING_KEY_NAME }}" \
+          --certfile .github/workflows/signing/codesign-chain.pem \
+          --tsaurl http://timestamp.sectigo.com \
+          ../windows-build/Seamly2D-installer.exe
+
+      - name: Print installer signature
         run: |
           cd ..\windows-build\
-          SignTool sign /fd SHA256 /f ${{ steps.setup_signing.outputs.filePath }} /p ${{ secrets.pfx_password }} /t http://timestamp.sectigo.com Seamly2D-installer.exe
+          Get-AuthenticodeSignature Seamly2D-installer.exe
 
       - name: pack installer file into .zip
         run: |
@@ -287,23 +313,53 @@ jobs:
           cd ..\windows-build\
           & 'C:\Program Files (x86)\NSIS\makensis.exe' seamly2d-installer.nsi
 
-      - name: setup signing
-        id: setup_signing
-        uses: timheuer/base64-to-file@v1.2
+      - name: Authenticate to Google Cloud (for signing)
+        uses: google-github-actions/auth@v2
         env:
-          PFX_BASE64: ${{ secrets.pfx_base64 }}
-        if: ${{ env.PFX_BASE64 }}
+          SEAMLY_SIGNING_PROJECT_ID: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
+        # run signing part if secrets are available (main builds), otherwise (3rd party PRs etc) skip
+        if: ${{ env.SEAMLY_SIGNING_PROJECT_ID }}
         with:
-          encodedString: ${{ secrets.pfx_base64 }}
-          fileName: seamly2d.pfx
+          credentials_json: ${{ secrets.SEAMLY_SIGNING_SA_KEY }}
+          project_id: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
 
-      - name: sign installer
+      - name: Setup Google Cloud CLI (for signing)
+        uses: google-github-actions/setup-gcloud@v2
         env:
-          PFX_BASE64: ${{ secrets.pfx_base64 }}
-        if: false # temporarily disable signing until #1104 is solved, then revert to ${{ env.PFX_BASE64 }}
+          SEAMLY_SIGNING_PROJECT_ID: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
+        # run signing part if secrets are available (main builds), otherwise (3rd party PRs etc) skip
+        if: ${{ env.SEAMLY_SIGNING_PROJECT_ID }}
+
+      - name: Set up Java (for signing)
+        uses: actions/setup-java@v4
+        env:
+          SEAMLY_SIGNING_PROJECT_ID: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
+        # run signing part if secrets are available (main builds), otherwise (3rd party PRs etc) skip
+        if: ${{ env.SEAMLY_SIGNING_PROJECT_ID }}
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Sign executables
+        shell: bash
+        env:
+          SEAMLY_SIGNING_PROJECT_ID: ${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}
+        # run signing part if secrets are available (main builds), otherwise (3rd party PRs etc) skip
+        if: ${{ env.SEAMLY_SIGNING_PROJECT_ID }}
+        run: |
+          java -jar .github/workflows/signing/jsign.jar \
+          --storetype GOOGLECLOUD \
+          --storepass "$(gcloud auth print-access-token)" \
+          --keystore "projects/${{ secrets.SEAMLY_SIGNING_PROJECT_ID }}/locations/${{ secrets.SEAMLY_SIGNING_LOCATION }}/keyRings/${{ secrets.SEAMLY_SIGNING_KEYRING_NAME }}" \
+          --alias "${{ secrets.SEAMLY_SIGNING_KEY_NAME }}" \
+          --certfile .github/workflows/signing/codesign-chain.pem \
+          --tsaurl http://timestamp.sectigo.com \
+          ../windows-build/Seamly2D-installer.exe
+
+      - name: Print installer signature
         run: |
           cd ..\windows-build\
-          SignTool sign /fd SHA256 /f ${{ steps.setup_signing.outputs.filePath }} /p ${{ secrets.pfx_password }} /t http://timestamp.sectigo.com Seamly2D-installer.exe
+          Get-AuthenticodeSignature Seamly2D-installer.exe
 
       - name: pack installer file into .zip
         run: |
@@ -318,9 +374,9 @@ jobs:
           if-no-files-found: error
 
   publish:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push') && github.ref_name == 'develop'
     runs-on: ubuntu-latest
-    needs: [version, windows, win32, linux, macos]
+    needs: [version, linux, macos, win32, windows]
     env:
       VERSION_NUMBER: ${{ needs.version.outputs.version_number }}
 
@@ -331,10 +387,12 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: Seamly2D-macos.zip
-      - uses: actions/download-artifact@v4
+      - name: Download unsigned Windows artifacts
+        uses: actions/download-artifact@v4
         with:
           name: Seamly2D-windows.zip
-      - uses: actions/download-artifact@v4
+      - name: Download unsigned win32 artifacts
+        uses: actions/download-artifact@v4
         with:
           name: Seamly2D-win32.zip
       - uses: softprops/action-gh-release@v2
@@ -343,8 +401,6 @@ jobs:
           name: ${{ env.VERSION_NUMBER }}
           generate_release_notes: true
           fail_on_unmatched_files: true
-          # push event is triggered after pull request is merged, and in these cases mark as prerelease
-          # all other (schedule and manual) are not marked as prerelease
           prerelease: ${{ github.event_name == 'push' }}
           files: |
             Seamly2D-x86_64.AppImage
@@ -354,7 +410,7 @@ jobs:
 
   document:
     # Deploy Doxygen documentation for scheduled releases (schedule) and manual releases (workflow_dispatch) and pre-releases (push)
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push')
     runs-on: ubuntu-latest
 
     steps:

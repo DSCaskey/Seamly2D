@@ -49,15 +49,11 @@
     </message>
     <message>
         <source>Build date:</source>
-        <translation></translation>
+        <translation>Fecha de construcción:</translation>
     </message>
     <message>
         <source>Qt Version:</source>
         <translation>Fecha de construcción:</translation>
-    </message>
-    <message>
-        <source>CPU:</source>
-        <translation>CPU:</translation>
     </message>
     <message>
         <source>Compiler:</source>
@@ -78,10 +74,6 @@
     <message>
         <source>Architecture</source>
         <translation>Arquitectura</translation>
-    </message>
-    <message>
-        <source>OS:</source>
-        <translation>OS:</translation>
     </message>
     <message>
         <source>OS Version:</source>
@@ -105,7 +97,7 @@
     </message>
     <message>
         <source>System codec:</source>
-        <translation></translation>
+        <translation>Códec del sistema:</translation>
     </message>
     <message>
         <source>Language:</source>
@@ -177,7 +169,7 @@
     <name>AddImage</name>
     <message>
         <source>add image</source>
-        <translation type="unfinished"></translation>
+        <translation>añadir imagen</translation>
     </message>
 </context>
 <context>
@@ -222,6 +214,14 @@
     <message>
         <source>Piece:</source>
         <translation>Pieza:</translation>
+    </message>
+</context>
+<context>
+    <name>AnchorPointTool</name>
+    <message>
+        <source>add anchor point</source>
+        <translatorcomment>añadir punto de anclaje</translatorcomment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -368,14 +368,6 @@
 <context>
     <name>CalculatorUtil</name>
     <message>
-        <source>.</source>
-        <translation>.</translation>
-    </message>
-    <message>
-        <source>±</source>
-        <translation>±</translation>
-    </message>
-    <message>
         <source>Backspace</source>
         <translation>Borrar</translation>
     </message>
@@ -388,60 +380,8 @@
         <translation>Limpiar todo</translation>
     </message>
     <message>
-        <source>MC</source>
-        <translation>MC</translation>
-    </message>
-    <message>
-        <source>MR</source>
-        <translation>MR</translation>
-    </message>
-    <message>
-        <source>MS</source>
-        <translation>MS</translation>
-    </message>
-    <message>
-        <source>M+</source>
-        <translation>M+</translation>
-    </message>
-    <message>
-        <source>÷</source>
-        <translation>÷</translation>
-    </message>
-    <message>
-        <source>×</source>
-        <translation>×</translation>
-    </message>
-    <message>
-        <source>-</source>
-        <translation>-</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation>+</translation>
-    </message>
-    <message>
-        <source>Sqrt</source>
-        <translation>Sqrt</translation>
-    </message>
-    <message>
-        <source>x²</source>
-        <translation>x²</translation>
-    </message>
-    <message>
-        <source>1/x</source>
-        <translation>1/x</translation>
-    </message>
-    <message>
-        <source>=</source>
-        <translation>=</translation>
-    </message>
-    <message>
         <source>Calculator</source>
         <translation>Calculadora</translation>
-    </message>
-    <message>
-        <source>####</source>
-        <translation>####</translation>
     </message>
 </context>
 <context>
@@ -747,16 +687,6 @@ p, li { white-space: pre-wrap; }
         <translation>Geometría</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;First Angle Calculation&lt;/span&gt;&lt;br/&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Cálculo del primer ángulo&lt;/span&gt;&lt;br/&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Angle Calculation&lt;/b&gt;&lt;br&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an  angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Cálculo de ángulos&lt;/b&gt;&lt;br&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Attributes</source>
         <translation>Propiedades</translation>
     </message>
@@ -846,12 +776,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Geometry</source>
         <translation>Geometría</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Angle Calculation&lt;/b&gt;&lt;br&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an  angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Cálculo de ángulos&lt;/b&gt;&lt;br&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Attributes</source>
@@ -1124,12 +1048,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Geometry</source>
         <translation>Geometría</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Angle Calculation&lt;/b&gt;&lt;br&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an  angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Cálculo de ángulos&lt;/b&gt;&lt;br&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Attributes</source>
@@ -1495,18 +1413,6 @@ p, li { white-space: pre-wrap; }
         <translation>Geometría</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;First Angle Calculation&lt;/span&gt;&lt;br/&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Cálculo del primer ángulo&lt;/span&gt;&lt;br/&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Second Angle Calculation&lt;/span&gt;&lt;br/&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Cálculo del segundo ángulo&lt;/span&gt;&lt;br/&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rotation Angle Calculation&lt;/span&gt;&lt;br/&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Cálculo del ángulo de rotación&lt;/span&gt;&lt;br/&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Name:</source>
         <translation>Nombre:</translation>
     </message>
@@ -1576,12 +1482,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Geometry</source>
         <translation>Geometría</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Angle Calculation&lt;/b&gt;&lt;br&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an  angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Cálculo de ángulos&lt;/b&gt;&lt;br&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Attributes</source>
@@ -1692,281 +1592,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Name:</source>
         <translation>Nombre:</translation>
-    </message>
-</context>
-<context>
-    <name>DialogInternalPath</name>
-    <message>
-        <source>Internal Path Tool</source>
-        <translation>Herramienta de ruta interna</translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation>Ruta</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Nombre:</translation>
-    </message>
-    <message>
-        <source>Unnamed path</source>
-        <translation>Ruta sin nombre</translation>
-    </message>
-    <message>
-        <source>Create name for your path</source>
-        <translation>Crea un nombre para su ruta</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation>Tipo:</translation>
-    </message>
-    <message>
-        <source>Linetype:</source>
-        <translation>Tipo de línea:</translation>
-    </message>
-    <message>
-        <source>Piece:</source>
-        <translation>Pieza:</translation>
-    </message>
-    <message>
-        <source>Move row to top of list</source>
-        <translation>Mover fila al principio de la lista</translation>
-    </message>
-    <message>
-        <source>Move row up one row</source>
-        <translation>Mover fila por encima de una fila</translation>
-    </message>
-    <message>
-        <source>Move row down one row</source>
-        <translation>Mover fila por debajo de una fila</translation>
-    </message>
-    <message>
-        <source>Move row to bottom of list</source>
-        <translation>Mover fila al final de la lista</translation>
-    </message>
-    <message>
-        <source>The path is a cut contour</source>
-        <translation>La ruta es un contorno cortado</translation>
-    </message>
-    <message>
-        <source>Cut on fabric</source>
-        <translation>Cortar en tela</translation>
-    </message>
-    <message>
-        <source>Staus:</source>
-        <translation>Estado:</translation>
-    </message>
-    <message>
-        <source>Ready!</source>
-        <translation>¡Listo!</translation>
-    </message>
-    <message>
-        <source>Seam allowance</source>
-        <translation>Márgenes de costura</translation>
-    </message>
-    <message>
-        <source>Width:</source>
-        <translation>Ancho:</translation>
-    </message>
-    <message>
-        <source>Formula wizard</source>
-        <translation>Asistente de fórmula</translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation>Valor</translation>
-    </message>
-    <message>
-        <source>Calculation</source>
-        <translation>Cálculo</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show full calculation in message box&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mostrar el cálculo completo en el cuadro de mensaje&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>Nodes</source>
-        <translation>Nodos</translation>
-    </message>
-    <message>
-        <source>Node:</source>
-        <translation>Nodo:</translation>
-    </message>
-    <message>
-        <source>Before:</source>
-        <translation>Antes:</translation>
-    </message>
-    <message>
-        <source>Return to default width</source>
-        <translation>Volver al ancho predeterminado</translation>
-    </message>
-    <message>
-        <source>Default</source>
-        <translation>Predeterminado</translation>
-    </message>
-    <message>
-        <source>After:</source>
-        <translation>Después:</translation>
-    </message>
-    <message>
-        <source>Angle:</source>
-        <translation>Ángulo:</translation>
-    </message>
-    <message>
-        <source>Notches</source>
-        <translation>Piquetes</translation>
-    </message>
-    <message>
-        <source>Notch:</source>
-        <translation>Piquete:</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Tipo</translation>
-    </message>
-    <message>
-        <source>Slit</source>
-        <translation>Abertura</translation>
-    </message>
-    <message>
-        <source>T Notch</source>
-        <translation>T Piquete</translation>
-    </message>
-    <message>
-        <source>U Notch</source>
-        <translation>U Piquete</translation>
-    </message>
-    <message>
-        <source>V Internal</source>
-        <translation>V Interno</translation>
-    </message>
-    <message>
-        <source>V External</source>
-        <translation>V Externo</translation>
-    </message>
-    <message>
-        <source>Castle</source>
-        <translation>Castillo</translation>
-    </message>
-    <message>
-        <source>Diamond</source>
-        <translation>Diamante</translation>
-    </message>
-    <message>
-        <source>Sub Type</source>
-        <translation>Subtipo</translation>
-    </message>
-    <message>
-        <source>Straightforward</source>
-        <translation>Directo</translation>
-    </message>
-    <message>
-        <source>Bisector</source>
-        <translation>Bisectriz</translation>
-    </message>
-    <message>
-        <source>Select to designate the corner point as a notch</source>
-        <translation>Seleccione para designar el punto de la esquina como un piquete</translation>
-    </message>
-    <message>
-        <source>Intersection</source>
-        <translation>Intersección</translation>
-    </message>
-    <message>
-        <source>Geomtery</source>
-        <translation>Geometría</translation>
-    </message>
-    <message>
-        <source>Reset notch angle to default.</source>
-        <translation>Restablecer el ángulo de piquete a su valor predeterminado.</translation>
-    </message>
-    <message>
-        <source>Count:</source>
-        <translation>Contar:</translation>
-    </message>
-    <message>
-        <source>Reset notch with to default.</source>
-        <translation>Restablecer el piquete a sus valores predeterminados.</translation>
-    </message>
-    <message>
-        <source>This option has effect only if the second notch on seam line is enabled in global preferences. The option helps disable the second notch for this notch only.</source>
-        <translation>Esta opción tiene efecto sólo si el segundo piquete en la línea de costura está habilitado en las preferencias globales. La opción ayuda a desactivar el segundo piquete sólo para este piquete.</translation>
-    </message>
-    <message>
-        <source>Show second notch on seam line</source>
-        <translation>Mostrar el segundo piquete en la línea de costura</translation>
-    </message>
-    <message>
-        <source>Reset notch length to default.</source>
-        <translation>Restablecer la longitud del piquete a su valor predeterminado.</translation>
-    </message>
-    <message>
-        <source> Width:</source>
-        <translation> Ancho:</translation>
-    </message>
-    <message>
-        <source>Length:</source>
-        <translation>Longitud:</translation>
-    </message>
-    <message>
-        <source>Select main path objects, Use &lt;b&gt;SHIFT&lt;/b&gt; to reverse curve direction, Press &lt;b&gt;ENTER&lt;/b&gt; to finish path creation </source>
-        <translation>Seleccione objetos de ruta principal, use&lt;b&gt;SHIFT&lt;/b&gt; para invertir la dirección de la curva, presione&lt;b&gt;ENTER&lt;/b&gt;para finalizar la creación de la ruta </translation>
-    </message>
-    <message>
-        <source>Reverse</source>
-        <translation>Reverso</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Eliminar</translation>
-    </message>
-    <message>
-        <source>Current seam allowance</source>
-        <translation>Acual margen de costura</translation>
-    </message>
-    <message>
-        <source>Edit seam allowance width</source>
-        <translation>Editar margen de costura</translation>
-    </message>
-    <message>
-        <source>Edit seam allowance width before</source>
-        <translation>Editar el ancho de margen de costura anterior</translation>
-    </message>
-    <message>
-        <source>Edit seam allowance width after</source>
-        <translation>Editar el ancho de margen de costura posterior</translation>
-    </message>
-    <message>
-        <source>Internal path</source>
-        <translation>Ruta interna</translation>
-    </message>
-    <message>
-        <source>Custom seam allowance</source>
-        <translation>Personalizar el margen de costura</translation>
-    </message>
-    <message>
-        <source>You need more points!</source>
-        <translation>¡Necesita más puntos!</translation>
-    </message>
-    <message>
-        <source>First point of &lt;b&gt;custom seam allowance&lt;/b&gt; cannot be equal to the last point!</source>
-        <translation>¡Primer punto del &lt;b&gt; margen de costura personalizado&lt;/b&gt; no puede ser el mismo que el último puinto!</translation>
-    </message>
-    <message>
-        <source>You have double points!</source>
-        <translation>¡Tiene puntos duplicados!</translation>
-    </message>
-    <message>
-        <source>Each point in the &lt;b&gt;custom seam allowance&lt;/b&gt; path must be unique!</source>
-        <translation>¡Cada punto en la ruta de &lt;b&gt;margen de costura personalizado&lt;/b&gt; debe ser único!</translation>
-    </message>
-    <message>
-        <source>List of details is empty!</source>
-        <translation>¡La lista de detalles está vacía!</translation>
-    </message>
-    <message>
-        <source>Please, select a detail to insert into!</source>
-        <translation>¡Por favor, seleccione un detalle para insertar!</translation>
     </message>
 </context>
 <context>
@@ -2173,12 +1798,6 @@ p, li { white-space: pre-wrap; }
         <translation>Geometría</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Angle Calculation&lt;/b&gt;&lt;br&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an  angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;bCálculo de ángulos&lt;/b&gt;&lt;br&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Attributes</source>
         <translation>Propiedades</translation>
     </message>
@@ -2350,16 +1969,6 @@ p, li { white-space: pre-wrap; }
         <source>Edit rotation</source>
         <translation>Editar rotación</translation>
     </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Angle Calculation&lt;/b&gt;&lt;br&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an  angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Cálculo de ángulos&lt;/b&gt;&lt;br&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rotation Angle Calculation&lt;/span&gt;&lt;br/&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Cálculo del ángulo de rotación&lt;/span&gt;&lt;br/&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot; style=&quot;vertical-align: middle;&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
 </context>
 <context>
     <name>DialogNewPattern</name>
@@ -2473,10 +2082,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Lineweight:</source>
         <translation>Grosor de línea:</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rotatation Angle&lt;/span&gt;&lt;br/&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an angle means counter-clockwise while a negative value means the clockwise direction. &lt;br/&gt;&lt;br/&gt;Rotation angle is added to the angle of the perpendicular.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;370&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td width=&quot;300&quot;&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ángulo de Rotación&lt;/span&gt;&lt;br/&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;br/&gt;&lt;br/&gt;El ángulo de rotación se suma al ángulo de la perpendicular.&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; vertical-align:middle;&quot;&gt;&lt;p align=&quot;right&quot;&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -2910,12 +2515,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Select rotation point that is not part of the list of objects</source>
         <translation>Seleccione punto de rotación que no forma parte de la lista de objetos</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Angle Calculation&lt;/b&gt;&lt;br&gt;Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an  angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;table width = 370&gt;&lt;tr&gt;&lt;td align = left width =300&gt;&lt;b&gt;Cálculo de ángulos&lt;/b&gt;&lt;br&gt;Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.&lt;/td&gt;&lt;td align = right valign = middle&gt;&lt;img src=&quot;:/icon/64x64/rotation.png&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3363,6 +2962,14 @@ p, li { white-space: pre-wrap; }
         <source>Result Value</source>
         <translation>Valor del resultado</translation>
     </message>
+    <message>
+        <source>Angle Calculation</source>
+        <translation>Cálculo del primer ángulo</translation>
+    </message>
+    <message>
+        <source>Angles are specified in degrees, i.e. a full circle equals 360 deg. Positive values for an  angle means counter-clockwise while a negative value means the clockwise direction. Zero degrees is at the 3 o&apos;clock position.</source>
+        <translation>Los ángulos se especifican en grados, es decir, un círculo completo equivale a 360 grados. Los valores positivos para un ángulo significan en sentido contrario a las agujas del reloj, mientras que un valor negativo significa en el sentido de las agujas del reloj. Cero grados está en la posición de las 3 en punto.</translation>
+    </message>
 </context>
 <context>
     <name>DialogTriangle</name>
@@ -3493,8 +3100,8 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Reparar fórmula</translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation>&amp;Cancelar</translation>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Error while calculation formula. You can try to undo last operation or fix broken formula.</source>
@@ -3796,6 +3403,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Curve angle</source>
         <translation>Ángulo de curva</translation>
+    </message>
+    <message>
+        <source>Number</source>
+        <translation>Número</translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation>Personalizado</translation>
     </message>
 </context>
 <context>
@@ -4130,18 +3745,6 @@ p, li { white-space: pre-wrap; }
         <translation>Calidad (0-100):</translation>
     </message>
     <message>
-        <source>-</source>
-        <translation>-</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation>+</translation>
-    </message>
-    <message>
-        <source>Margins</source>
-        <translation>Márgenes</translation>
-    </message>
-    <message>
         <source>Right:</source>
         <translation>Derecha:</translation>
     </message>
@@ -4156,10 +3759,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Bottom:</source>
         <translation>Abajo:</translation>
-    </message>
-    <message>
-        <source>Paper format</source>
-        <translation>Formato de papel</translation>
     </message>
     <message>
         <source>Templates: </source>
@@ -4209,21 +3808,17 @@ p, li { white-space: pre-wrap; }
         <source>Export files:</source>
         <translation>Exportar archivos:</translation>
     </message>
+    <message>
+        <source>Margins (tiled PDF only)</source>
+        <translation>Márgenes (solo PDF en mosaico)</translation>
+    </message>
+    <message>
+        <source>Paper format (tiled PDF only)</source>
+        <translation>Formato de papel (solo PDF en mosaico)</translation>
+    </message>
 </context>
 <context>
     <name>FvUpdater</name>
-    <message>
-        <source>Feed download failed: %1.</source>
-        <translation>Falló la descarga de entrega: %1.</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Error</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Información</translation>
-    </message>
     <message>
         <source>Unable to open file
 %1
@@ -4233,28 +3828,42 @@ for writing</source>
 para la escritura</translation>
     </message>
     <message>
+        <source>Unable to get exclusive access to file
+%1
+Possibly the file is already being downloaded.</source>
+        <translation>No se puede obtener acceso exclusivo al archivo
+%1
+Posiblemente el archivo ya está siendo descargado.</translation>
+    </message>
+    <message>
         <source>File download failed: %1.</source>
-        <translation>Error al descargar el archivo: %1.</translation>
+        <translation>Fallo en la descarga del archivo: %1.</translation>
     </message>
     <message>
         <source>Download has started, the installer will open once it&apos;s finished downloading</source>
-        <translation>La descarga ha comenzado, el instalador se abrirá una vez que haya terminado de descargarse</translation>
+        <translation>La descarga ha comenzado, el instalador se abrirá cuando termine de descargarse</translation>
+    </message>
+    <message>
+        <source>Feed download failed: %1.</source>
+        <translation>Fallo en la descarga del feed: %1.</translation>
     </message>
     <message>
         <source>No new releases available.</source>
-        <translation>No hay nuevos actualizaciones disponibles.</translation>
+        <translation>No hay nuevas versiones disponibles.</translation>
     </message>
     <message>
         <source>A new release %1 is available.
 Do you want to download it?</source>
         <translation>Una nueva versión %1 está disponible.
-¿Quiere descargarla?</translation>
+¿Desea descargarla?</translation>
     </message>
     <message>
-        <source>Unable to get exclusive access to file 
-%1
-Possibly the file is already being downloaded.</source>
-        <translation type="unfinished"></translation>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Información</translation>
     </message>
 </context>
 <context>
@@ -4567,10 +4176,6 @@ Possibly the file is already being downloaded.</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <source>%1</source>
-        <translation>%1</translation>
-    </message>
-    <message>
         <source>Base Point</source>
         <translation>Punto básico</translation>
     </message>
@@ -4730,6 +4335,30 @@ Possibly the file is already being downloaded.</source>
         <source>Point Length and Angle from point %1</source>
         <translation>Punto Largo y Ángulo desde el punto %1</translation>
     </message>
+    <message>
+        <source>Can&apos;t create record.</source>
+        <translation>No se puede crear el registro.</translation>
+    </message>
+    <message>
+        <source>Find previous</source>
+        <translation>Buscar anterior</translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation>Buscar siguiente</translation>
+    </message>
+    <message>
+        <source>Case sensitive</source>
+        <translation>Distingue mayúsculas y minúsculas</translation>
+    </message>
+    <message>
+        <source>Search by full word</source>
+        <translation>Buscar por palabra completa</translation>
+    </message>
+    <message>
+        <source>Seach by regular expression</source>
+        <translation>Búsqueda por expresión regular</translation>
+    </message>
 </context>
 <context>
     <name>ImageDialog</name>
@@ -4766,20 +4395,12 @@ Possibly the file is already being downloaded.</source>
         <translation>Cambiar entre unidades px y patrón</translation>
     </message>
     <message>
-        <source>PX</source>
-        <translation>PX</translation>
-    </message>
-    <message>
         <source>Unit:</source>
         <translation>Unidad:</translation>
     </message>
     <message>
         <source>X Position:</source>
         <translation>X Posición:</translation>
-    </message>
-    <message>
-        <source>px</source>
-        <translation>px</translation>
     </message>
     <message>
         <source>Y Position:</source>
@@ -4806,20 +4427,12 @@ Possibly the file is already being downloaded.</source>
         <translation>Escala X:</translation>
     </message>
     <message>
-        <source>%</source>
-        <translation>%</translation>
-    </message>
-    <message>
         <source>Y Scale:</source>
         <translation>Escala Y:</translation>
     </message>
     <message>
         <source>Rotation:</source>
         <translation>Rotación:</translation>
-    </message>
-    <message>
-        <source>°</source>
-        <translation>°</translation>
     </message>
     <message>
         <source>Attributes</source>
@@ -4850,11 +4463,11 @@ Possibly the file is already being downloaded.</source>
     </message>
     <message>
         <source>Move up</source>
-        <translation type="unfinished"></translation>
+        <translation>Subir</translation>
     </message>
     <message>
         <source>Move down</source>
-        <translation type="unfinished"></translation>
+        <translation>Bajar</translation>
     </message>
     <message>
         <source>Send to bottom</source>
@@ -4905,15 +4518,15 @@ Possibly the file is already being downloaded.</source>
     </message>
     <message>
         <source>The image &lt;br/&gt;&lt;br/&gt; &lt;b&gt;%1&lt;/b&gt; &lt;br/&gt;&lt;br/&gt; could not be found. Do you want to update the file location?</source>
-        <translation type="unfinished"></translation>
+        <translation>La imagen &lt;br/&gt;&lt;br/&gt; &lt;b&gt;%1&lt;/b&gt; &lt;br/&gt;&lt;br/&gt;no se ha podido encontrar. ¿Desea actualizar la ubicación del archivo?</translation>
     </message>
     <message>
         <source>Loading image</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargando imagen</translation>
     </message>
     <message>
         <source>No image was selected...</source>
-        <translation type="unfinished"></translation>
+        <translation>No se ha seleccionado ninguna imagen...</translation>
     </message>
 </context>
 <context>
@@ -4997,6 +4610,305 @@ Possibly the file is already being downloaded.</source>
     <message>
         <source>Insert Nodes</source>
         <translation>Insertar Nodos</translation>
+    </message>
+</context>
+<context>
+    <name>InternalPathDialog</name>
+    <message>
+        <source>Internal Path Tool</source>
+        <translation>Herramienta de ruta interna</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Ruta</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Nombre:</translation>
+    </message>
+    <message>
+        <source>Unnamed path</source>
+        <translation>Ruta sin nombre</translation>
+    </message>
+    <message>
+        <source>Create name for your path</source>
+        <translation>Crea un nombre para su ruta</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation>Tipo:</translation>
+    </message>
+    <message>
+        <source>Linetype:</source>
+        <translation>Tipo de línea:</translation>
+    </message>
+    <message>
+        <source>Piece:</source>
+        <translation>Pieza:</translation>
+    </message>
+    <message>
+        <source>Move row to top of list</source>
+        <translation>Mover fila al principio de la lista</translation>
+    </message>
+    <message>
+        <source>Move row up one row</source>
+        <translation>Mover fila por encima de una fila</translation>
+    </message>
+    <message>
+        <source>Move row down one row</source>
+        <translation>Mover fila por debajo de una fila</translation>
+    </message>
+    <message>
+        <source>Move row to bottom of list</source>
+        <translation>Mover fila al final de la lista</translation>
+    </message>
+    <message>
+        <source>The path is a cut contour</source>
+        <translation>La ruta es un contorno cortado</translation>
+    </message>
+    <message>
+        <source>Cut on fabric</source>
+        <translation>Cortar en tela</translation>
+    </message>
+    <message>
+        <source>Status:</source>
+        <translation>Estado:</translation>
+    </message>
+    <message>
+        <source>Ready!</source>
+        <translation>¡Listo!</translation>
+    </message>
+    <message>
+        <source>Seam allowance</source>
+        <translation>Márgenes de costura</translation>
+    </message>
+    <message>
+        <source>Width:</source>
+        <translation>Ancho:</translation>
+    </message>
+    <message>
+        <source>Formula wizard</source>
+        <translation>Asistente de fórmula</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Valor</translation>
+    </message>
+    <message>
+        <source>Calculation</source>
+        <translation>Cálculo</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show full calculation in message box&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mostrar el cálculo completo en el cuadro de mensaje&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Nodes</source>
+        <translation>Nodos</translation>
+    </message>
+    <message>
+        <source>Node:</source>
+        <translation>Nodo:</translation>
+    </message>
+    <message>
+        <source>Before:</source>
+        <translation>Antes:</translation>
+    </message>
+    <message>
+        <source>Return to default width</source>
+        <translation>Volver al ancho predeterminado</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Predeterminado</translation>
+    </message>
+    <message>
+        <source>After:</source>
+        <translation>Después:</translation>
+    </message>
+    <message>
+        <source>Angle:</source>
+        <translation>Ángulo:</translation>
+    </message>
+    <message>
+        <source>Notches</source>
+        <translation>Piquetes</translation>
+    </message>
+    <message>
+        <source>Notch:</source>
+        <translation>Piquete:</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Slit</source>
+        <translation>Abertura</translation>
+    </message>
+    <message>
+        <source>T Notch</source>
+        <translation>T Piquete</translation>
+    </message>
+    <message>
+        <source>U Notch</source>
+        <translation>U Piquete</translation>
+    </message>
+    <message>
+        <source>V Internal</source>
+        <translation>V Interno</translation>
+    </message>
+    <message>
+        <source>V External</source>
+        <translation>V Externo</translation>
+    </message>
+    <message>
+        <source>Castle</source>
+        <translation>Castillo</translation>
+    </message>
+    <message>
+        <source>Diamond</source>
+        <translation>Diamante</translation>
+    </message>
+    <message>
+        <source>Sub Type</source>
+        <translation>Subtipo</translation>
+    </message>
+    <message>
+        <source>Straightforward</source>
+        <translation>Directo</translation>
+    </message>
+    <message>
+        <source>Bisector</source>
+        <translation>Bisectriz</translation>
+    </message>
+    <message>
+        <source>Select to designate the corner point as a notch</source>
+        <translation>Seleccione para designar el punto de la esquina como un piquete</translation>
+    </message>
+    <message>
+        <source>Intersection</source>
+        <translation>Intersección</translation>
+    </message>
+    <message>
+        <source>Geomtery</source>
+        <translation>Geometría</translation>
+    </message>
+    <message>
+        <source>Reset notch angle to default.</source>
+        <translation>Restablecer el ángulo de piquete a su valor predeterminado.</translation>
+    </message>
+    <message>
+        <source>Count:</source>
+        <translation>Contar:</translation>
+    </message>
+    <message>
+        <source>Reset notch with to default.</source>
+        <translation>Restablecer el piquete a sus valores predeterminados.</translation>
+    </message>
+    <message>
+        <source>This option has effect only if the second notch on seam line is enabled in global preferences. The option helps disable the second notch for this notch only.</source>
+        <translation>Esta opción tiene efecto sólo si el segundo piquete en la línea de costura está habilitado en las preferencias globales. La opción ayuda a desactivar el segundo piquete sólo para este piquete.</translation>
+    </message>
+    <message>
+        <source>Show second notch on seam line</source>
+        <translation>Mostrar el segundo piquete en la línea de costura</translation>
+    </message>
+    <message>
+        <source>Reset notch length to default.</source>
+        <translation>Restablecer la longitud del piquete a su valor predeterminado.</translation>
+    </message>
+    <message>
+        <source> Width:</source>
+        <translation> Ancho:</translation>
+    </message>
+    <message>
+        <source>Length:</source>
+        <translation>Longitud:</translation>
+    </message>
+    <message>
+        <source>Select main path objects, Use &lt;b&gt;SHIFT&lt;/b&gt; to reverse curve direction, Press &lt;b&gt;ENTER&lt;/b&gt; to finish path creation </source>
+        <translation>Seleccione objetos de ruta principal, use&lt;b&gt;SHIFT&lt;/b&gt; para invertir la dirección de la curva, presione&lt;b&gt;ENTER&lt;/b&gt;para finalizar la creación de la ruta </translation>
+    </message>
+    <message>
+        <source>Reverse</source>
+        <translation>Reverso</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <source>Current seam allowance</source>
+        <translation>Acual margen de costura</translation>
+    </message>
+    <message>
+        <source>Edit seam allowance width</source>
+        <translation>Editar margen de costura</translation>
+    </message>
+    <message>
+        <source>Edit seam allowance width before</source>
+        <translation>Editar el ancho de margen de costura anterior</translation>
+    </message>
+    <message>
+        <source>Edit seam allowance width after</source>
+        <translation>Editar el ancho de margen de costura posterior</translation>
+    </message>
+    <message>
+        <source>Internal path</source>
+        <translation>Ruta interna</translation>
+    </message>
+    <message>
+        <source>Custom seam allowance</source>
+        <translation>Personalizar el margen de costura</translation>
+    </message>
+    <message>
+        <source>You need more points!</source>
+        <translation>¡Necesita más puntos!</translation>
+    </message>
+    <message>
+        <source>First point of &lt;b&gt;custom seam allowance&lt;/b&gt; cannot be equal to the last point!</source>
+        <translation>¡Primer punto del &lt;b&gt; margen de costura personalizado&lt;/b&gt; no puede ser el mismo que el último puinto!</translation>
+    </message>
+    <message>
+        <source>You have double points!</source>
+        <translation>¡Tiene puntos duplicados!</translation>
+    </message>
+    <message>
+        <source>Each point in the &lt;b&gt;custom seam allowance&lt;/b&gt; path must be unique!</source>
+        <translation>¡Cada punto en la ruta de &lt;b&gt;margen de costura personalizado&lt;/b&gt; debe ser único!</translation>
+    </message>
+    <message>
+        <source>Selection</source>
+        <translation>Selección</translation>
+    </message>
+    <message>
+        <source>Attributes</source>
+        <translation>Atributos</translation>
+    </message>
+    <message>
+        <source>Lineweight:</source>
+        <translation>Grosor de línea:</translation>
+    </message>
+    <message>
+        <source>Color:</source>
+        <translation>Color:</translation>
+    </message>
+    <message>
+        <source>Extend end point</source>
+        <translation>Extender punto final</translation>
+    </message>
+    <message>
+        <source>Extend start point</source>
+        <translation>Extender punto inicial</translation>
+    </message>
+    <message>
+        <source>List of pieces is empty!</source>
+        <translation>La lista de piezas está vacía!</translation>
+    </message>
+    <message>
+        <source>Please, select a piece to insert into!</source>
+        <translation>Por favor, ¡seleccione una pieza para insertar en ella!</translation>
     </message>
 </context>
 <context>
@@ -5372,10 +5284,8 @@ El programa se proporciona TAL CUAL, SIN GARANTÍA DE NINGÚN TIPO, INCLUIDAS LA
         <translation>Ninguno</translation>
     </message>
     <message>
-        <source>Margins go beyond printing. 
-
-Apply settings anyway?</source>
-        <translation type="unfinished"></translation>
+        <source>Margins go beyond printing. Apply settings anyway?</source>
+        <translation>Los márgenes van más allá de la impresión. ¿Aplicar ajustes de todos modos?</translation>
     </message>
 </context>
 <context>
@@ -5445,11 +5355,11 @@ Apply settings anyway?</source>
     </message>
     <message>
         <source>&amp;File</source>
-        <translation>&amp;Archivo</translation>
+        <translation>Archivo</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Ayuda</translation>
+        <translation>Ayuda</translation>
     </message>
     <message>
         <source>Measurements</source>
@@ -5473,7 +5383,7 @@ Apply settings anyway?</source>
     </message>
     <message>
         <source>&amp;Open</source>
-        <translation>&amp;Abrir</translation>
+        <translation>Abrir</translation>
     </message>
     <message>
         <source>Open file with pattern</source>
@@ -5484,16 +5394,12 @@ Apply settings anyway?</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <source>&amp;Save</source>
-        <translation>&amp;Guardar</translation>
-    </message>
-    <message>
         <source>Save pattern</source>
         <translation>Guardar patrón</translation>
     </message>
     <message>
-        <source>Save &amp;As...</source>
-        <translation>Guardar &amp;Como...</translation>
+        <source>Save As...</source>
+        <translation>Guardar Como...</translation>
     </message>
     <message>
         <source>Save not yet saved pattern</source>
@@ -5516,12 +5422,12 @@ Apply settings anyway?</source>
         <translation>Sobre &amp;Qt</translation>
     </message>
     <message>
-        <source>&amp;About Seamly2D</source>
-        <translation>&amp;Sobre Seamly2D</translation>
+        <source>About Seamly2D</source>
+        <translation>Sobre Seamly2D</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
-        <translation>&amp;Salida</translation>
+        <translation>S&amp;alida</translation>
     </message>
     <message>
         <source>Preferences</source>
@@ -6114,32 +6020,16 @@ Do you want to save your changes?</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Modo para crear maquetación de piezas de patrón. Este modo está disponible si ya se creó al menos una pieza de patrón en el &quot;Modo pieza&quot;. El maquetación se puede exportar a su formato de archivo preferido y guardarlo.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>G</source>
-        <translation>G</translation>
-    </message>
-    <message>
         <source>Rotation</source>
         <translation>Rotación</translation>
-    </message>
-    <message>
-        <source>R</source>
-        <translation>R</translation>
     </message>
     <message>
         <source>Mirror by Line</source>
         <translation>Reflejar por Línea</translation>
     </message>
     <message>
-        <source>M, L</source>
-        <translation>M, L</translation>
-    </message>
-    <message>
         <source>Mirror by Axis</source>
         <translation>Reflejar por Eje</translation>
-    </message>
-    <message>
-        <source>M, A</source>
-        <translation>M, A</translation>
     </message>
     <message>
         <source>Move</source>
@@ -6150,28 +6040,12 @@ Do you want to save your changes?</source>
         <translation>Pinzas Correctas</translation>
     </message>
     <message>
-        <source>T, D</source>
-        <translation>T, D</translation>
-    </message>
-    <message>
         <source>Midpoint</source>
         <translation>Punto medio</translation>
     </message>
     <message>
-        <source>P, S</source>
-        <translation>P, S</translation>
-    </message>
-    <message>
         <source>Intersect XY</source>
         <translation>intersección de XY</translation>
-    </message>
-    <message>
-        <source>X, Y</source>
-        <translation>X, Y</translation>
-    </message>
-    <message>
-        <source>I, L</source>
-        <translation>I, L</translation>
     </message>
     <message>
         <source>Alt+C</source>
@@ -6186,40 +6060,12 @@ Do you want to save your changes?</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <source>A, X</source>
-        <translation>A, X</translation>
-    </message>
-    <message>
-        <source>I, A</source>
-        <translation>I, A</translation>
-    </message>
-    <message>
-        <source>I, C</source>
-        <translation>I, C</translation>
-    </message>
-    <message>
-        <source>C, T</source>
-        <translation>C, T</translation>
-    </message>
-    <message>
-        <source>A, T</source>
-        <translation>A, T</translation>
-    </message>
-    <message>
-        <source>A, L</source>
-        <translation>A, L</translation>
-    </message>
-    <message>
         <source>Tools for inserting or modifying images.</source>
         <translation>Herramientas para insertar o modificar imágenes.</translation>
     </message>
     <message>
         <source>Point on Curve (O, C)</source>
         <translation>Punto en Curva (O, C)</translation>
-    </message>
-    <message>
-        <source>About Seamly2D</source>
-        <translation>Sobre Seamly2D</translation>
     </message>
     <message>
         <source>Exit the Application</source>
@@ -6272,10 +6118,6 @@ Do you want to save your changes?</source>
     <message>
         <source>Shortcuts</source>
         <translation>Atajos</translation>
-    </message>
-    <message>
-        <source>K</source>
-        <translation>K</translation>
     </message>
     <message>
         <source>Last tool</source>
@@ -6366,64 +6208,32 @@ Do you want to save your changes?</source>
         <translation>Nueva Pieza de Patrón</translation>
     </message>
     <message>
-        <source>N, P</source>
-        <translation>N, P</translation>
-    </message>
-    <message>
         <source>New Print Layout</source>
         <translation>Nuevo Maquetación de Impresión</translation>
-    </message>
-    <message>
-        <source>N, L</source>
-        <translation>N, L</translation>
     </message>
     <message>
         <source>Export Layout</source>
         <translation>Exportar Maquetación</translation>
     </message>
     <message>
-        <source>E, L</source>
-        <translation>E, L</translation>
-    </message>
-    <message>
         <source>Anchor Point</source>
         <translation>Punto de Anclaje</translation>
-    </message>
-    <message>
-        <source>A, P</source>
-        <translation>A, P</translation>
     </message>
     <message>
         <source>Internal Path</source>
         <translation>Ruta Interna</translation>
     </message>
     <message>
-        <source>I, P</source>
-        <translation>I, P</translation>
-    </message>
-    <message>
         <source>Insert Nodes</source>
         <translation>Insertar Nodos</translation>
-    </message>
-    <message>
-        <source>I, N</source>
-        <translation>I, N</translation>
     </message>
     <message>
         <source>Unite Pieces</source>
         <translation>Unir Piezas</translation>
     </message>
     <message>
-        <source>U</source>
-        <translation>U</translation>
-    </message>
-    <message>
         <source>Export Pieces</source>
         <translation>Exportar Piezas</translation>
-    </message>
-    <message>
-        <source>E, P</source>
-        <translation>E, P</translation>
     </message>
     <message>
         <source>Detail tools</source>
@@ -6434,20 +6244,12 @@ Do you want to save your changes?</source>
         <translation>Texto del nombre del punto</translation>
     </message>
     <message>
-        <source>V, P</source>
-        <translation>V, P</translation>
-    </message>
-    <message>
         <source>Increase Text Size</source>
         <translation>Aumentar el tamaño del texto</translation>
     </message>
     <message>
         <source>Increase Text Size (Ctrl+])</source>
         <translation>Aumentar el tamaño del texto (Control+])</translation>
-    </message>
-    <message>
-        <source>Ctrl+]</source>
-        <translation>Ctrl+]</translation>
     </message>
     <message>
         <source>Decrease Text Size</source>
@@ -6458,20 +6260,12 @@ Do you want to save your changes?</source>
         <translation>Disminuir el tamaño del texto (Control+[)</translation>
     </message>
     <message>
-        <source>Ctrl+[</source>
-        <translation>Ctrl+[</translation>
-    </message>
-    <message>
         <source>Use Tool Color</source>
         <translation>Usar herramienta de color</translation>
     </message>
     <message>
         <source>Use Tool Color (T)</source>
         <translation>Usar herramienta de color (T)</translation>
-    </message>
-    <message>
-        <source>V, T</source>
-        <translation>V, T</translation>
     </message>
     <message>
         <source>Axis Origin </source>
@@ -6482,20 +6276,12 @@ Do you want to save your changes?</source>
         <translation>Alternar Origen del Eje (V, A)</translation>
     </message>
     <message>
-        <source>V, A</source>
-        <translation>V, A</translation>
-    </message>
-    <message>
         <source>Wireframe Mode</source>
         <translation>Modo de Estructura Alámbrica</translation>
     </message>
     <message>
         <source>Toggle Wireframe Mode (V, W)</source>
         <translation>Alternar modo de estructura alámbrica (V, W)</translation>
-    </message>
-    <message>
-        <source>V, W</source>
-        <translation>V, W</translation>
     </message>
     <message>
         <source>Grainlines</source>
@@ -6506,10 +6292,6 @@ Do you want to save your changes?</source>
         <translation>Alterar Dirección del hilo (V, G)</translation>
     </message>
     <message>
-        <source>V, G</source>
-        <translation>V, G</translation>
-    </message>
-    <message>
         <source>Labels</source>
         <translation>Etiquetas</translation>
     </message>
@@ -6518,32 +6300,16 @@ Do you want to save your changes?</source>
         <translation>Alternar etiquetas (V, L)</translation>
     </message>
     <message>
-        <source>V, L</source>
-        <translation>V, L</translation>
-    </message>
-    <message>
         <source>Calculator</source>
         <translation>Calculadora</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+C</source>
-        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <source>Decimal Chart</source>
         <translation>Gráfico decimal</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+D</source>
-        <translation>Ctrl+Shift+D</translation>
-    </message>
-    <message>
         <source>Export Draft Blocks</source>
         <translation>Exportar bloques de borrador</translation>
-    </message>
-    <message>
-        <source>E, D</source>
-        <translation>E, D</translation>
     </message>
     <message>
         <source>Export</source>
@@ -6552,10 +6318,6 @@ Do you want to save your changes?</source>
     <message>
         <source>Seam Allowance</source>
         <translation>Márgenes de costura</translation>
-    </message>
-    <message>
-        <source>V, S</source>
-        <translation>V, S</translation>
     </message>
     <message>
         <source>Document Info...</source>
@@ -6568,10 +6330,6 @@ Do you want to save your changes?</source>
     <message>
         <source>Display document Info</source>
         <translation>Mostrar información del documento</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
     </message>
     <message>
         <source>Measurement file doesn&apos;t include all the required measurements.</source>
@@ -6910,32 +6668,16 @@ Do you want to save your changes?</source>
         <translation>En Línea</translation>
     </message>
     <message>
-        <source>O, L</source>
-        <translation>O, L</translation>
-    </message>
-    <message>
         <source>Length and Angle</source>
         <translation>Longitud y Ángulo</translation>
-    </message>
-    <message>
-        <source>L, A</source>
-        <translation>L, A</translation>
     </message>
     <message>
         <source>On Perpendicular</source>
         <translation>En Perpendicular</translation>
     </message>
     <message>
-        <source>O, P</source>
-        <translation>O, P</translation>
-    </message>
-    <message>
         <source>On Bisector</source>
         <translation>En Bisectriz</translation>
-    </message>
-    <message>
-        <source>O, B</source>
-        <translation>O, B</translation>
     </message>
     <message>
         <source>Length to Line</source>
@@ -6950,24 +6692,12 @@ Do you want to save your changes?</source>
         <translation>Intersección Eje y Triángulo</translation>
     </message>
     <message>
-        <source>X, T</source>
-        <translation>X, T</translation>
-    </message>
-    <message>
         <source>Intersect Line and Perpendicular</source>
         <translation>Intersección de Línea y Perpendicular</translation>
     </message>
     <message>
-        <source>L, P</source>
-        <translation>L, P</translation>
-    </message>
-    <message>
         <source>Intersect Line and Axis</source>
         <translation>Intersección Línea y Eje</translation>
-    </message>
-    <message>
-        <source>L, X</source>
-        <translation>L, X</translation>
     </message>
     <message>
         <source>Intersect Lines</source>
@@ -6980,10 +6710,6 @@ Do you want to save your changes?</source>
     <message>
         <source>Point on Curve</source>
         <translation>Punto en Curva</translation>
-    </message>
-    <message>
-        <source>O, C</source>
-        <translation>O, C</translation>
     </message>
     <message>
         <source>Curve - Fixed</source>
@@ -7006,10 +6732,6 @@ Do you want to save your changes?</source>
         <translation>Punto en Spline (O, S)</translation>
     </message>
     <message>
-        <source>O, S</source>
-        <translation>O, S</translation>
-    </message>
-    <message>
         <source>Spline - Fixed</source>
         <translation>Spline - Fijo</translation>
     </message>
@@ -7026,10 +6748,6 @@ Do you want to save your changes?</source>
         <translation>Intersección Curva y Eje</translation>
     </message>
     <message>
-        <source>C, X</source>
-        <translation>C, X</translation>
-    </message>
-    <message>
         <source>Radius and Angles</source>
         <translation>Radio y Ángulos</translation>
     </message>
@@ -7044,10 +6762,6 @@ Do you want to save your changes?</source>
     <message>
         <source>Point on Arc (O, A)</source>
         <translation>Punto en Arco (O, A)</translation>
-    </message>
-    <message>
-        <source>O, A</source>
-        <translation>O, A</translation>
     </message>
     <message>
         <source>Intersect Arc and Axis</source>
@@ -7148,10 +6862,6 @@ Do you want to save your changes?</source>
     <message>
         <source>Zoom to point (Ctrl + Alt + P)</source>
         <translation>Zoom al punto (Control + Alt + P)</translation>
-    </message>
-    <message>
-        <source>Alt+I</source>
-        <translation>Alt+I</translation>
     </message>
     <message>
         <source>Please provide additional measurements: %1</source>
@@ -7326,10 +7036,6 @@ Do you want to save your changes?</source>
         <translation>No se pudo bloquear. El archivo con este nombre está abierto en otra ventana.</translation>
     </message>
     <message>
-        <source>Ctrl+E</source>
-        <translation>Ctrl+E</translation>
-    </message>
-    <message>
         <source>untitled</source>
         <translation>No tiene título</translation>
     </message>
@@ -7379,8 +7085,12 @@ Press enter to temporarily add it to the list.</source>
         <translation>Zoom 100%</translation>
     </message>
     <message>
-        <source>100%</source>
-        <translation>100%</translation>
+        <source>Previous Draft Block</source>
+        <translation>Anterior Bloque de borrador</translation>
+    </message>
+    <message>
+        <source>Next Draft Block</source>
+        <translation>Próximo Bloque de borrador</translation>
     </message>
 </context>
 <context>
@@ -7539,10 +7249,6 @@ Press enter to temporarily add it to the list.</source>
     <message>
         <source>Keyboard Shortcuts</source>
         <translation>Atajos de Teclado</translation>
-    </message>
-    <message>
-        <source>K</source>
-        <translation>K</translation>
     </message>
     <message>
         <source>SeamlyMe Shortcuts</source>
@@ -7827,26 +7533,6 @@ Press enter to temporarily add it to the list.</source>
 <context>
     <name>PageFormatCombobox</name>
     <message>
-        <source>A0</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>A1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>A2</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>A3</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>A4</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Letter</source>
         <translation>Letras</translation>
     </message>
@@ -7928,10 +7614,6 @@ Press enter to temporarily add it to the list.</source>
     <message>
         <source>Notches </source>
         <translation>Piquetes </translation>
-    </message>
-    <message>
-        <source>Poperties</source>
-        <translation>Propiedades</translation>
     </message>
     <message>
         <source>Piece name:</source>
@@ -8020,14 +7702,6 @@ Press enter to temporarily add it to the list.</source>
     <message>
         <source>Tilt:</source>
         <translation>Inclinación:</translation>
-    </message>
-    <message>
-        <source>CW X</source>
-        <translation>CW X</translation>
-    </message>
-    <message>
-        <source>CCW X</source>
-        <translation>CCW X</translation>
     </message>
     <message>
         <source>Annotation:</source>
@@ -8290,10 +7964,6 @@ Press enter to temporarily add it to the list.</source>
         <translation> Ancho:</translation>
     </message>
     <message>
-        <source>  °</source>
-        <translation>  °</translation>
-    </message>
-    <message>
         <source>Reset notch length to default.</source>
         <translation>Restablecer la longitud del piquete a su valor predeterminado.</translation>
     </message>
@@ -8529,6 +8199,10 @@ Press enter to temporarily add it to the list.</source>
         <source>Bottom:</source>
         <translation>Abajo:</translation>
     </message>
+    <message>
+        <source>Count</source>
+        <translation>Cuenta</translation>
+    </message>
 </context>
 <context>
     <name>PatternPieceTool</name>
@@ -8695,6 +8369,23 @@ Press enter to temporarily add it to the list.</source>
     <message>
         <source>Piece renamed to: </source>
         <translation>El nombre de pieza se cambió a: </translation>
+    </message>
+    <message>
+        <source>Update Node Angle</source>
+        <translation>Actualizar ángulo de nodo</translation>
+    </message>
+    <message>
+        <source>Update Notch</source>
+        <translation>Actualizar Piquete</translation>
+    </message>
+    <message>
+        <source>Exclude Node</source>
+        <translatorcomment>Eliminar nodo</translatorcomment>
+        <translation>Nodo de exclusión</translation>
+    </message>
+    <message>
+        <source>Delete Node</source>
+        <translation>Borrar nodo</translation>
     </message>
 </context>
 <context>
@@ -9259,122 +8950,6 @@ Press enter to temporarily add it to the list.</source>
         <translation>Talla:</translation>
     </message>
     <message>
-        <source>6</source>
-        <translation>6</translation>
-    </message>
-    <message>
-        <source>7</source>
-        <translation>7</translation>
-    </message>
-    <message>
-        <source>8</source>
-        <translation>8</translation>
-    </message>
-    <message>
-        <source>9</source>
-        <translation>9</translation>
-    </message>
-    <message>
-        <source>10</source>
-        <translation>10</translation>
-    </message>
-    <message>
-        <source>10.5</source>
-        <translation>10.5</translation>
-    </message>
-    <message>
-        <source>11</source>
-        <translation>11</translation>
-    </message>
-    <message>
-        <source>12</source>
-        <translation>12</translation>
-    </message>
-    <message>
-        <source>13</source>
-        <translation>13</translation>
-    </message>
-    <message>
-        <source>14</source>
-        <translation>14</translation>
-    </message>
-    <message>
-        <source>15</source>
-        <translation>15</translation>
-    </message>
-    <message>
-        <source>16</source>
-        <translation>16</translation>
-    </message>
-    <message>
-        <source>18</source>
-        <translation>18</translation>
-    </message>
-    <message>
-        <source>20</source>
-        <translation>20</translation>
-    </message>
-    <message>
-        <source>22</source>
-        <translation>22</translation>
-    </message>
-    <message>
-        <source>24</source>
-        <translation>24</translation>
-    </message>
-    <message>
-        <source>26</source>
-        <translation>26</translation>
-    </message>
-    <message>
-        <source>28</source>
-        <translation>28</translation>
-    </message>
-    <message>
-        <source>32</source>
-        <translation>32</translation>
-    </message>
-    <message>
-        <source>36</source>
-        <translation>36</translation>
-    </message>
-    <message>
-        <source>40</source>
-        <translation>40</translation>
-    </message>
-    <message>
-        <source>44</source>
-        <translation>44</translation>
-    </message>
-    <message>
-        <source>48</source>
-        <translation>48</translation>
-    </message>
-    <message>
-        <source>54</source>
-        <translation>54</translation>
-    </message>
-    <message>
-        <source>60</source>
-        <translation>60</translation>
-    </message>
-    <message>
-        <source>66</source>
-        <translation>66</translation>
-    </message>
-    <message>
-        <source>72</source>
-        <translation>72</translation>
-    </message>
-    <message>
-        <source>80</source>
-        <translation>80</translation>
-    </message>
-    <message>
-        <source>96</source>
-        <translation>96</translation>
-    </message>
-    <message>
         <source>The quick brown fox jumps over the lazy dog</source>
         <translation>El rápido zorro marrón salta sobre el perro perezoso</translation>
     </message>
@@ -9476,14 +9051,6 @@ actualización:</translation>
         <translation>Velocidad:</translation>
     </message>
     <message>
-        <source>-</source>
-        <translation>-</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation>+</translation>
-    </message>
-    <message>
         <source>Zoom</source>
         <translation>Zoom</translation>
     </message>
@@ -9538,47 +9105,59 @@ actualización:</translation>
     </message>
     <message>
         <source>Dialogs</source>
-        <translation type="unfinished"></translation>
+        <translation>Diálogos</translation>
     </message>
     <message>
         <source>Open on second monitor if available</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir en un segundo monitor si está disponible</translation>
     </message>
     <message>
         <source>Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Posición</translation>
     </message>
     <message>
         <source>Top left</source>
-        <translation type="unfinished"></translation>
+        <translation>Arriba a la izquierda</translation>
     </message>
     <message>
         <source>Top right</source>
-        <translation type="unfinished"></translation>
+        <translation>Arriba a la derecha</translation>
     </message>
     <message>
         <source>Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Centro</translation>
     </message>
     <message>
         <source>Bottom left</source>
-        <translation type="unfinished"></translation>
+        <translation>Abajo a la izquierda</translation>
     </message>
     <message>
         <source>Bottom right</source>
-        <translation type="unfinished"></translation>
+        <translation>Abajo a la derecha</translation>
     </message>
     <message>
         <source>Offset</source>
-        <translation type="unfinished"></translation>
+        <translation>Desplazamiento</translation>
     </message>
     <message>
         <source>X Offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Desplazamiento X:</translation>
     </message>
     <message>
         <source>Y Offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Desplazamiento Y:</translation>
+    </message>
+    <message>
+        <source>Show only ISO line weights in drop down boxes</source>
+        <translation>Mostrar sólo los pesos de línea ISO en los cuadros desplegables</translation>
+    </message>
+    <message>
+        <source>Workspace</source>
+        <translation>Espacio de trabajo</translation>
+    </message>
+    <message>
+        <source>Background:</source>
+        <translation>Fondo:</translation>
     </message>
 </context>
 <context>
@@ -9731,7 +9310,7 @@ actualización:</translation>
         <translation>Línea de costura</translation>
     </message>
     <message>
-        <source>LInetype:</source>
+        <source>Linetype:</source>
         <translation>Tipo de línea:</translation>
     </message>
     <message>
@@ -9865,18 +9444,6 @@ actualización:</translation>
         <translation>Crear nueva pieza de patrón para comenzar a trabajar.</translation>
     </message>
     <message>
-        <source>mm</source>
-        <translation>mm</translation>
-    </message>
-    <message>
-        <source>cm</source>
-        <translation>cm</translation>
-    </message>
-    <message>
-        <source>inch</source>
-        <translation>pulg</translation>
-    </message>
-    <message>
         <source>Property</source>
         <extracomment>The text that appears in the first column header</extracomment>
         <translatorcomment>El texto que aparece en el encabezado de la primera columna.</translatorcomment>
@@ -9886,10 +9453,6 @@ actualización:</translation>
         <source>Value</source>
         <extracomment>The text that appears in the second column header</extracomment>
         <translation>Valor</translation>
-    </message>
-    <message>
-        <source>px</source>
-        <translation>px</translation>
     </message>
     <message>
         <source>add node</source>
@@ -9980,10 +9543,6 @@ actualización:</translation>
         <translation>Sin pluma</translation>
     </message>
     <message>
-        <source>%1</source>
-        <translation>%1</translation>
-    </message>
-    <message>
         <source>Forward (from start point)</source>
         <translation>Adelante (desde el punto de inicio)</translation>
     </message>
@@ -10000,8 +9559,20 @@ actualización:</translation>
         <translation>Abrir archivo de imagen</translation>
     </message>
     <message>
-        <source>Pattern</source>
-        <translation>Patrón</translation>
+        <source>Can not extend internal path &apos;%1&apos; start point to cut line.</source>
+        <translation>No se puede extender el punto de inicio de la ruta interna &apos;%1&apos; a la línea de corte.</translation>
+    </message>
+    <message>
+        <source>Can not extend internal path &apos;%1&apos; end point to cut line.</source>
+        <translation>No se puede extender el punto final de la ruta interna &apos;%1&apos; a la línea de corte.</translation>
+    </message>
+    <message>
+        <source>%1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>inch</source>
+        <translation>pulgada</translation>
     </message>
 </context>
 <context>
@@ -10228,8 +9799,8 @@ actualización:</translation>
 <context>
     <name>SavePieceOptions</name>
     <message>
-        <source>save detail option</source>
-        <translation>guardar opción de detalle</translation>
+        <source>save piece options</source>
+        <translation>guardar opciones de pieza</translation>
     </message>
 </context>
 <context>
@@ -10431,15 +10002,12 @@ actualización:</translation>
         <translation>Pulgadas</translation>
     </message>
     <message>
-        <source>Selects what decimal separator char to use. 
-When checked the separator for the user&apos;s locale is used. 
-When unchecked the period is used.</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Selects what decimal separator char to use.  When checked the separator for the user&apos;s locale is used.  When unchecked the period is used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Selecciona el carácter separador decimal que se usará. Si está marcada, se usa el separador de la configuración regional del usuario. Si no está marcada, se usa el punto.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>When checked the Welcome window will not be displayed. 
-You can change this setting in the SeamlyMe preferences.</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked the Welcome window will not be displayed. You can change this setting in the SeamlyMe preferences.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si está marcada, la ventana de bienvenida no se mostrará. Puede cambiar esta configuración en las preferencias de SeamlyMe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -10482,7 +10050,7 @@ You can change this setting in the SeamlyMe preferences.</source>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation></translation>
+        <translation>Milímetros</translation>
     </message>
     <message>
         <source>Inches</source>
@@ -10505,15 +10073,12 @@ You can change this setting in the SeamlyMe preferences.</source>
         <translation>Establece el sonido del clic de selección del nodo.</translation>
     </message>
     <message>
-        <source>Selects what decimal separator char to use. 
-When checked the separator for the user&apos;s locale is used. 
-When unchecked the period is used.</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Selects what decimal separator char to use.  When checked the separator for the user&apos;s locale is used.  When unchecked the period is used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Selecciona el carácter separador decimal que se usará. Si está marcada, se usa el separador de la configuración regional del usuario. Si no está marcada, se usa el punto.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>When checked the Welcome window will not be displayed. 
-You can change this setting in the Seamly2D preferences.</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked the Welcome window will not be displayed.  You can change this setting in the Seamly2D preferences.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Si está marcada, la ventana de bienvenida no se mostrará. Puede cambiar esta configuración en las preferencias de Seamly2D.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -10930,10 +10495,6 @@ You can change this setting in the Seamly2D preferences.</source>
         <translation>Punto - Intersección de Curvas</translation>
     </message>
     <message>
-        <source>Point - Intersect Curve and Axis</source>
-        <translation>Punto - Intersección Curva y Eje</translation>
-    </message>
-    <message>
         <source>Arcs</source>
         <translation>Arcos</translation>
     </message>
@@ -11188,6 +10749,22 @@ You can change this setting in the Seamly2D preferences.</source>
     <message>
         <source>Ctrl+9</source>
         <translation>Control+9</translation>
+    </message>
+    <message>
+        <source>Previous Draft Block</source>
+        <translation>Anterior Bloque de borrador</translation>
+    </message>
+    <message>
+        <source>Ctrl+PgUp</source>
+        <translation>Control+Re Pág</translation>
+    </message>
+    <message>
+        <source>Next Draft Block</source>
+        <translation>Próximo Bloque de borrador</translation>
+    </message>
+    <message>
+        <source>Ctrl+PgDown</source>
+        <translation>Control+Av Pág</translation>
     </message>
 </context>
 <context>
@@ -11890,6 +11467,18 @@ load in SeamlyME as usual.
         <source>Convert 3DLook file:</source>
         <translation>Convertir archivo 3DLook:</translation>
     </message>
+    <message>
+        <source>Case sensitive</source>
+        <translation>Distingue mayúsculas y minúsculas</translation>
+    </message>
+    <message>
+        <source>Search by full word</source>
+        <translation>Buscar por palabra completa</translation>
+    </message>
+    <message>
+        <source>Seach by regular expression</source>
+        <translation>Búsqueda por expresión regular</translation>
+    </message>
 </context>
 <context>
     <name>TogglePieceInLayout</name>
@@ -12337,10 +11926,6 @@ load in SeamlyME as usual.
         <translation>Azul grisáceo muy claro</translation>
     </message>
     <message>
-        <source>Biege</source>
-        <translation>Biege</translation>
-    </message>
-    <message>
         <source>Thistle</source>
         <translation>Lila muy claro</translation>
     </message>
@@ -12371,6 +11956,10 @@ load in SeamlyME as usual.
     <message>
         <source>Tan</source>
         <translation>beige oscuro</translation>
+    </message>
+    <message>
+        <source>Beige</source>
+        <translation>Beige</translation>
     </message>
 </context>
 <context>
@@ -12492,14 +12081,6 @@ load in SeamlyME as usual.
         <translation>Valor del altura de escalado invalido.</translation>
     </message>
     <message>
-        <source>Pattern making program.</source>
-        <translation>Programa está generando patrón.</translation>
-    </message>
-    <message>
-        <source>Pattern file.</source>
-        <translation>Archivo de patrón.</translation>
-    </message>
-    <message>
         <source>Gap width must be used together with shift units.</source>
         <translation>El ancho del salto debe usarse en conjunto con las unidades de desplazamiento.</translation>
     </message>
@@ -12614,6 +12195,34 @@ load in SeamlyME as usual.
     <message>
         <source>Set height value a pattern file, that was opened with multisize measurements (export mode). Valid values: %1cm.</source>
         <translation>Establezca el valor de altura en un archivo de patrón que se abrió con medidas multitalla (modo de exportación). Valores válidos: %1cm.</translation>
+    </message>
+    <message>
+        <source>Seamly2D open source patternmaking program.</source>
+        <translation>Programa de creación de patrones de código abierto Seamly2D.</translation>
+    </message>
+    <message>
+        <source>Seamly2D pattern file (.sm2d)</source>
+        <translation>Archivo de patrón Seamly2D (.sm2d)</translation>
+    </message>
+    <message>
+        <source>The page height</source>
+        <translation>La altura de la página</translation>
+    </message>
+    <message>
+        <source>The left margin</source>
+        <translation>El margen izquierdo</translation>
+    </message>
+    <message>
+        <source>The right margin</source>
+        <translation>El margen derecho</translation>
+    </message>
+    <message>
+        <source>The top margin</source>
+        <translation>El margen superior</translation>
+    </message>
+    <message>
+        <source>The bottom margin</source>
+        <translation>El margen inferior</translation>
     </message>
 </context>
 <context>
@@ -12772,39 +12381,51 @@ load in SeamlyME as usual.
     </message>
     <message>
         <source>Line_</source>
-        <translation type="unfinished">Línea_</translation>
+        <translation>Línea_</translation>
     </message>
     <message>
         <source>Arc_</source>
-        <translation type="unfinished">Arco_</translation>
+        <translation>Arco_</translation>
     </message>
     <message>
         <source>ElArc_</source>
-        <translation type="unfinished">ElArco_</translation>
+        <translation>ElArco_</translation>
     </message>
     <message>
         <source>Spl_</source>
-        <translation type="unfinished"></translation>
+        <translation>Spl_</translation>
     </message>
     <message>
         <source>SplPath_</source>
-        <translation type="unfinished"></translation>
+        <translation>SplPath_</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia</translation>
     </message>
     <message>
         <source>Length</source>
-        <translation type="unfinished">Longitud</translation>
+        <translation>Longitud</translation>
     </message>
     <message>
         <source>Angle</source>
-        <translation type="unfinished">Ángulo</translation>
+        <translation>Ángulo</translation>
     </message>
     <message>
         <source>AngleLine_</source>
-        <translation type="unfinished">AngleLine_</translation>
+        <translation>AngleLine_</translation>
+    </message>
+    <message>
+        <source>Move Group Object</source>
+        <translation>Mover Objeto de Grupo</translation>
+    </message>
+    <message>
+        <source>From </source>
+        <translation>De </translation>
+    </message>
+    <message>
+        <source> to </source>
+        <translation> a </translation>
     </message>
 </context>
 <context>
@@ -12840,6 +12461,98 @@ load in SeamlyME as usual.
     <message>
         <source>Show Point Name</source>
         <translation>Mostrar Nombre del Punto</translation>
+    </message>
+    <message>
+        <source>Seam Allowance Angle</source>
+        <translation>Ángulo de costura</translation>
+    </message>
+    <message>
+        <source>By length</source>
+        <translation>Por longitud</translation>
+    </message>
+    <message>
+        <source>Intersection</source>
+        <translation>Intersección</translation>
+    </message>
+    <message>
+        <source>First edge symmetry</source>
+        <translation>Primera simetría de aristas</translation>
+    </message>
+    <message>
+        <source>Second edge symmetry</source>
+        <translation>Segunda simetría de aristas</translation>
+    </message>
+    <message>
+        <source>First edge right angle</source>
+        <translation>Primera arista ángulo recto</translation>
+    </message>
+    <message>
+        <source>Second edge right angle</source>
+        <translation>Segundo arista ángulo recto</translation>
+    </message>
+    <message>
+        <source>Notch</source>
+        <translation>Piquete</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Ninguno</translation>
+    </message>
+    <message>
+        <source>Slit</source>
+        <translation>Abertura</translation>
+    </message>
+    <message>
+        <source>TNotch</source>
+        <translation>TPiquete</translation>
+    </message>
+    <message>
+        <source>UNotch</source>
+        <translation>UPiquete</translation>
+    </message>
+    <message>
+        <source>VInternal</source>
+        <translation>VInterno</translation>
+    </message>
+    <message>
+        <source>VExternal</source>
+        <translation>VExterno</translation>
+    </message>
+    <message>
+        <source>Castle</source>
+        <translation>Castillo</translation>
+    </message>
+    <message>
+        <source>Diamond</source>
+        <translation>Diamante</translation>
+    </message>
+    <message>
+        <source>Subtype</source>
+        <translation>Subtipo</translation>
+    </message>
+    <message>
+        <source>Straightforward</source>
+        <translation>Directo</translation>
+    </message>
+    <message>
+        <source>Bisector</source>
+        <translation>Bisectriz</translation>
+    </message>
+    <message>
+        <source>Count</source>
+        <translation>Cuenta</translation>
+    </message>
+    <message>
+        <source>Excluded</source>
+        <translation>Excluido</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
     </message>
 </context>
 <context>
@@ -13112,7 +12825,11 @@ load in SeamlyME as usual.
     </message>
     <message>
         <source>Image_name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre_imagen</translation>
+    </message>
+    <message>
+        <source>Piece path doesn&apos;t contain nodes</source>
+        <translation>La ruta de la pieza no contiene nodos</translation>
     </message>
 </context>
 <context>

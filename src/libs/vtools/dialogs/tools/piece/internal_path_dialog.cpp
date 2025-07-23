@@ -1,58 +1,57 @@
-/***************************************************************************
- **  @file   dialoginternalpath.cpp
- **  @author Douglas S Caskey
- **  @date   17 Sep, 2023
- **
- **  @copyright
- **  Copyright (C) 2017 - 2023 Seamly, LLC
- **  https://github.com/fashionfreedom/seamly2d
- **
- **  @brief
- **  Seamly2D is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Seamly2D is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D. If not, see <http://www.gnu.org/licenses/>.
- **************************************************************************/
+//---------------------------------------------------------------------------------------------------------------------
+//  @file   internal_path_dialog.cpp
+//  @author Douglas S Caskey
+//  @date   17 Sep, 2023
+//
+//  @copyright
+//  Copyright (C) 2017 - 2025 Seamly, LLC
+//  https://github.com/fashionfreedom/seamly2d
+//
+//  @brief
+//  Seamly2D is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Seamly2D is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Seamly2D. If not, see <http://www.gnu.org/licenses/>.
+//---------------------------------------------------------------------------------------------------------------------
 
-/************************************************************************
- **  @file   dialoginternalpath.cpp
- **  @author Roman Telezhynskyi <dismine(at)gmail.com>
- **  @date   22 11, 2016
- **
- **  @brief
- **  @copyright
- **  This source code is part of the Valentina project, a pattern making
- **  program, whose allow create and modeling patterns of clothing.
- **  Copyright (C) 2016 Valentina project
- **  <https://bitbucket.org/dismine/valentina> All Rights Reserved.
- **
- **  Valentina is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Valentina is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D.  If not, see <http://www.gnu.org/licenses/>.
- **
- *************************************************************************/
+//---------------------------------------------------------------------------------------------------------------------
+//  @file   dialoginternalpath.cpp
+//  @author Roman Telezhynskyi <dismine(at)gmail.com>
+//  @date   22 11, 2016
+//
+//  @brief
+//  @copyright
+//  This source code is part of the Valentina project, a pattern making
+//  program, whose allow create and modeling patterns of clothing.
+//  Copyright (C) 2016 Valentina project
+//  <https://bitbucket.org/dismine/valentina> All Rights Reserved.
+//
+//  Valentina is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Valentina is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
+//---------------------------------------------------------------------------------------------------------------------
 
-#include "dialoginternalpath.h"
-#include "ui_dialoginternalpath.h"
+#include "internal_path_dialog.h"
+#include "ui_internal_path_dialog.h"
 #include "../vpatterndb/vpiecenode.h"
-#include "visualization/path/vistoolinternalpath.h"
+#include "visualization/path/internal_path_visual.h"
 #include "../../../tools/vabstracttool.h"
 #include "../../../tools/pattern_piece_tool.h"
 #include "../../support/edit_formula_dialog.h"
@@ -60,11 +59,26 @@
 #include <QMenu>
 #include <QTimer>
 
+namespace
+{
+QVector<QPointF> cutLinePath(quint32 id, const VContainer *data)
+{
+    QVector<QPointF> path;
+    const quint32 pieceId = data->pieceIdOfPath(id);
+    if (pieceId > NULL_ID)
+    {
+        path = data->GetPiece(pieceId).cutPathPoints(data);
+    }
+
+    return path;
+}
+}
+
 //---------------------------------------------------------------------------------------------------------------------
-DialogInternalPath::DialogInternalPath(const VContainer *data, quint32 toolId, QWidget *parent)
+InternalPathDialog::InternalPathDialog(const VContainer *data, quint32 toolId, QWidget *parent)
     : DialogTool(data, toolId, parent)
-    , ui(new Ui::DialogInternalPath)
-    , m_showMode(false)
+    , ui(new Ui::InternalPathDialog)
+    , m_editMode(false)
     , m_saWidth(0)
     , m_timerWidth(nullptr)
     , m_timerWidthBefore(nullptr)
@@ -82,67 +96,71 @@ DialogInternalPath::DialogInternalPath(const VContainer *data, quint32 toolId, Q
 
     initializeOkCancel(ui);
 
-    InitPathTab();
-    InitSeamAllowanceTab();
-    InitNotchesTab();
+    initializePathTab();
+    initializeSeamAllowanceTab();
+    initializeNotchesTab();
 
     flagName = true;//We have default name of piece.
-    flagError = PathIsValid();
+    flagError = isValidPath();
     CheckState();
 
-    vis = new VisToolInternalPath(data);
+    vis = new InternalPathVisual(data);
 
     ui->tabWidget->removeTab(ui->tabWidget->indexOf(ui->seamAllowance_Tab));
     ui->tabWidget->removeTab(ui->tabWidget->indexOf(ui->notches_Tab));
 
     connect(ui->piece_ComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]()
     {
-        ValidObjects(PathIsValid());
+        if (!m_editMode)
+        {
+            validateName();
+        }
+        validateObjects(isValidPath());
     });
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-DialogInternalPath::~DialogInternalPath()
+InternalPathDialog::~InternalPathDialog()
 {
     delete ui;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::EnbleShowMode(bool disable)
+void InternalPathDialog::enableEditMode(bool disable)
 {
-    m_showMode = disable;
-    ui->type_ComboBox->setDisabled(m_showMode);
-    ui->piece_ComboBox->setDisabled(m_showMode);
+    m_editMode = disable;
+    ui->type_ComboBox->setDisabled(m_editMode);
+    ui->piece_ComboBox->setDisabled(m_editMode);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::ChosenObject(quint32 id, const SceneObject &type)
+void InternalPathDialog::ChosenObject(quint32 id, const SceneObject &type)
 {
-    if (not prepare)
+    if (!prepare)
     {
         bool reverse = false;
         if (QGuiApplication::keyboardModifiers() == Qt::ShiftModifier)
         {
             reverse = true;
         }
-        if (id != GetLastId())
+        if (id != getLastNodeId())
         {
             switch (type)
             {
                 case SceneObject::Arc:
-                    NewItem(VPieceNode(id, Tool::NodeArc, reverse));
+                    createNewItem(VPieceNode(id, Tool::NodeArc, reverse));
                     break;
                 case SceneObject::ElArc:
-                    NewItem(VPieceNode(id, Tool::NodeElArc, reverse));
+                    createNewItem(VPieceNode(id, Tool::NodeElArc, reverse));
                     break;
                 case SceneObject::Point:
-                    NewItem(VPieceNode(id, Tool::NodePoint));
+                    createNewItem(VPieceNode(id, Tool::NodePoint));
                     break;
                 case SceneObject::Spline:
-                    NewItem(VPieceNode(id, Tool::NodeSpline, reverse));
+                    createNewItem(VPieceNode(id, Tool::NodeSpline, reverse));
                     break;
                 case SceneObject::SplinePath:
-                    NewItem(VPieceNode(id, Tool::NodeSplinePath, reverse));
+                    createNewItem(VPieceNode(id, Tool::NodeSplinePath, reverse));
                     break;
                 case (SceneObject::Line):
                 case (SceneObject::Piece):
@@ -160,21 +178,22 @@ void DialogInternalPath::ChosenObject(quint32 id, const SceneObject &type)
             }
         }
 
-        ValidObjects(PathIsValid());
+        validateObjects(isValidPath());
 
-        if (not m_showMode)
+        if (!m_editMode)
         {
-            auto visPath = qobject_cast<VisToolInternalPath *>(vis);
+            auto visPath = qobject_cast<InternalPathVisual *>(vis);
             SCASSERT(visPath != nullptr);
-            const VPiecePath p = CreatePath();
-            visPath->SetPath(p);
+            const VPiecePath p = createPath();
+            visPath->setPath(p);
+            visPath->setCutPath(cutLinePath(toolId, data));
 
-            if (p.CountNodes() == 1)
+            if (p.nodeCount() == 1)
             {
                 emit ToolTip(tr("Select main path objects, Use <b>SHIFT</b> to reverse curve direction, "
                                 "Press <b>ENTER</b> to finish path creation "));
 
-                if (not qApp->getCurrentScene()->items().contains(visPath))
+                if (!qApp->getCurrentScene()->items().contains(visPath))
                 {
                     visPath->VisualMode(NULL_ID);
                 }
@@ -192,18 +211,18 @@ void DialogInternalPath::ChosenObject(quint32 id, const SceneObject &type)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::ShowDialog(bool click)
+void InternalPathDialog::ShowDialog(bool click)
 {
     if (click == false)
     {
-        if (CreatePath().CountNodes() > 0)
+        if (createPath().nodeCount() > 0)
         {
             emit ToolTip("");
             prepare = true;
 
-            if (not m_showMode)
+            if (!m_editMode)
             {
-                auto visPath = qobject_cast<VisToolInternalPath *>(vis);
+                auto visPath = qobject_cast<InternalPathVisual *>(vis);
                 SCASSERT(visPath != nullptr);
                 visPath->SetMode(Mode::Show);
                 visPath->RefreshGeometry();
@@ -215,29 +234,29 @@ void DialogInternalPath::ShowDialog(bool click)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::CheckState()
+void InternalPathDialog::CheckState()
 {
     SCASSERT(ok_Button != nullptr);
     ok_Button->setEnabled(flagName && flagError);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::ShowVisualization()
+void InternalPathDialog::ShowVisualization()
 {
-    AddVisualization<VisToolInternalPath>();
+    AddVisualization<InternalPathVisual>();
 
-    if (m_showMode)
+    if (m_editMode)
     {
-        PatternPieceTool *tool = qobject_cast<PatternPieceTool*>(VAbstractPattern::getTool(GetPieceId()));
+        PatternPieceTool *tool = qobject_cast<PatternPieceTool*>(VAbstractPattern::getTool(getPieceId()));
         SCASSERT(tool != nullptr);
-        auto visPath = qobject_cast<VisToolInternalPath *>(vis);
+        auto visPath = qobject_cast<InternalPathVisual *>(vis);
         SCASSERT(visPath != nullptr);
         visPath->setParentItem(tool);
     }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::closeEvent(QCloseEvent *event)
+void InternalPathDialog::closeEvent(QCloseEvent *event)
 {
     ui->widthFormula_PlainTextEdit->blockSignals(true);
     ui->beforeWidthFormula_PlainTextEdit->blockSignals(true);
@@ -246,7 +265,7 @@ void DialogInternalPath::closeEvent(QCloseEvent *event)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::ShowContextMenu(const QPoint &pos)
+void InternalPathDialog::showContextMenu(const QPoint &pos)
 {
     const int row = ui->listWidget->currentRow();
     if (ui->listWidget->count() == 0 || row == -1 || row >= ui->listWidget->count())
@@ -254,7 +273,6 @@ void DialogInternalPath::ShowContextMenu(const QPoint &pos)
         return;
     }
 
-    // workaround for https://bugreports.qt.io/browse/QTBUG-97559: assign parent to QMenu
     QScopedPointer<QMenu> menu(new QMenu(ui->listWidget));
 
     NodeInfo info;
@@ -287,7 +305,7 @@ void DialogInternalPath::ShowContextMenu(const QPoint &pos)
     }
     else if (rowNode.GetTypeTool() != Tool::NodePoint && selectedAction == actionReverse)
     {
-        rowNode.SetReverse(not rowNode.GetReverse());
+        rowNode.SetReverse(!rowNode.GetReverse());
         info = getNodeInfo(rowNode, true);
         rowItem->setData(Qt::UserRole, QVariant::fromValue(rowNode));
         rowItem->setIcon(QIcon(info.icon));
@@ -295,25 +313,26 @@ void DialogInternalPath::ShowContextMenu(const QPoint &pos)
     }
     //else if (selectedAction == actionNotch)
     //{
-    //    rowNode.setNotch(not rowNode.isNotch());
+    //    rowNode.setNotch(!rowNode.isNotch());
     //    info = getNodeInfo(rowNode, true);
     //    rowItem->setData(Qt::UserRole, QVariant::fromValue(rowNode));
     //    rowItem->setIcon(QIcon(info.icon));
     //    rowItem->setText(info.name);
     //}
 
-    ValidObjects(PathIsValid());
-    ListChanged();
+    validateObjects(isValidPath());
+    listChanged();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::ListChanged()
+void InternalPathDialog::listChanged()
 {
-    if (not m_showMode)
+    if (!m_editMode)
     {
-        auto visPath = qobject_cast<VisToolInternalPath *>(vis);
+        auto visPath = qobject_cast<InternalPathVisual *>(vis);
         SCASSERT(visPath != nullptr);
-        visPath->SetPath(CreatePath());
+        visPath->setPath(createPath());
+        visPath->setCutPath(cutLinePath(toolId, data));
         visPath->RefreshGeometry();
     }
 
@@ -322,7 +341,7 @@ void DialogInternalPath::ListChanged()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::NameChanged()
+void InternalPathDialog::nameChanged()
 {
     if (ui->pathName_LineEdit->text().isEmpty())
     {
@@ -337,8 +356,51 @@ void DialogInternalPath::NameChanged()
     CheckState();
 }
 
+void InternalPathDialog::setPenAttributes()
+{
+    int index;
+    if (ui->cutOnFabric_CheckBox->isChecked())
+    {
+        index = ui->lineColor_ComboBox->findData(qApp->Settings()->getDefaultCutoutColor());
+    }
+    else
+    {
+        index = ui->lineColor_ComboBox->findData(qApp->Settings()->getDefaultInternalColor());
+    }
+    if (index != -1)
+    {
+        ui->lineColor_ComboBox->setCurrentIndex(index);
+    }
+
+    if (ui->cutOnFabric_CheckBox->isChecked())
+    {
+        index = ui->lineWeight_ComboBox->findData(qApp->Settings()->getDefaultCutoutLineweight());
+    }
+    else
+    {
+        index = ui->lineWeight_ComboBox->findData(qApp->Settings()->getDefaultInternalLineweight());
+    }
+    if (index != -1)
+    {
+        ui->lineWeight_ComboBox->setCurrentIndex(index);
+    }
+
+    if (ui->cutOnFabric_CheckBox->isChecked())
+    {
+        index = ui->lineType_ComboBox->findData(qApp->Settings()->getDefaultCutoutLinetype());
+    }
+    else
+    {
+        index = ui->lineType_ComboBox->findData(qApp->Settings()->getDefaultInternalLinetype());
+    }
+    if (index != -1)
+    {
+        ui->lineType_ComboBox->setCurrentIndex(index);
+    }
+}
+
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::nodeChanged(int index)
+void InternalPathDialog::nodeChanged(int index)
 {
     ui->beforeWidthFormula_PlainTextEdit->setDisabled(true);
     ui->beforeExpr_ToolButton->setDisabled(true);
@@ -354,7 +416,7 @@ void DialogInternalPath::nodeChanged(int index)
 
     if (index != -1)
     {
-        const VPiecePath path = CreatePath();
+        const VPiecePath path = createPath();
         const int nodeIndex = path.indexOfNode(ui->nodes_ComboBox->currentData().toUInt());
         if (nodeIndex != -1)
         {
@@ -414,7 +476,7 @@ void DialogInternalPath::nodeChanged(int index)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::notchChanged(int index)
+void InternalPathDialog::notchChanged(int index)
 {
     ui->slitNotch_RadioButton->setDisabled(true);
     ui->tNotch_RadioButton->setDisabled(true);
@@ -436,7 +498,7 @@ void DialogInternalPath::notchChanged(int index)
 
     if (index != -1)
     {
-        const VPiecePath path = CreatePath();
+        const VPiecePath path = createPath();
         const int nodeIndex = path.indexOfNode(ui->notches_ComboBox->currentData().toUInt());
         if (nodeIndex != -1)
         {
@@ -504,7 +566,7 @@ void DialogInternalPath::notchChanged(int index)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::enableDefaultBeforeButton()
+void InternalPathDialog::enableDefaultBeforeButton()
 {
     ui->beforeWidthFormula_PlainTextEdit->setPlainText(currentSeamAllowance);
     if (QPushButton* button = qobject_cast<QPushButton*>(sender()))
@@ -514,7 +576,7 @@ void DialogInternalPath::enableDefaultBeforeButton()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::enableDefaultAfterButton()
+void InternalPathDialog::enableDefaultAfterButton()
 {
     ui->afterWidthFormula_PlainTextEdit->setPlainText(currentSeamAllowance);
     if (QPushButton* button = qobject_cast<QPushButton*>(sender()))
@@ -524,7 +586,7 @@ void DialogInternalPath::enableDefaultAfterButton()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::notchTypeChanged(int id)
+void InternalPathDialog::notchTypeChanged(int id)
 {
     const int i = ui->notches_ComboBox->currentIndex();
     if (i != -1)
@@ -570,13 +632,13 @@ void DialogInternalPath::notchTypeChanged(int id)
             rowItem->setIcon(QIcon(info.icon));
             rowItem->setText(info.name);
 
-            ListChanged();
+            listChanged();
         }
     }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::notchSubTypeChanged(int id)
+void InternalPathDialog::notchSubTypeChanged(int id)
 {
     const int i = ui->notches_ComboBox->currentIndex();
     if (i != -1)
@@ -604,13 +666,13 @@ void DialogInternalPath::notchSubTypeChanged(int id)
             rowItem->setData(Qt::UserRole, QVariant::fromValue(rowNode));
             //rowItem->setText(getNodeInfo(rowNode, true));
 
-            ListChanged();
+            listChanged();
         }
     }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::evaluateDefaultWidth()
+void InternalPathDialog::evaluateDefaultWidth()
 {
     labelEditFormula = ui->widthEdit_Label;
     const QString postfix = UnitsToStr(qApp->patternUnit(), true);
@@ -630,7 +692,7 @@ void DialogInternalPath::evaluateDefaultWidth()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::evaluateBeforeWidth()
+void InternalPathDialog::evaluateBeforeWidth()
 {
     labelEditFormula = ui->beforeWidthEdit_Label;
     const QString postfix = UnitsToStr(qApp->patternUnit(), true);
@@ -648,7 +710,7 @@ void DialogInternalPath::evaluateBeforeWidth()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::evaluateAfterWidth()
+void InternalPathDialog::evaluateAfterWidth()
 {
     labelEditFormula = ui->afterWidthEdit_Label;
     const QString postfix = UnitsToStr(qApp->patternUnit(), true);
@@ -666,7 +728,7 @@ void DialogInternalPath::evaluateAfterWidth()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::editDefaultSeamAllowanceWidth()
+void InternalPathDialog::editDefaultSeamAllowanceWidth()
 {
     EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width"));
@@ -681,7 +743,7 @@ void DialogInternalPath::editDefaultSeamAllowanceWidth()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::editBeforeSeamAllowanceWidth()
+void InternalPathDialog::editBeforeSeamAllowanceWidth()
 {
     EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width before"));
@@ -690,13 +752,13 @@ void DialogInternalPath::editBeforeSeamAllowanceWidth()
     dialog->setPostfix(UnitsToStr(qApp->patternUnit(), true));
     if (dialog->exec() == QDialog::Accepted)
     {
-        SetCurrentSABefore(dialog->GetFormula());
+        setCurrentSABefore(dialog->GetFormula());
     }
     delete dialog;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::editAfterSeamAllowanceWidth()
+void InternalPathDialog::editAfterSeamAllowanceWidth()
 {
     EditFormulaDialog *dialog = new EditFormulaDialog(data, toolId, ToolDialog, this);
     dialog->setWindowTitle(tr("Edit seam allowance width after"));
@@ -711,78 +773,72 @@ void DialogInternalPath::editAfterSeamAllowanceWidth()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::defaultWidthChanged()
+void InternalPathDialog::defaultWidthChanged()
 {
     labelEditFormula = ui->widthEdit_Label;
     labelResultCalculation = ui->widthResult_Label;
     const QString postfix = UnitsToStr(qApp->patternUnit(), true);
-    ValFormulaChanged(flagFormula, ui->widthFormula_PlainTextEdit, m_timerWidth, postfix);
+    formulaValueChanged(flagFormula, ui->widthFormula_PlainTextEdit, m_timerWidth, postfix);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::beforeWidthChanged()
+void InternalPathDialog::beforeWidthChanged()
 {
     labelEditFormula = ui->beforeWidthEdit_Label;
     labelResultCalculation = ui->beforeWidthResult_Label;
     const QString postfix = UnitsToStr(qApp->patternUnit(), true);
     bool flagFormula = false;
-    ValFormulaChanged(flagFormula, ui->beforeWidthFormula_PlainTextEdit, m_timerWidthBefore, postfix);
+    formulaValueChanged(flagFormula, ui->beforeWidthFormula_PlainTextEdit, m_timerWidthBefore, postfix);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::afterWidthChanged()
+void InternalPathDialog::afterWidthChanged()
 {
     labelEditFormula = ui->afterWidthEdit_Label;
     labelResultCalculation = ui->afterWidthResult_Label;
     const QString postfix = UnitsToStr(qApp->patternUnit(), true);
     bool flagFormula = false;
-    ValFormulaChanged(flagFormula, ui->afterWidthFormula_PlainTextEdit, m_timerWidthAfter, postfix);
+    formulaValueChanged(flagFormula, ui->afterWidthFormula_PlainTextEdit, m_timerWidthAfter, postfix);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::expandWidthFormulaTextEdit()
+void InternalPathDialog::expandWidthFormulaTextEdit()
 {
     DeployFormula(ui->widthFormula_PlainTextEdit, ui->widthGrow_PushButton, m_widthFormula);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::expandWidthBeforeFormulaTextEdit()
+void InternalPathDialog::expandWidthBeforeFormulaTextEdit()
 {
     DeployFormula(ui->beforeWidthFormula_PlainTextEdit, ui->beforeWidthGrow_PushButton, m_beforeWidthFormula);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::expandWidthAfterFormulaTextEdit()
+void InternalPathDialog::expandWidthAfterFormulaTextEdit()
 {
     DeployFormula(ui->afterWidthFormula_PlainTextEdit, ui->afterWidthGrow_PushButton, m_afterWidthFormula);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::InitPathTab()
+void InternalPathDialog::initializePathTab()
 {
     ui->pathName_LineEdit->setClearButtonEnabled(true);
+    connect(ui->pathName_LineEdit, &QLineEdit::textChanged, this, &InternalPathDialog::nameChanged);
 
-    int index = ui->penType_ComboBox->findData(LineTypeNone);
-    if (index != -1)
-    {
-        ui->penType_ComboBox->removeItem(index);
-    }
+    setPenAttributes();
 
-    connect(ui->pathName_LineEdit, &QLineEdit::textChanged, this, &DialogInternalPath::NameChanged);
-
-    InitPathTypes();
+    initializePathTypes();
     connect(ui->type_ComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             [this]()
     {
-        ui->penType_ComboBox->setEnabled(GetType() == PiecePathType::InternalPath);
-        ui->cutOnFabric_CheckBox->setEnabled(GetType() == PiecePathType::InternalPath);
-        ValidObjects(PathIsValid());
+        ui->attributes_GroupBox->setEnabled(getType() == PiecePathType::InternalPath);
+        validateObjects(isValidPath());
     });
 
     ui->listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->listWidget, &QListWidget::customContextMenuRequested, this, &DialogInternalPath::ShowContextMenu);
-
-    connect(ui->listWidget, &QListWidget::itemSelectionChanged, this, &DialogInternalPath::setMoveExclusions);
+    connect(ui->listWidget, &QListWidget::customContextMenuRequested, this, &InternalPathDialog::showContextMenu);
+    connect(ui->listWidget, &QListWidget::itemSelectionChanged,       this, &InternalPathDialog::setMoveExclusions);
+    connect(ui->cutOnFabric_CheckBox,  &QCheckBox::stateChanged,      this, &InternalPathDialog::setPenAttributes);
     connect(ui->moveTop_ToolButton,    &QToolButton::clicked, this, [this](){moveListRowTop(ui->listWidget);});
     connect(ui->moveUp_ToolButton,     &QToolButton::clicked, this, [this](){moveListRowTop(ui->listWidget);});
     connect(ui->moveDown_ToolButton,   &QToolButton::clicked, this, [this](){moveListRowDown(ui->listWidget);});
@@ -790,7 +846,7 @@ void DialogInternalPath::InitPathTab()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::InitSeamAllowanceTab()
+void InternalPathDialog::initializeSeamAllowanceTab()
 {
     plainTextEditFormula = ui->widthFormula_PlainTextEdit;
     this->m_widthFormula = ui->widthFormula_PlainTextEdit->height();
@@ -802,13 +858,13 @@ void DialogInternalPath::InitSeamAllowanceTab()
     ui->afterWidthFormula_PlainTextEdit->installEventFilter(this);
 
     m_timerWidth = new QTimer(this);
-    connect(m_timerWidth, &QTimer::timeout, this, &DialogInternalPath::evaluateDefaultWidth);
+    connect(m_timerWidth, &QTimer::timeout, this, &InternalPathDialog::evaluateDefaultWidth);
 
     m_timerWidthBefore = new QTimer(this);
-    connect(m_timerWidthBefore, &QTimer::timeout, this, &DialogInternalPath::evaluateBeforeWidth);
+    connect(m_timerWidthBefore, &QTimer::timeout, this, &InternalPathDialog::evaluateBeforeWidth);
 
     m_timerWidthAfter = new QTimer(this);
-    connect(m_timerWidthAfter, &QTimer::timeout, this, &DialogInternalPath::evaluateAfterWidth);
+    connect(m_timerWidthAfter, &QTimer::timeout, this, &InternalPathDialog::evaluateAfterWidth);
 
     // Default value for seam allowence is 1 cm. But pattern have different units, so just set 1 in dialog not enough.
     m_saWidth = UnitConvertor(1, Unit::Cm, qApp->patternUnit());
@@ -816,64 +872,63 @@ void DialogInternalPath::InitSeamAllowanceTab()
 
     initializeNodesList();
     connect(ui->nodes_ComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &DialogInternalPath::nodeChanged);
+            &InternalPathDialog::nodeChanged);
 
-    connect(ui->beforeDefault_PushButton, &QPushButton::clicked, this, &DialogInternalPath::enableDefaultBeforeButton);
-    connect(ui->afterDefault_PushButton, &QPushButton::clicked, this, &DialogInternalPath::enableDefaultAfterButton);
+    connect(ui->beforeDefault_PushButton, &QPushButton::clicked, this, &InternalPathDialog::enableDefaultBeforeButton);
+    connect(ui->afterDefault_PushButton, &QPushButton::clicked, this, &InternalPathDialog::enableDefaultAfterButton);
 
     initializeNodeAngles(ui->angle_ComboBox);
     connect(ui->angle_ComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &DialogInternalPath::nodeAngleChanged);
+            &InternalPathDialog::nodeAngleChanged);
 
-    connect(ui->toolButtonExprWidth, &QPushButton::clicked, this, &DialogInternalPath::editDefaultSeamAllowanceWidth);
-    connect(ui->beforeExpr_ToolButton, &QPushButton::clicked, this, &DialogInternalPath::editBeforeSeamAllowanceWidth);
-    connect(ui->afterExpr_ToolButton, &QPushButton::clicked, this, &DialogInternalPath::editAfterSeamAllowanceWidth);
+    connect(ui->toolButtonExprWidth, &QPushButton::clicked, this, &InternalPathDialog::editDefaultSeamAllowanceWidth);
+    connect(ui->beforeExpr_ToolButton, &QPushButton::clicked, this, &InternalPathDialog::editBeforeSeamAllowanceWidth);
+    connect(ui->afterExpr_ToolButton, &QPushButton::clicked, this, &InternalPathDialog::editAfterSeamAllowanceWidth);
 
-    connect(ui->widthFormula_PlainTextEdit, &QPlainTextEdit::textChanged, this, &DialogInternalPath::defaultWidthChanged);
+    connect(ui->widthFormula_PlainTextEdit, &QPlainTextEdit::textChanged, this, &InternalPathDialog::defaultWidthChanged);
     connect(ui->beforeWidthFormula_PlainTextEdit, &QPlainTextEdit::textChanged, this,
-            &DialogInternalPath::beforeWidthChanged);
+            &InternalPathDialog::beforeWidthChanged);
     connect(ui->afterWidthFormula_PlainTextEdit, &QPlainTextEdit::textChanged, this,
-            &DialogInternalPath::afterWidthChanged);
+            &InternalPathDialog::afterWidthChanged);
 
-    connect(ui->widthGrow_PushButton, &QPushButton::clicked, this, &DialogInternalPath::expandWidthFormulaTextEdit);
+    connect(ui->widthGrow_PushButton, &QPushButton::clicked, this, &InternalPathDialog::expandWidthFormulaTextEdit);
     connect(ui->beforeWidthGrow_PushButton, &QPushButton::clicked,
-            this, &DialogInternalPath::expandWidthBeforeFormulaTextEdit);
+            this, &InternalPathDialog::expandWidthBeforeFormulaTextEdit);
     connect(ui->afterWidthGrow_PushButton, &QPushButton::clicked, this,
-            &DialogInternalPath::expandWidthAfterFormulaTextEdit);
+            &InternalPathDialog::expandWidthAfterFormulaTextEdit);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::InitNotchesTab()
+void InternalPathDialog::initializeNotchesTab()
 {
     initializeNotchesList();
     connect(ui->notches_ComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, &DialogInternalPath::notchChanged);
+            this, &InternalPathDialog::notchChanged);
 
-    connect(ui->notchType_ButtonGroup,     &QButtonGroup::idClicked, this, &DialogInternalPath::notchTypeChanged);
-    connect(ui->notchSubType_ButtonGroup,  &QButtonGroup::idClicked, this, &DialogInternalPath::notchSubTypeChanged);
+    connect(ui->notchType_ButtonGroup,     &QButtonGroup::idClicked, this, &InternalPathDialog::notchTypeChanged);
+    connect(ui->notchSubType_ButtonGroup,  &QButtonGroup::idClicked, this, &InternalPathDialog::notchSubTypeChanged);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::InitPathTypes()
+void InternalPathDialog::initializePathTypes()
 {
     ui->type_ComboBox->addItem(tr("Internal path"), static_cast<int>(PiecePathType::InternalPath));
     ui->type_ComboBox->addItem(tr("Custom seam allowance"), static_cast<int>(PiecePathType::CustomSeamAllowance));
 
-    ui->penType_ComboBox->setEnabled(GetType() == PiecePathType::InternalPath);
-    ui->cutOnFabric_CheckBox->setEnabled(GetType() == PiecePathType::InternalPath);
+    ui->attributes_GroupBox->setEnabled(getType() == PiecePathType::InternalPath);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::initializeNodesList()
+void InternalPathDialog::initializeNodesList()
 {
     const quint32 id = ui->nodes_ComboBox->currentData().toUInt();
 
     ui->nodes_ComboBox->blockSignals(true);
     ui->nodes_ComboBox->clear();
 
-    const VPiecePath path = CreatePath();
+    const VPiecePath path = createPath();
 
-    for (int i = 0; i < path.CountNodes(); ++i)
+    for (int i = 0; i < path.nodeCount(); ++i)
     {
         const VPieceNode node = path.at(i);
         if (node.GetTypeTool() == Tool::NodePoint)
@@ -897,7 +952,7 @@ void DialogInternalPath::initializeNodesList()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::initializeNotchesList()
+void InternalPathDialog::initializeNotchesList()
 {
     const quint32 id = ui->notches_ComboBox->currentData().toUInt();
 
@@ -931,7 +986,7 @@ void DialogInternalPath::initializeNotchesList()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::nodeAngleChanged(int index)
+void InternalPathDialog::nodeAngleChanged(int index)
 {
     const int i = ui->nodes_ComboBox->currentIndex();
     if (i != -1 && index != -1)
@@ -944,48 +999,54 @@ void DialogInternalPath::nodeAngleChanged(int index)
             rowNode.SetAngleType(angle);
             rowItem->setData(Qt::UserRole, QVariant::fromValue(rowNode));
 
-            ListChanged();
+            listChanged();
         }
     }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-VPiecePath DialogInternalPath::GetPiecePath() const
+VPiecePath InternalPathDialog::getPiecePath() const
 {
-    return CreatePath();
+    return createPath();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::SetPiecePath(const VPiecePath &path)
+void InternalPathDialog::setPiecePath(const VPiecePath &path)
 {
+    ui->pathName_LineEdit->setText(path.getName());
+    setType(path.getType());
+
     ui->listWidget->clear();
-    for (int i = 0; i < path.CountNodes(); ++i)
+    for (int i = 0; i < path.nodeCount(); ++i)
     {
-        NewItem(path.at(i));
+        createNewItem(path.at(i));
     }
 
-    SetType(path.GetType());
-    ui->pathName_LineEdit->setText(path.GetName());
+    setLineColor(path.getLineColor());
+    setLineType(path.getLineType());
+    setLineWeight(path.getLineWeight());
+    setCutPath(path.isCutPath());
+    ui->extendStartPoint_CheckBox->setChecked(path.extendStartPoint());
+    ui->extendEndPoint_CheckBox->setChecked(path.extendEndPoint());
 
-    VisToolInternalPath *visPath = qobject_cast<VisToolInternalPath *>(vis);
+    validateObjects(isValidPath());
+
+    listChanged();
+
+    InternalPathVisual *visPath = qobject_cast<InternalPathVisual *>(vis);
     SCASSERT(visPath != nullptr);
-    visPath->SetPath(path);
-    SetPenType(path.GetPenType());
-    SetCutPath(path.IsCutPath());
-
-    ValidObjects(PathIsValid());
-
-    ListChanged();
+    visPath->setPath(path);
+    visPath->setCutPath(cutLinePath(toolId, data));
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-PiecePathType DialogInternalPath::GetType() const
+PiecePathType InternalPathDialog::getType() const
 {
     return static_cast<PiecePathType>(ui->type_ComboBox->currentData().toInt());
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::SetType(PiecePathType type)
+void InternalPathDialog::setType(PiecePathType type)
 {
     const qint32 index = ui->type_ComboBox->findData(static_cast<int>(type));
     if (index != -1)
@@ -993,37 +1054,68 @@ void DialogInternalPath::SetType(PiecePathType type)
         ui->type_ComboBox->setCurrentIndex(index);
     }
 
-    ui->penType_ComboBox->setEnabled(type == PiecePathType::InternalPath);
-    ui->cutOnFabric_CheckBox->setEnabled(type == PiecePathType::InternalPath);
+    ui->attributes_GroupBox->setEnabled(getType() == PiecePathType::InternalPath);
 }
 
-//---------------------------------------------------------------------------------------------------------------------
-Qt::PenStyle DialogInternalPath::GetPenType() const
+
+/// @brief getLineColor get the color of line
+/// @return line color
+ QString InternalPathDialog::getLineColor() const
 {
-    return lineTypeToPenStyle(GetComboBoxCurrentData(ui->penType_ComboBox, LineTypeSolidLine));
+    return getComboBoxCurrentData(ui->lineColor_ComboBox, ColorBlack);
 }
 
-//---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::SetPenType(const Qt::PenStyle &type)
+/// @brief setLineColor set color of the line
+/// @param value type
+void InternalPathDialog::setLineColor(const QString &value)
 {
-    ChangeCurrentData(ui->penType_ComboBox, PenStyleToLineType(type));
+    changeCurrentData(ui->lineColor_ComboBox, value);
+}
+
+/// @brief getLineType get the type of line
+/// @param linetype as a QT::Penstyle
+Qt::PenStyle InternalPathDialog::getLineType() const
+{
+    return lineTypeToPenStyle(getComboBoxCurrentData(ui->lineType_ComboBox, LineTypeSolidLine));
+}
+
+/// @brief setLineType set type of the line
+/// @param value linetype
+void InternalPathDialog::setLineType(const Qt::PenStyle &type)
+{
+    changeCurrentData(ui->lineType_ComboBox, PenStyleToLineType(type));
     vis->setLineStyle(type);
 }
 
+/// @brief getLineWeight return weight of the lines
+/// @return lineweight
+QString InternalPathDialog::getLineWeight() const
+{
+        return getComboBoxCurrentData(ui->lineWeight_ComboBox, "1.00");
+}
+
+/// @brief setLineWeight set weight of the lines
+/// @param value type
+void InternalPathDialog::setLineWeight(const QString &value)
+{
+    changeCurrentData(ui->lineWeight_ComboBox, value);
+    vis->setLineWeight(value);
+}
+
 //---------------------------------------------------------------------------------------------------------------------
-bool DialogInternalPath::IsCutPath() const
+bool InternalPathDialog::isCutPath() const
 {
     return ui->cutOnFabric_CheckBox->isChecked();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::SetCutPath(bool value)
+void InternalPathDialog::setCutPath(bool value)
 {
     ui->cutOnFabric_CheckBox->setChecked(value);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-QListWidgetItem *DialogInternalPath::getItemById(quint32 id)
+QListWidgetItem *InternalPathDialog::getItemById(quint32 id)
 {
     for (qint32 i = 0; i < ui->listWidget->count(); ++i)
     {
@@ -1039,7 +1131,7 @@ QListWidgetItem *DialogInternalPath::getItemById(quint32 id)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-quint32 DialogInternalPath::GetLastId() const
+quint32 InternalPathDialog::getLastNodeId() const
 {
     const int count = ui->listWidget->count();
     if (count > 0)
@@ -1055,21 +1147,21 @@ quint32 DialogInternalPath::GetLastId() const
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::SetCurrentSABefore(const QString &formula)
+void InternalPathDialog::setCurrentSABefore(const QString &formula)
 {
     updateNodeBeforeSeamAllowance(formula);
-    ListChanged();
+    listChanged();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::setCurrentAfterSeamAllowance(const QString &formula)
+void InternalPathDialog::setCurrentAfterSeamAllowance(const QString &formula)
 {
     updateNodeAfterSeamAllowance(formula);
-    ListChanged();
+    listChanged();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::updateNodeBeforeSeamAllowance(const QString &formula)
+void InternalPathDialog::updateNodeBeforeSeamAllowance(const QString &formula)
 {
     const int index = ui->nodes_ComboBox->currentIndex();
     if (index != -1)
@@ -1085,7 +1177,7 @@ void DialogInternalPath::updateNodeBeforeSeamAllowance(const QString &formula)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::updateNodeAfterSeamAllowance(const QString &formula)
+void InternalPathDialog::updateNodeAfterSeamAllowance(const QString &formula)
 {
     const int index = ui->nodes_ComboBox->currentIndex();
     if (index != -1)
@@ -1101,7 +1193,7 @@ void DialogInternalPath::updateNodeAfterSeamAllowance(const QString &formula)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::setSeamAllowanceWidthFormula(const QString &formula)
+void InternalPathDialog::setSeamAllowanceWidthFormula(const QString &formula)
 {
     if (formula.isEmpty())
     {
@@ -1116,9 +1208,10 @@ void DialogInternalPath::setSeamAllowanceWidthFormula(const QString &formula)
     }
     ui->widthFormula_PlainTextEdit->setPlainText(width);
 
-    VisToolInternalPath *path = qobject_cast<VisToolInternalPath *>(vis);
+    InternalPathVisual *path = qobject_cast<InternalPathVisual *>(vis);
     SCASSERT(path != nullptr)
-    path->SetPath(CreatePath());
+    path->setPath(createPath());
+    path->setCutPath(cutLinePath(toolId, data));
 
     if (ui->tabWidget->indexOf(ui->seamAllowance_Tab) == -1)
     {
@@ -1134,13 +1227,13 @@ void DialogInternalPath::setSeamAllowanceWidthFormula(const QString &formula)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-quint32 DialogInternalPath::GetPieceId() const
+quint32 InternalPathDialog::getPieceId() const
 {
     return getCurrentObjectId(ui->piece_ComboBox);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::SetPieceId(quint32 id)
+void InternalPathDialog::setPieceId(quint32 id)
 {
     if (ui->piece_ComboBox->count() <= 0)
     {
@@ -1161,7 +1254,7 @@ void DialogInternalPath::SetPieceId(quint32 id)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-QString DialogInternalPath::getSeamAllowanceWidthFormula() const
+QString InternalPathDialog::getSeamAllowanceWidthFormula() const
 {
     QString width = ui->widthFormula_PlainTextEdit->toPlainText();
     width.replace("\n", " ");
@@ -1169,13 +1262,13 @@ QString DialogInternalPath::getSeamAllowanceWidthFormula() const
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::SetPiecesList(const QVector<quint32> &list)
+void InternalPathDialog::SetPiecesList(const QVector<quint32> &list)
 {
-    FillComboBoxPiecesList(ui->piece_ComboBox, list);
+    fillComboBoxPiecesList(ui->piece_ComboBox, list);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-VPiecePath DialogInternalPath::CreatePath() const
+VPiecePath InternalPathDialog::createPath() const
 {
     VPiecePath path;
     for (qint32 i = 0; i < ui->listWidget->count(); ++i)
@@ -1184,20 +1277,25 @@ VPiecePath DialogInternalPath::CreatePath() const
         path.Append(qvariant_cast<VPieceNode>(item->data(Qt::UserRole)));
     }
 
-    path.SetType(GetType());
-    path.SetName(ui->pathName_LineEdit->text());
-    path.SetPenType(GetType() == PiecePathType::InternalPath ? GetPenType() : Qt::SolidLine);
-    path.SetCutPath(GetType() == PiecePathType::InternalPath ? IsCutPath() : false);
+    const bool isInternalPath = (getType() == PiecePathType::InternalPath);
+    path.setType(getType());
+    path.setName(ui->pathName_LineEdit->text());
+    path.setLineColor(isInternalPath ? getLineColor() : "black");
+    path.setLineType(isInternalPath ? getLineType() : Qt::SolidLine);
+    path.setLineWeight(isInternalPath ? getLineWeight() :"1");
+    path.setCutPath(isInternalPath ? isCutPath() : false);
+    path.setExtendStartPoint(isInternalPath ? ui->extendStartPoint_CheckBox->isChecked() : false);
+    path.setExtendEndPoint(isInternalPath ? ui->extendEndPoint_CheckBox->isChecked() : false);
 
     return path;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-bool DialogInternalPath::PathIsValid() const
+bool InternalPathDialog::isValidPath() const
 {
     QString url = DialogWarningIcon();
 
-    if(CreatePath().PathPoints(data).count() < 2)
+    if(createPath().PathPoints(data).count() < 2)
     {
         url += tr("You need more points!");
         ui->status_Label->setText(url);
@@ -1205,7 +1303,7 @@ bool DialogInternalPath::PathIsValid() const
     }
     else
     {
-        if (GetType() == PiecePathType::CustomSeamAllowance && isFirstPointSameAsLast(ui->listWidget))
+        if (getType() == PiecePathType::CustomSeamAllowance && isFirstPointSameAsLast(ui->listWidget))
         {
             url += tr("First point of <b>custom seam allowance</b> cannot be equal to the last point!");
             ui->status_Label->setText(url);
@@ -1217,7 +1315,7 @@ bool DialogInternalPath::PathIsValid() const
             ui->status_Label->setText(url);
             return false;
         }
-        else if (GetType() == PiecePathType::CustomSeamAllowance && not isEachPointNameUnique(ui->listWidget))
+        else if (getType() == PiecePathType::CustomSeamAllowance && not isEachPointNameUnique(ui->listWidget))
         {
             url += tr("Each point in the <b>custom seam allowance</b> path must be unique!");
             ui->status_Label->setText(url);
@@ -1225,15 +1323,15 @@ bool DialogInternalPath::PathIsValid() const
         }
     }
 
-    if (not m_showMode && ui->piece_ComboBox->count() <= 0)
+    if (!m_editMode && ui->piece_ComboBox->count() <= 0)
     {
-        url += tr("List of details is empty!");
+        url += tr("List of pieces is empty!");
         ui->status_Label->setText(url);
         return false;
     }
-    else if (not m_showMode && ui->piece_ComboBox->currentIndex() == -1)
+    else if (!m_editMode && ui->piece_ComboBox->currentIndex() == -1)
     {
-        url += tr("Please, select a detail to insert into!");
+        url += tr("Please, select a piece to insert into!");
         ui->status_Label->setText(url);
         return false;
     }
@@ -1243,20 +1341,20 @@ bool DialogInternalPath::PathIsValid() const
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::ValidObjects(bool value)
+void InternalPathDialog::validateObjects(bool value)
 {
     flagError = value;
     CheckState();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::NewItem(const VPieceNode &node)
+void InternalPathDialog::createNewItem(const VPieceNode &node)
 {
     newNodeItem(ui->listWidget, node);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-QString DialogInternalPath::getSeamAllowanceWidthFormulaBefore() const
+QString InternalPathDialog::getSeamAllowanceWidthFormulaBefore() const
 {
     QString width = ui->beforeWidthFormula_PlainTextEdit->toPlainText();
     width.replace("\n", " ");
@@ -1264,7 +1362,7 @@ QString DialogInternalPath::getSeamAllowanceWidthFormulaBefore() const
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-QString DialogInternalPath::getSeamAllowanceWidthFormulaAfter() const
+QString InternalPathDialog::getSeamAllowanceWidthFormulaAfter() const
 {
     QString width = ui->afterWidthFormula_PlainTextEdit->toPlainText();
     width.replace("\n", " ");
@@ -1272,7 +1370,7 @@ QString DialogInternalPath::getSeamAllowanceWidthFormulaAfter() const
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void DialogInternalPath::setMoveExclusions()
+void InternalPathDialog::setMoveExclusions()
 {
     ui->moveTop_ToolButton->setEnabled(false);
     ui->moveUp_ToolButton->setEnabled(false);
@@ -1299,4 +1397,38 @@ void DialogInternalPath::setMoveExclusions()
             ui->moveBottom_ToolButton->setEnabled(true);
         }
     }
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void InternalPathDialog::validateName() const
+{
+    const QString defaultName = ui->pathName_LineEdit->text();
+
+    quint32 pieceId = getPieceId();
+    if (pieceId == NULL_ID)
+    {
+        return;
+    }
+
+    VPiece piece = data->GetPiece(pieceId);
+
+    QVector<quint32> paths = piece.getInternalPaths();
+
+    QStringList pathNames;
+
+    for (int i = 0; i < paths.size(); ++i)
+    {
+        VPiecePath path = data->getPiecePath(paths.at(i));
+        pathNames.append(path.getName());
+    }
+
+    QString pathName = defaultName;
+    int i = 0;
+
+    while(pathNames.contains(pathName))
+    {
+        pathName = defaultName + QString("_%1").arg(++i);
+    }
+
+    ui->pathName_LineEdit->setText(pathName);
 }

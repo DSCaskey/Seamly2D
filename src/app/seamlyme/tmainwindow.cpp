@@ -126,7 +126,7 @@ TMainWindow::TMainWindow(QWidget *parent)
 	  gradationSizes(nullptr),
 	  comboBoxUnits(nullptr),
 	  lock(nullptr),
-	  search(),
+	  m_search(),
 	  labelGradationHeights(nullptr),
 	  labelGradationSizes(nullptr),
 	  labelPatternUnit(nullptr),
@@ -142,17 +142,17 @@ TMainWindow::TMainWindow(QWidget *parent)
 
 	qApp->Settings()->getOsSeparator() ? setLocale(QLocale()) : setLocale(QLocale::c());
 
-	ui->lineEditFind->setClearButtonEnabled(true);
+	ui->find_LineEdit->setClearButtonEnabled(true);
 	ui->lineEditName->setClearButtonEnabled(true);
 	ui->lineEditFullName->setClearButtonEnabled(true);
 	ui->lineEditGivenName->setClearButtonEnabled(true);
 	ui->lineEditFamilyName->setClearButtonEnabled(true);
 	ui->lineEditEmail->setClearButtonEnabled(true);
 
-	ui->lineEditFind->installEventFilter(this);
+	ui->find_LineEdit->installEventFilter(this);
 	ui->plainTextEditFormula->installEventFilter(this);
 
-	search = QSharedPointer<VTableSearch>(new VTableSearch(ui->tableWidget));
+	m_search = QSharedPointer<VTableSearch>(new VTableSearch(ui->tableWidget));
 	ui->tabWidget->setVisible(false);
 
 	ui->mainToolBar->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -204,7 +204,7 @@ void TMainWindow::RetranslateTable()
 		const int row = ui->tableWidget->currentRow();
 		RefreshTable();
 		ui->tableWidget->selectRow(row);
-		search->RefreshList(ui->lineEditFind->text());
+		m_search->refreshList(ui->find_LineEdit->text());
 	}
 }
 
@@ -239,10 +239,11 @@ void TMainWindow::SetBaseMSize(int size)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void TMainWindow::SetPUnit(Unit unit)
+void TMainWindow::setPUnit(Unit unit)
 {
 	pUnit = unit;
-	UpdatePatternUnit();
+    setCurrentPatternUnits();
+	updatePatternUnit();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -610,18 +611,18 @@ void TMainWindow::Preferences()
 		QScopedPointer<DialogSeamlyMePreferences> dlg(preferences);
 		guard = preferences;
 		// Must be first
-		connect(dlg.data(), &DialogSeamlyMePreferences::updateProperties, this, &TMainWindow::WindowsLocale);
-		connect(dlg.data(), &DialogSeamlyMePreferences::updateProperties, this, &TMainWindow::ToolBarStyles);
+		connect(dlg.data(), &DialogSeamlyMePreferences::updateProperties, this, &TMainWindow::setWindowsLocale);
+		connect(dlg.data(), &DialogSeamlyMePreferences::updateProperties, this, &TMainWindow::initToolBarStyles);
 		QGuiApplication::restoreOverrideCursor();
 		dlg->exec();
 	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void TMainWindow::ToolBarStyles()
+void TMainWindow::initToolBarStyles()
 {
-	ToolBarStyle(ui->toolBarGradation);
-	ToolBarStyle(ui->mainToolBar);
+	initToolBarStyle(ui->toolBarGradation);
+	initToolBarStyle(ui->mainToolBar);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -1362,9 +1363,9 @@ void TMainWindow::Remove()
 
 	MeasurementsWasSaved(false);
 
-	search->RemoveRow(row);
+	m_search->removeRow(row);
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 
 	if (ui->tableWidget->rowCount() > 0)
 	{
@@ -1432,7 +1433,7 @@ void TMainWindow::MoveTop()
 	individualMeasurements->MoveTop(nameField->data(Qt::UserRole).toString());
 	MeasurementsWasSaved(false);
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 	ui->tableWidget->selectRow(0);
 }
 
@@ -1450,7 +1451,7 @@ void TMainWindow::MoveUp()
 	individualMeasurements->MoveUp(nameField->data(Qt::UserRole).toString());
 	MeasurementsWasSaved(false);
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 	ui->tableWidget->selectRow(row-1);
 }
 
@@ -1468,7 +1469,7 @@ void TMainWindow::MoveDown()
 	individualMeasurements->MoveDown(nameField->data(Qt::UserRole).toString());
 	MeasurementsWasSaved(false);
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 	ui->tableWidget->selectRow(row+1);
 }
 
@@ -1486,7 +1487,7 @@ void TMainWindow::MoveBottom()
 	individualMeasurements->MoveBottom(nameField->data(Qt::UserRole).toString());
 	MeasurementsWasSaved(false);
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 	ui->tableWidget->selectRow(ui->tableWidget->rowCount()-1);
 }
 
@@ -1535,7 +1536,7 @@ void TMainWindow::Fx()
 
 		RefreshData();
 
-		search->RefreshList(ui->lineEditFind->text());
+		m_search->refreshList(ui->find_LineEdit->text());
 
 		ui->tableWidget->selectRow(row);
 	}
@@ -1560,9 +1561,9 @@ void TMainWindow::AddCustom()
 		individualMeasurements->AddEmptyAfter(nameField->data(Qt::UserRole).toString(), name);
 	}
 
-	search->AddRow(currentRow);
+	m_search->addRow(currentRow);
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 
 	ui->tableWidget->selectRow(currentRow);
 
@@ -1594,7 +1595,7 @@ void TMainWindow::AddKnown()
 					individualMeasurements->addEmpty(list.at(i));
 				}
 
-				search->AddRow(currentRow);
+				m_search->addRow(currentRow);
 			}
 		}
 		else
@@ -1612,13 +1613,13 @@ void TMainWindow::AddKnown()
 				{
 					individualMeasurements->AddEmptyAfter(after, list.at(i));
 				}
-				search->AddRow(currentRow);
+				m_search->addRow(currentRow);
 				after = list.at(i);
 			}
 		}
 
 		RefreshData();
-		search->RefreshList(ui->lineEditFind->text());
+		m_search->refreshList(ui->find_LineEdit->text());
 
 		ui->tableWidget->selectRow(currentRow);
 
@@ -1700,7 +1701,7 @@ void TMainWindow::ImportFromPattern()
 
 	RefreshData();
 
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 
 	ui->tableWidget->selectRow(currentRow);
 
@@ -1713,7 +1714,7 @@ void TMainWindow::ChangedSize(int index)
 	const int row = ui->tableWidget->currentRow();
     currentSize = gradationSizes->itemText(index).toInt();
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 	ui->tableWidget->selectRow(row);
 }
 
@@ -1723,7 +1724,7 @@ void TMainWindow::ChangedHeight(int index)
 	const int row = ui->tableWidget->currentRow();
     currentHeight = gradationHeights->itemText(index).toInt();
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 	ui->tableWidget->selectRow(row);
 }
 
@@ -1909,7 +1910,7 @@ void TMainWindow::SaveMName(const QString &text)
 		individualMeasurements->SetMName(nameField->text(), newName);
 		MeasurementsWasSaved(false);
 		RefreshData();
-		search->RefreshList(ui->lineEditFind->text());
+		m_search->refreshList(ui->find_LineEdit->text());
 
 		ui->tableWidget->blockSignals(true);
 		ui->tableWidget->selectRow(row);
@@ -1989,7 +1990,7 @@ void TMainWindow::SaveMValue()
 	const QTextCursor cursor = ui->plainTextEditFormula->textCursor();
 
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 
 	ui->tableWidget->blockSignals(true);
 	ui->tableWidget->selectRow(row);
@@ -2014,7 +2015,7 @@ void TMainWindow::SaveMBaseValue(double value)
 	MeasurementsWasSaved(false);
 
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 
 	ui->tableWidget->blockSignals(true);
 	ui->tableWidget->selectRow(row);
@@ -2039,7 +2040,7 @@ void TMainWindow::SaveMSizeIncrease(double value)
 	MeasurementsWasSaved(false);
 
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 
 	ui->tableWidget->blockSignals(true);
 	ui->tableWidget->selectRow(row);
@@ -2064,7 +2065,7 @@ void TMainWindow::SaveMHeightIncrease(double value)
 	MeasurementsWasSaved(false);
 
 	RefreshData();
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 
 	ui->tableWidget->blockSignals(true);
 	ui->tableWidget->selectRow(row);
@@ -2147,11 +2148,11 @@ void TMainWindow::SaveMFullName()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void TMainWindow::PatternUnitChanged(int index)
+void TMainWindow::patternUnitsChanged(int index)
 {
 	pUnit = static_cast<Unit>(comboBoxUnits->itemData(index).toInt());
 
-	UpdatePatternUnit();
+	updatePatternUnit();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -2386,16 +2387,62 @@ void TMainWindow::InitWindow()
 	connect(ui->comboBoxPMSystem, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
 			&TMainWindow::SavePMSystem);
 
-	connect(ui->lineEditFind, &QLineEdit::textChanged, [this] (const QString &term){search->Find(term);});
-	connect(ui->toolButtonFindPrevious, &QToolButton::clicked, [this] (){search->FindPrevious();});
-	connect(ui->toolButtonFindNext, &QToolButton::clicked, [this] (){search->FindNext();});
+	connect(ui->find_LineEdit, &QLineEdit::textChanged, [this] (const QString &text){m_search->find(text);});
+	connect(ui->toolButtonFindPrevious, &QToolButton::clicked, [this] (){m_search->findPrevious();});
+	connect(ui->toolButtonFindNext, &QToolButton::clicked, [this] (){m_search->findNext();});
+    connect(ui->regex_ToolButton, &QToolButton::toggled, [this] (const bool &checked)
+    {
+        if (checked)
+        {
+            ui->case_ToolButton->blockSignals(true);
+            ui->case_ToolButton->setChecked(false);
+            ui->case_ToolButton->blockSignals(false);
+            m_search->setMatchCase(false);
 
-	connect(search.data(), &VTableSearch::HasResult, this, [this] (bool state)
+            ui->word_ToolButton->blockSignals(true);
+            ui->word_ToolButton->setChecked(false);
+            ui->word_ToolButton->blockSignals(false);
+            m_search->setMatchWord(false);
+        }
+
+        m_search->setMatchRegEx(checked);
+        m_search->find(ui->find_LineEdit->text());
+    });
+    
+    connect(ui->case_ToolButton,  &QToolButton::toggled, [this] (const bool &checked)
+    {
+        if (checked)
+        {
+            ui->regex_ToolButton->blockSignals(true);
+            ui->regex_ToolButton->setChecked(false);
+            ui->regex_ToolButton->blockSignals(false);
+            m_search->setMatchRegEx(false);
+        }
+
+        m_search->setMatchCase(checked);
+        m_search->find(ui->find_LineEdit->text());
+    });
+
+    connect(ui->word_ToolButton,  &QToolButton::toggled, [this] (const bool &checked)
+    {
+        if (checked)
+        {
+            ui->regex_ToolButton->blockSignals(true);
+            ui->regex_ToolButton->setChecked(false);
+            ui->regex_ToolButton->blockSignals(false);
+            m_search->setMatchRegEx(false);
+        }
+
+        m_search->setMatchWord(checked);
+        m_search->find(ui->find_LineEdit->text());
+    });
+
+	connect(m_search.data(), &VTableSearch::hasResult, this, [this] (bool state)
 	{
 		ui->toolButtonFindPrevious->setEnabled(state);
 	});
     connect(ui->clipboard_ToolButton, &QToolButton::clicked, this, &TMainWindow::copyToClipboard);
-	connect(search.data(), &VTableSearch::HasResult, this, [this] (bool state)
+	connect(m_search.data(), &VTableSearch::hasResult, this, [this] (bool state)
 	{
 		ui->toolButtonFindNext->setEnabled(state);
 	});
@@ -2842,8 +2889,8 @@ void TMainWindow::MFields(bool enabled)
 		ui->toolButtonExpr->setEnabled(enabled);
 	}
 
-	ui->lineEditFind->setEnabled(enabled);
-	if (enabled && !ui->lineEditFind->text().isEmpty())
+	ui->find_LineEdit->setEnabled(enabled);
+	if (enabled && !ui->find_LineEdit->text().isEmpty())
 	{
 		ui->toolButtonFindPrevious->setEnabled(enabled);
 		ui->toolButtonFindNext->setEnabled(enabled);
@@ -3038,7 +3085,7 @@ void TMainWindow::ReadSettings()
 	restoreState(settings->GetToolbarsState(), APP_VERSION);
 
 	// Text under tool button icon
-	ToolBarStyles();
+	initToolBarStyles();
 
 	// Stack limit
 	//qApp->getUndoStack()->setUndoLimit(settings->GetUndoCount());
@@ -3060,7 +3107,7 @@ QStringList TMainWindow::FilterMeasurements(const QStringList &mNew, const QStri
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void TMainWindow::UpdatePatternUnit()
+void TMainWindow::updatePatternUnit()
 {
 	const int row = ui->tableWidget->currentRow();
 
@@ -3071,7 +3118,7 @@ void TMainWindow::UpdatePatternUnit()
 
 	RefreshTable();
 
-	search->RefreshList(ui->lineEditFind->text());
+	m_search->refreshList(ui->find_LineEdit->text());
 
 	ui->tableWidget->selectRow(row);
 }
@@ -3380,6 +3427,7 @@ void TMainWindow::initUnits()
 
 	comboBoxUnits = new QComboBox(this);
 	InitComboBoxUnits();
+    setCurrentPatternUnits();
 
 	// set default unit
 	const qint32 indexUnit = comboBoxUnits->findData(static_cast<int>(pUnit));
@@ -3389,9 +3437,23 @@ void TMainWindow::initUnits()
 	}
 
 	connect(comboBoxUnits, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-			&TMainWindow::PatternUnitChanged);
+			&TMainWindow::patternUnitsChanged);
 
 	ui->toolBarGradation->addWidget(comboBoxUnits);
+}
+
+void TMainWindow::setCurrentPatternUnits()
+{
+    if (comboBoxUnits)
+    {
+        comboBoxUnits->blockSignals(true);
+        const qint32 indexUnit = comboBoxUnits->findData(static_cast<int>(pUnit));
+        if (indexUnit != -1)
+        {
+            comboBoxUnits->setCurrentIndex(indexUnit);
+        }
+        comboBoxUnits->blockSignals(false);
+    }
 }
 
 //---------------------------------------------------------------------------------------------------------------------

@@ -1,54 +1,52 @@
-/***************************************************************************
- **  @file   vpattern.cpp
- **  @author Douglas S Caskey
- **  @date   17 Sep, 2023
- **
- **  @copyright
- **  Copyright (C) 2017 - 2022 Seamly, LLC
- **  https://github.com/fashionfreedom/seamly2d
- **
- **  @brief
- **  Seamly2D is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Seamly2D is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Seamly2D. If not, see <http://www.gnu.org/licenses/>.
- **************************************************************************/
+//---------------------------------------------------------------------------------------------------------------------
+//  @file   vpattern.cpp
+//  @author Douglas S Caskey
+//  @date   17 Sep, 2023
+//
+//  @copyright
+//  Copyright (C) 2017 - 2022 Seamly, LLC
+//  https://github.com/fashionfreedom/seamly2d
+//
+//  @brief
+//  Seamly2D is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Seamly2D is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Seamly2D. If not, see <http://www.gnu.org/licenses/>.
+//---------------------------------------------------------------------------------------------------------------------
 
-/************************************************************************
- **
- **  @file   vpattern.cpp
- **  @author Roman Telezhynskyi <dismine(at)gmail.com>
- **  @date   24 2, 2014
- **
- **  @brief
- **  @copyright
- **  This source code is part of the Valentina project, a pattern making
- **  program, whose allow create and modeling patterns of clothing.
- **  Copyright (C) 2013-2015 Valentina project
- **  <https://bitbucket.org/dismine/valentina> All Rights Reserved.
- **
- **  Valentina is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
- **
- **  Valentina is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
- **
- *************************************************************************/
+//---------------------------------------------------------------------------------------------------------------------
+//  @file   vpattern.cpp
+//  @author Roman Telezhynskyi <dismine(at)gmail.com>
+//  @date   24 2, 2014
+//
+//  @brief
+//  @copyright
+//  This source code is part of the Valentina project, a pattern making
+//  program, whose allow create and modeling patterns of clothing.
+//  Copyright (C) 2013-2015 Valentina project
+//  <https://bitbucket.org/dismine/valentina> All Rights Reserved.
+//
+//  Valentina is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Valentina is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Valentina.  If not, see <http://www.gnu.org/licenses/>.
+//---------------------------------------------------------------------------------------------------------------------
 
 #include "vpattern.h"
 #include "../vwidgets/vabstractmainwindow.h"
@@ -103,22 +101,21 @@ QString FileComment()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-VPattern::VPattern(VContainer *data, Draw *mode, VMainGraphicsScene *draftScene,
-                   VMainGraphicsScene *pieceScene, QObject *parent)
-    : VAbstractPattern(parent),
-      data(data),
-      mode(mode),
-      draftScene(draftScene),
-      pieceScene(pieceScene)
+VPattern::VPattern(VContainer *data, VMainGraphicsScene *draftScene, VMainGraphicsScene *pieceScene, QObject *parent)
+    : VAbstractPattern(parent)
+    , data(data)
+    , m_stage(Draw::Calculation)
+    , draftScene(draftScene)
+    , pieceScene(pieceScene)
 {
     SCASSERT(draftScene != nullptr)
     SCASSERT(pieceScene != nullptr)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief CreateEmptyFile create minimal empty file.
- */
+/// @brief CreateEmptyFile create minimal empty file.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::CreateEmptyFile()
 {
     this->clear();
@@ -154,10 +151,10 @@ void VPattern::setXMLContent(const QString &fileName)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief Parse parse file.
- * @param parse parser file mode.
- */
+/// @brief Parse parse file.
+/// @param parse parser file mode.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::Parse(const Document &parse)
 {
     qCDebug(vXML, "Parsing pattern.");
@@ -197,7 +194,7 @@ void VPattern::Parse(const Document &parse)
                         qCDebug(vXML, "Tag draw.");
                         if (parse == Document::FullParse)
                         {
-                            if (activeDraftBlock.isEmpty())
+                            if (m_activeDraftBlock.isEmpty())
                             {
                                 setActiveDraftBlock(GetParametrString(domElement, AttrName));
                             }
@@ -265,21 +262,21 @@ void VPattern::Parse(const Document &parse)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief setCurrentData set current data set.
- *
- * Each time after parsing need set correct data set for current draft block. After parsing it is always last.
- * Current data set for draft block it is data set for last object in draft block (point, arc, spline, spline path so
- * on).
- */
+/// @brief setCurrentData set current data set.
+///
+/// Each time after parsing need set correct data set for current draft block. After parsing it is always last.
+/// Current data set for draft block it is data set for last object in draft block (point, arc, spline, spline path so
+/// on).
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::setCurrentData()
 {
-    if (*mode == Draw::Calculation)
+    if (m_stage == Draw::Calculation)
     {
         if (draftBlockCount() > 1)//don't need to update data if we have only one draft block
         {
             qCDebug(vXML, "Setting current data");
-            qCDebug(vXML, "Current Draft block name %s", qUtf8Printable(activeDraftBlock));
+            qCDebug(vXML, "Current Draft block name %s", qUtf8Printable(m_activeDraftBlock));
             qCDebug(vXML, "Draftf block count %d", draftBlockCount());
 
             quint32 id = 0;
@@ -291,7 +288,7 @@ void VPattern::setCurrentData()
             for (qint32 i = 0; i < history.size(); ++i)
             {
                 const VToolRecord tool = history.at(i);
-                if (tool.getDraftBlockName() == activeDraftBlock)
+                if (tool.getDraftBlockName() == m_activeDraftBlock)
                 {
                     id = tool.getId();
                 }
@@ -300,7 +297,7 @@ void VPattern::setCurrentData()
             if (id == NULL_ID)
             {
                 qCDebug(vXML, "Could not find record for this current draft block %s",
-                        qUtf8Printable(activeDraftBlock));
+                        qUtf8Printable(m_activeDraftBlock));
 
                 const VToolRecord tool = history.at(history.size()-1);
                 id = tool.getId();
@@ -340,11 +337,11 @@ void VPattern::setCurrentData()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief UpdateToolData update tool in list tools.
- * @param id tool id.
- * @param data container with variables.
- */
+/// @brief UpdateToolData update tool in list tools.
+/// @param id tool id.
+/// @param data container with variables.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::UpdateToolData(const quint32 &id, VContainer *data)
 {
     Q_ASSERT_X(id != 0, Q_FUNC_INFO, "id == 0"); //-V712 //-V654
@@ -356,10 +353,10 @@ void VPattern::UpdateToolData(const quint32 &id, VContainer *data)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief getActiveBasePoint return id base point current draft block.
- * @return id base point.
- */
+/// @brief getActiveBasePoint return id base point current draft block.
+/// @return id base point.
+//---------------------------------------------------------------------------------------------------------------------
+
 // cppcheck-suppress unusedFunction
 quint32 VPattern::getActiveBasePoint()
 {
@@ -380,6 +377,26 @@ quint32 VPattern::getActiveBasePoint()
         }
     }
     return 0;
+}
+
+//-----------------------------------------------------------------------------
+//  @brief getDraftStage Get draft stage.
+//
+//  This method gets the current draft stage.
+//-----------------------------------------------------------------------------
+const Draw &VPattern::getDraftStage() const
+{
+    return m_stage;
+}
+
+//-----------------------------------------------------------------------------
+//  @brief setDraftStage Set draft stage.
+//
+//  This method sets the current draft stage.
+//-----------------------------------------------------------------------------
+void VPattern::setDraftStage(const Draw &stage)
+{
+    m_stage = stage;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -461,8 +478,8 @@ void VPattern::LiteParseVariables()
     catch (const VExceptionUndo &error)
     {
         Q_UNUSED(error)
-        /* If user want undo last operation before undo we need finish broken redo operation. For those we post event
-         * myself. Later in method customEvent call undo.*/
+        // If user want undo last operation before undo we need finish broken redo operation. For those we post event
+        // myself. Later in method customEvent call undo.*/
         QApplication::postEvent(this, new UndoEvent());
         return;
     }
@@ -510,13 +527,13 @@ void VPattern::LiteParseVariables()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief LiteParseTree lite parse file.
- */
+/// @brief LiteParseTree lite parse file.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::LiteParseTree(const Document &parse)
 {
     // Save current draft block name
-    QString draftBlockName = activeDraftBlock;
+    QString draftBlockName = m_activeDraftBlock;
 
     try
     {
@@ -539,8 +556,8 @@ void VPattern::LiteParseTree(const Document &parse)
     catch (const VExceptionUndo &error)
     {
         Q_UNUSED(error)
-        /* If user want undo last operation before undo we need finish broken redo operation. For those we post event
-         * myself. Later in method customEvent call undo.*/
+        // If user want undo last operation before undo we need finish broken redo operation. For those we post event
+        // myself. Later in method customEvent call undo.*/
         QApplication::postEvent(this, new UndoEvent());
         return;
     }
@@ -611,8 +628,8 @@ void VPattern::LiteParseTree(const Document &parse)
     }
 
     // Restore name current draft block
-    activeDraftBlock = draftBlockName;
-    qCDebug(vXML, "Current draft block %s", qUtf8Printable(activeDraftBlock));
+    m_activeDraftBlock = draftBlockName;
+    qCDebug(vXML, "Current draft block %s", qUtf8Printable(m_activeDraftBlock));
     setCurrentData();
     emit FullUpdateFromFile();
     // Recalculate scene rect
@@ -677,11 +694,11 @@ VNodeDetail VPattern::parsePieceNode(const QDomElement &domElement) const
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief parseDraftBlockElement parse draw tag.
- * @param node node.
- * @param parse parser file mode.
- */
+/// @brief parseDraftBlockElement parse draw tag.
+/// @param node node.
+/// @param parse parser file mode.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::parseDraftBlockElement(const QDomNode &node, const Document &parse)
 {
     QStringList tags = QStringList() << TagCalculation << TagModeling << TagPieces << TagGroups << TagDraftImages;
@@ -698,11 +715,11 @@ void VPattern::parseDraftBlockElement(const QDomNode &node, const Document &pars
                     case 0: // TagCalculation
                         qCDebug(vXML, "Tag calculation.");
                         data->ClearCalculationGObjects();
-                        ParseDrawMode(domElement, parse, Draw::Calculation);
+                        ParseDraftStage(domElement, parse, Draw::Calculation);
                         break;
                     case 1: // TagModeling
                         qCDebug(vXML, "Tag modeling.");
-                        ParseDrawMode(domElement, parse, Draw::Modeling);
+                        ParseDraftStage(domElement, parse, Draw::Modeling);
                         break;
                     case 2: // TagPieces
                         qCDebug(vXML, "Tag pieces.");
@@ -726,19 +743,21 @@ void VPattern::parseDraftBlockElement(const QDomNode &node, const Document &pars
     }
 }
 
-//---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ParseDrawMode parse draw tag with draw mode.
- * @param node node.
- * @param parse parser file mode.
- * @param mode draw mode.
- */
-void VPattern::ParseDrawMode(const QDomNode &node, const Document &parse, const Draw &mode)
+//-----------------------------------------------------------------------------
+/// @brief ParseDraftStage parse draw tag with drft stage.
+///
+/// This parses the calculation stage of each the draft blocks.
+///
+/// @param node node.
+/// @param parse parsing mode.
+/// @param stage drft stage.
+//-----------------------------------------------------------------------------
+void VPattern::ParseDraftStage(const QDomNode &node, const Document &parse, const Draw &stage)
 {
     SCASSERT(draftScene != nullptr)
     SCASSERT(pieceScene != nullptr)
     VMainGraphicsScene *scene = nullptr;
-    if (mode == Draw::Calculation)
+    if (stage == Draw::Calculation)
     {
         scene = draftScene;
     }
@@ -805,10 +824,10 @@ void VPattern::ParseDrawMode(const QDomNode &node, const Document &parse, const 
 
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ParseDraftImages parses draft images.
- * @param node node.
- */
+/// @brief ParseDraftImages parses draft images.
+/// @param node node.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::parseDraftImages(const QDomNode &node, const Document &parse)
 {
     SCASSERT(draftScene != nullptr)
@@ -835,11 +854,11 @@ void VPattern::parseDraftImages(const QDomNode &node, const Document &parse)
 
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief parsePieceElement parse piece tag.
- * @param domElement tag in xml tree.
- * @param parse parser file mode.
- */
+/// @brief parsePieceElement parse piece tag.
+/// @param domElement tag in xml tree.
+/// @param parse parser file mode.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::parsePieceElement(QDomElement &domElement, const Document &parse)
 {
     Q_ASSERT_X(not domElement.isNull(), Q_FUNC_INFO, "domElement is null");
@@ -941,10 +960,10 @@ void VPattern::parsePieceElement(QDomElement &domElement, const Document &parse)
 
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief parseImageElement parse image tag.
- * @param domElement tag in xml tree.
- */
+/// @brief parseImageElement parse image tag.
+/// @param domElement tag in xml tree.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::parseImageElement(QDomElement &domElement, const Document &parse)
 {
     Q_ASSERT_X(not domElement.isNull(), Q_FUNC_INFO, "domElement is null");
@@ -1006,7 +1025,7 @@ void VPattern::parsePieceNodes(const QDomElement &domElement, VPiece &piece, qre
         }
     }
 
-    piece.GetPath().SetNodes(VNodeDetail::Convert(data, oldNodes, width, closed));
+    piece.GetPath().setNodes(VNodeDetail::Convert(data, oldNodes, width, closed));
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -1063,11 +1082,11 @@ void VPattern::ParsePieceGrainline(const QDomElement &domElement, VPiece &piece)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief parsePatternPieces parse pieces tag.
- * @param domElement tag in xml tree.
- * @param parse parser file mode.
- */
+/// @brief parsePatternPieces parse pieces tag.
+/// @param domElement tag in xml tree.
+/// @param parse parser file mode.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::parsePatternPieces(const QDomElement &domElement, const Document &parse)
 {
     Q_ASSERT_X(not domElement.isNull(), Q_FUNC_INFO, "domElement is null");
@@ -1095,7 +1114,7 @@ void VPattern::PointsCommonAttributes(const QDomElement &domElement, quint32 &id
 {
     PointsCommonAttributes(domElement, id, name, mx, my, isVisible);
     lineType   = GetParametrString(domElement, AttrLineType,   LineTypeSolidLine);
-    lineWeight = GetParametrString(domElement, AttrLineWeight, "0.35");
+    lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
     lineColor  = GetParametrString(domElement, AttrLineColor,  qApp->Settings()->getPointNameColor());
 }
 
@@ -1126,13 +1145,13 @@ void VPattern::PointsCommonAttributes(const QDomElement &domElement, quint32 &id
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ParsePointElement parse point tag.
- * @param scene scene.
- * @param domElement tag in xml tree.
- * @param parse parser file mode.
- * @param type type of point.
- */
+/// @brief ParsePointElement parse point tag.
+/// @param scene scene.
+/// @param domElement tag in xml tree.
+/// @param parse parser file mode.
+/// @param type type of point.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::ParsePointElement(VMainGraphicsScene *scene, QDomElement &domElement,
                                  const Document &parse, const QString &type)
 {
@@ -1245,12 +1264,12 @@ void VPattern::ParsePointElement(VMainGraphicsScene *scene, QDomElement &domElem
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ParseLineElement parse line tag.
- * @param scene scene.
- * @param domElement tag in xml tree.
- * @param parse parser file mode.
- */
+/// @brief ParseLineElement parse line tag.
+/// @param scene scene.
+/// @param domElement tag in xml tree.
+/// @param parse parser file mode.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::ParseLineElement(VMainGraphicsScene *scene, const QDomElement &domElement,
                                 const Document &parse)
 {
@@ -1263,7 +1282,7 @@ void VPattern::ParseLineElement(VMainGraphicsScene *scene, const QDomElement &do
         const quint32 firstPoint  = GetParametrUInt(domElement,   AttrFirstPoint,  NULL_ID_STR);
         const quint32 secondPoint = GetParametrUInt(domElement,   AttrSecondPoint, NULL_ID_STR);
         const QString lineType    = GetParametrString(domElement, AttrLineType,    LineTypeSolidLine);
-        const QString lineWeight  = GetParametrString(domElement, AttrLineWeight,  "0.35");
+        const QString lineWeight  = GetParametrString(domElement, AttrLineWeight,  "1.00");
         const QString lineColor   = GetParametrString(domElement, AttrLineColor,   ColorBlack);
 
         VToolLine::Create(id, firstPoint, secondPoint, lineType, lineWeight, lineColor, scene, this, data, parse, Source::FromFile);
@@ -1296,9 +1315,9 @@ void VPattern::parseCurrentDraftBlock()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief GetCurrentAlphabet returns the alphabet corresponding to the selected label language.
- */
+/// @brief GetCurrentAlphabet returns the alphabet corresponding to the selected label language.
+//---------------------------------------------------------------------------------------------------------------------
+
 QStringList VPattern::GetCurrentAlphabet() const
 {
     const QStringList list = Application2D::pointNameLanguages();
@@ -1391,7 +1410,7 @@ void VPattern::ParseToolBasePoint(VMainGraphicsScene *scene, const QDomElement &
 
         VPointF *point = new VPointF(x, y, name, mx, my);
         point->setShowPointName(showPointName);
-        spoint = VToolBasePoint::Create(id, activeDraftBlock, point, scene, this, data, parse, Source::FromFile);
+        spoint = VToolBasePoint::Create(id, m_activeDraftBlock, point, scene, this, data, parse, Source::FromFile);
     }
     catch (const VExceptionBadId &error)
     {
@@ -1772,6 +1791,17 @@ void VPattern::ParseAnchorPoint(const QDomElement &domElement, const Document &p
 
         ToolsCommonAttributes(domElement, id);
         const quint32 idObject = GetParametrUInt(domElement, AttrIdObject, NULL_ID_STR);
+
+        // Check if node is still in use, if not an excpetion will be thrown that we can just ignore.
+        try
+        {
+            data->GeometricObject<VPointF>(idObject);
+        }
+        catch (const VExceptionBadId &)
+        {
+            return;  // Parent was deleted, just ignore
+        }
+
         const quint32 idTool = GetParametrUInt(domElement, VAbstractNode::AttrIdTool, NULL_ID_STR);
         AnchorPointTool::Create(id, idObject, NULL_ID, this, data, parse, Source::FromFile, "", idTool);
     }
@@ -2420,7 +2450,7 @@ void VPattern::ParseToolSpline(VMainGraphicsScene *scene, QDomElement &domElemen
 
         const QString color      = GetParametrString(domElement, AttrColor,      ColorBlack);
         const QString penStyle   = GetParametrString(domElement, AttrPenStyle,   LineTypeSolidLine);
-        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "0.35");
+        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
         const quint32 duplicate  = GetParametrUInt(domElement,   AttrDuplicate,  "0");
 
         VToolSpline *spl = VToolSpline::Create(id, point1, point4, a1, a2, l1, l2, duplicate, color, penStyle,
@@ -2476,7 +2506,7 @@ void VPattern::ParseToolCubicBezier(VMainGraphicsScene *scene, const QDomElement
 
         const QString color      = GetParametrString(domElement, AttrColor,      ColorBlack);
         const QString penStyle   = GetParametrString(domElement, AttrPenStyle,   LineTypeSolidLine);
-        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "0.35");
+        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
         const quint32 duplicate  = GetParametrUInt(domElement, AttrDuplicate,    "0");
 
         auto p1 = data->GeometricObject<VPointF>(point1);
@@ -2578,7 +2608,7 @@ void VPattern::ParseToolSplinePath(VMainGraphicsScene *scene, const QDomElement 
         ToolsCommonAttributes(domElement, id);
         const QString color      = GetParametrString(domElement, AttrColor,      ColorBlack);
         const QString penStyle   = GetParametrString(domElement, AttrPenStyle,   LineTypeSolidLine);
-        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "0.35");
+        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
         const quint32 duplicate  = GetParametrUInt(domElement,   AttrDuplicate,  "0");
 
         QVector<quint32> points;
@@ -2672,7 +2702,7 @@ void VPattern::ParseToolCubicBezierPath(VMainGraphicsScene *scene, const QDomEle
         ToolsCommonAttributes(domElement, id);
         const QString color      = GetParametrString(domElement, AttrColor,      ColorBlack);
         const QString penStyle   = GetParametrString(domElement, AttrPenStyle,   LineTypeSolidLine);
-        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "0.35");
+        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
         const quint32 duplicate  = GetParametrUInt(domElement,   AttrDuplicate,  "0");
 
         QVector<VPointF> points;
@@ -2827,7 +2857,7 @@ void VPattern::ParseToolArc(VMainGraphicsScene *scene, QDomElement &domElement, 
               QString f2Fix      = f2;//need for saving fixed formula;
         const QString color      = GetParametrString(domElement, AttrColor,      ColorBlack);
         const QString penStyle   = GetParametrString(domElement, AttrPenStyle,   LineTypeSolidLine);
-        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "0.35");
+        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
 
         VToolArc::Create(id, center, r, f1Fix, f2Fix, color, penStyle, lineWeight, scene, this, data,
                          parse, Source::FromFile);
@@ -2879,7 +2909,7 @@ void VPattern::ParseToolEllipticalArc(VMainGraphicsScene *scene, QDomElement &do
         QString frotationFix     = frotation;//need for saving fixed formula;
         const QString color      = GetParametrString(domElement, AttrColor, ColorBlack);
         const QString penStyle   = GetParametrString(domElement, AttrPenStyle, LineTypeSolidLine);
-        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "0.35");
+        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
 
         VToolEllipticalArc::Create(id, center, r1, r2, f1Fix, f2Fix, frotationFix, color, penStyle, lineWeight,
                                    scene, this, data,
@@ -3000,7 +3030,7 @@ void VPattern::ParseToolArcWithLength(VMainGraphicsScene *scene, QDomElement &do
         QString lengthFix        = length;//need for saving fixed length;
         const QString color      = GetParametrString(domElement, AttrColor, ColorBlack);
         const QString penStyle   = GetParametrString(domElement, AttrPenStyle, LineTypeSolidLine);
-        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "0.35");
+        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
 
         VToolArcWithLength::Create(id, center, r, f1Fix, lengthFix, color, penStyle, lineWeight, scene, this,
                                    data, parse,
@@ -3284,13 +3314,13 @@ void VPattern::GarbageCollector()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ParseSplineElement parse spline tag.
- * @param scene scene.
- * @param domElement tag in xml tree.
- * @param parse parser file mode.
- * @param type type of spline.
- */
+/// @brief ParseSplineElement parse spline tag.
+/// @param scene scene.
+/// @param domElement tag in xml tree.
+/// @param parse parser file mode.
+/// @param type type of spline.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::ParseSplineElement(VMainGraphicsScene *scene, QDomElement &domElement,
                                   const Document &parse, const QString &type)
 {
@@ -3347,13 +3377,13 @@ void VPattern::ParseSplineElement(VMainGraphicsScene *scene, QDomElement &domEle
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ParseArcElement parse arc tag.
- * @param scene scene.
- * @param domElement tag in xml tree.
- * @param parse parser file mode.
- * @param type type of spline.
- */
+/// @brief ParseArcElement parse arc tag.
+/// @param scene scene.
+/// @param domElement tag in xml tree.
+/// @param parse parser file mode.
+/// @param type type of spline.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::ParseArcElement(VMainGraphicsScene *scene, QDomElement &domElement, const Document &parse,
                                const QString &type)
 {
@@ -3383,13 +3413,13 @@ void VPattern::ParseArcElement(VMainGraphicsScene *scene, QDomElement &domElemen
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ParseEllipticalArcElement parse elliptical arc tag.
- * @param scene scene.
- * @param domElement tag in xml tree.
- * @param parse parser file mode.
- * @param type type of spline.
- */
+/// @brief ParseEllipticalArcElement parse elliptical arc tag.
+/// @param scene scene.
+/// @param domElement tag in xml tree.
+/// @param parse parser file mode.
+/// @param type type of spline.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::ParseEllipticalArcElement(VMainGraphicsScene *scene, QDomElement &domElement, const Document &parse,
                                const QString &type)
 {
@@ -3415,13 +3445,13 @@ void VPattern::ParseEllipticalArcElement(VMainGraphicsScene *scene, QDomElement 
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief ParseToolsElement parse tools tag.
- * @param scene scene.
- * @param domElement tag in xml tree.
- * @param parse parser file mode.
- * @param type type of spline.
- */
+/// @brief ParseToolsElement parse tools tag.
+/// @param scene scene.
+/// @param domElement tag in xml tree.
+/// @param parse parser file mode.
+/// @param type type of spline.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::ParseToolsElement(VMainGraphicsScene *scene, const QDomElement &domElement,
                                  const Document &parse, const QString &type)
 {
@@ -3504,40 +3534,67 @@ void VPattern::ParsePathElement(VMainGraphicsScene *scene, QDomElement &domEleme
     {
         quint32 id = 0;
         ToolsCommonAttributes(domElement, id);
-        const QString name = GetParametrString(domElement, AttrName, tr("Unnamed path"));
-        const QString defType = QString().setNum(static_cast<int>(PiecePathType::CustomSeamAllowance));
+        const QString name       = GetParametrString(domElement, AttrName, tr("Unnamed path"));
+        const QString defType    = QString().setNum(static_cast<int>(PiecePathType::CustomSeamAllowance));
         const PiecePathType type = static_cast<PiecePathType>(GetParametrUInt(domElement, AttrType, defType));
-        const quint32 idTool = GetParametrUInt(domElement, VAbstractNode::AttrIdTool, NULL_ID_STR);
-        const QString penType = GetParametrString(domElement, AttrLineType, LineTypeSolidLine);
-        const bool cut = getParameterBool(domElement, AttrCut, falseStr);
+        const quint32 idTool     = GetParametrUInt(domElement,   VAbstractNode::AttrIdTool, NULL_ID_STR);
+        const QString color      = GetParametrString(domElement, AttrLineColor, ColorBlack);
+        const QString lineType   = GetParametrString(domElement, AttrLineType, LineTypeSolidLine);
+        const QString lineWeight = GetParametrString(domElement, AttrLineWeight, "1.00");
+        const bool cut           = getParameterBool(domElement,  AttrCut, falseStr);
+        const bool extendStartPt = getParameterBool(domElement,  AttrExtendStartPoint, falseStr);
+        const bool extendEndPt   = getParameterBool(domElement,  AttrExtendEndPoint, falseStr);
 
         VPiecePath path;
         const QDomElement element = domElement.firstChildElement(VAbstractPattern::TagNodes);
-        if (not element.isNull())
+        if (!element.isNull())
         {
             path = ParsePathNodes(element);
+
+            // Check if nodes are still in use, if not an excpetion will be thrown that we can just ignore.
+            try
+            {
+                for (int i = 0; i < path.nodeCount(); ++i)
+                {
+                    data->GetGObject(path.at(i).GetId());
+                }
+            }
+            catch (const VExceptionBadId &)
+            {
+                return;  // Parent was deleted, just ignore
+            }
+        }
+        else
+        {
+            VExceptionObjectError excep(tr("Error creating or updating a piece path"), domElement);
+            excep.AddMoreInformation(tr("Piece path doesn't contain nodes"));
+            throw excep;
         }
 
-        path.SetType(type);
-        path.SetName(name);
-        path.SetPenType(lineTypeToPenStyle(penType));
-        path.SetCutPath(cut);
+        path.setType(type);
+        path.setName(name);
+        path.setLineColor(color);
+        path.setLineType(lineTypeToPenStyle(lineType));
+        path.setLineWeight(lineWeight);
+        path.setCutPath(cut);
+        path.setExtendStartPoint(extendStartPt);
+        path.setExtendEndPoint(extendEndPt);
 
-        VToolInternalPath::Create(id, path, 0, scene, this, data, parse, Source::FromFile, "", idTool);
+        InternalPathTool::Create(id, path, NULL_ID, scene, this, data, parse, Source::FromFile, "", idTool);
     }
     catch (const VExceptionBadId &error)
     {
-        VExceptionObjectError excep(tr("Error creating or updating a piece path"), domElement);
-        excep.AddMoreInformation(error.ErrorMessage());
-        throw excep;
+        VExceptionObjectError exception(tr("Error creating or updating a piece path"), domElement);
+        exception.AddMoreInformation(error.ErrorMessage());
+        throw exception;
     }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief parseVariablesElement parse variables tag.
- * @param node tag in xml tree.
- */
+/// @brief parseVariablesElement parse variables tag.
+/// @param node tag in xml tree.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::parseVariablesElement(const QDomNode &node)
 {
     int index = 0;
@@ -3551,7 +3608,7 @@ void VPattern::parseVariablesElement(const QDomNode &node)
             {
                 if (domElement.tagName() == TagVariable)
                 {
-                    const QString name = GetParametrString(domElement, VariableName, "");
+                    const QString name = GetParametrString(domElement, VariableName, QString()).simplified();
 
                     QString desc;
                     try
@@ -3737,12 +3794,12 @@ void VPattern::replaceNameInFormula(QVector<VFormulaField> &expressions, const Q
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief GenerateLabel create name for draft block basepoints.
- * @param type type of the label.
- * @param reservedName reversed point name. Use when need reserve name, but point is not in data base yet.
- * @return unique name for current draft block.
- */
+/// @brief GenerateLabel create name for draft block basepoints.
+/// @param type type of the label.
+/// @param reservedName reversed point name. Use when need reserve name, but point is not in data base yet.
+/// @return unique name for current draft block.
+//---------------------------------------------------------------------------------------------------------------------
+
 QString VPattern::GenerateLabel(const LabelType &type, const QString &reservedName) const
 {
     if (type == LabelType::NewPatternPiece)
@@ -4043,7 +4100,7 @@ void VPattern::PrepareForParse(const Document &parse)
         pieceScene->clear();
         pieceScene->initializeOrigins();
         data->ClearForFullParse();
-        activeDraftBlock.clear();
+        m_activeDraftBlock.clear();
         patternPieces.clear();
         clearBackgroundImageMap();
 
@@ -4087,7 +4144,7 @@ QRectF VPattern::ActiveDrawBoundingRect() const
     for (qint32 i = 0; i< history.size(); ++i)
     {
         const VToolRecord tool = history.at(i);
-        if (tool.getDraftBlockName() == activeDraftBlock)
+        if (tool.getDraftBlockName() == m_activeDraftBlock)
         {
             switch ( tool.getTypeTool() )
             {
@@ -4149,7 +4206,7 @@ QRectF VPattern::ActiveDrawBoundingRect() const
                 case Tool::Move:
                     rect = ToolBoundingRect<VAbstractOperation>(rect, tool.getId());
                     break;
-                //These tools are not accesseble in Draw mode, but still 'history' contains them.
+                //These tools are not accesseble in Draft mode, but 'history' still contains them.
                 case Tool::Piece:
                 case Tool::Union:
                 case Tool::NodeArc:
@@ -4195,28 +4252,46 @@ QRectF VPattern::ToolBoundingRect(const QRectF &rect, const quint32 &id) const
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief IncrementReferens increment reference parent objects.
- * @param id parent object id.
- */
+/// @brief IncrementReferens increment reference parent objects.
+/// @param id parent object id.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::IncrementReferens(quint32 id) const
 {
     Q_ASSERT_X(id != 0, Q_FUNC_INFO, "id == 0");
-    ToolExists(id);
+    try
+    {
+        ToolExists(id);
+    }
+    catch (VExceptionBadId &error)
+    {
+        Q_UNUSED(error)
+        qCDebug(vXML,"Can't find tool in table. id= %u", id);
+        return;
+    }
     VDataTool *tool = tools.value(id);
     SCASSERT(tool != nullptr)
     tool->incrementReferens();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-/**
- * @brief DecrementReferens decrement reference parent objects.
- * @param id parent object id.
- */
+/// @brief DecrementReferens decrement reference parent objects.
+/// @param id parent object id.
+//---------------------------------------------------------------------------------------------------------------------
+
 void VPattern::DecrementReferens(quint32 id) const
 {
     Q_ASSERT_X(id != 0, Q_FUNC_INFO, "id == 0");
-    ToolExists(id);
+    try
+    {
+        ToolExists(id);
+    }
+    catch (VExceptionBadId &error)
+    {
+        Q_UNUSED(error)
+        qCDebug(vXML, "Can't find tool in table. id= %u", id);
+        return;
+    }
     VDataTool *tool = tools.value(id);
     SCASSERT(tool != nullptr)
     tool->decrementReferens();

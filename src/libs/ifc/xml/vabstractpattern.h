@@ -476,7 +476,7 @@ signals:
      * @brief patternChanged emit if we have unsaved change.
      */
     void           patternChanged(bool saved);
-    void           UpdatePatternLabel();
+    void           updatePatternLabel();
     /**
      * @brief ShowTool highlight tool.
      * @param id tool id.
@@ -503,7 +503,7 @@ public slots:
 
 protected:
     /** @brief activeBlockName name current pattern peace. */
-    QString        activeDraftBlock;
+    QString        m_activeDraftBlock;
 
     QString        m_DefaultLineColor;
     qreal          m_DefaultLineWeight;
